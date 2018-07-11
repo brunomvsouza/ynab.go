@@ -1,22 +1,50 @@
 package budget
 
 import (
-	"strings"
 	"time"
+
+	"bmvs.io/ynab/api"
+	"bmvs.io/ynab/api/account"
+	"bmvs.io/ynab/api/category"
+	"bmvs.io/ynab/api/month"
+	"bmvs.io/ynab/api/payee"
+	"bmvs.io/ynab/api/transaction"
 )
 
-// Budget represents a budget
-type Budget struct {
+// ResumedBudget represents a budget
+type ResumedBudget struct {
 	ID             string         `json:"id"`
 	Name           string         `json:"name"`
-	LastModifiedOn *time.Time     `json:"last_modified_on"`
 	DateFormat     DateFormat     `json:"date_format"`
 	CurrencyFormat CurrencyFormat `json:"currency_format"`
 
+	LastModifiedOn *time.Time `json:"last_modified_on"`
 	// FirstMonth undocumented field
-	FirstMonth *Date `json:"first_month"`
+	FirstMonth *api.Date `json:"first_month"`
 	// LastMonth undocumented field
-	LastMonth *Date `json:"last_month"`
+	LastMonth *api.Date `json:"last_month"`
+}
+
+// Budget represents the extended version of a budget
+type Budget struct {
+	ResumedBudget
+
+	Accounts                 []*account.Account
+	Payees                   []*payee.Payee
+	PayeeLocations           []*payee.Location
+	Categories               []*category.Category
+	CategoryGroups           []*category.Group
+	Months                   []*month.Month
+	Transactions             []*transaction.Transaction
+	SubTransactions          []*transaction.Sub
+	ScheduledTransactions    []*transaction.Scheduled
+	ScheduledSubTransactions []*transaction.ScheduledSub
+}
+
+// BudgetSummary represents a snapshot of an entire budget
+type BudgetSummary struct {
+	Budget          *Budget
+	ServerKnowledge int64
 }
 
 // DateFormat represents a date format
@@ -34,20 +62,4 @@ type CurrencyFormat struct {
 	SymbolFirst      bool   `json:"symbol_first"`
 	CurrencySymbol   string `json:"currency_symbol"`
 	DisplaySymbol    bool   `json:"display_symbol"`
-}
-
-// Date represents a budget date
-type Date struct {
-	time.Time
-}
-
-// UnmarshalJSON parses the expected format for a Date
-func (t *Date) UnmarshalJSON(b []byte) error {
-	// b value comes in surrounded by quotes
-	s := strings.Trim(string(b), "\"")
-
-	var err error
-	t.Time, err = time.Parse("2006-01-02", s)
-
-	return err
 }
