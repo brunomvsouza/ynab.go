@@ -1,4 +1,4 @@
-package budget_test
+package api_test
 
 import (
 	"encoding/json"
@@ -6,14 +6,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"bmvs.io/ynab/api/budget"
+	"bmvs.io/ynab/api"
 )
 
 func TestDate_UnmarshalJSON(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		wrapper := struct {
 			Name string
-			Date *budget.Date
+			Date *api.Date
 		}{}
 
 		err := json.Unmarshal([]byte(`{"Name": "YNAB", "Date": "2009-01-29"}`), &wrapper)
@@ -24,7 +24,7 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 	t.Run("json string without Date field", func(t *testing.T) {
 		wrapper := struct {
 			Name string
-			Date *budget.Date
+			Date *api.Date
 		}{}
 
 		err := json.Unmarshal([]byte(`{"Name": "YNAB"}`), &wrapper)
@@ -35,7 +35,7 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 	t.Run("json string with null Date field", func(t *testing.T) {
 		wrapper := struct {
 			Name string
-			Date *budget.Date
+			Date *api.Date
 		}{}
 
 		err := json.Unmarshal([]byte(`{"Name": "YNAB", "Date": null}`), &wrapper)
