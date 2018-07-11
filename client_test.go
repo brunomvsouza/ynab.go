@@ -1,10 +1,9 @@
 package ynab
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
-
-	"fmt"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
