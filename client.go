@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
 	"strconv"
 
 	"bmvs.io/ynab/api"
+	"bmvs.io/ynab/api/account"
 )
 
 const apiEndpoint = "https://api.youneedabudget.com/v1"
@@ -19,6 +19,7 @@ func NewClient(accessToken string) *client {
 		accessToken: accessToken,
 		client:      http.DefaultClient,
 	}
+	c.account = account.NewService(c)
 	return c
 }
 
@@ -26,6 +27,13 @@ func NewClient(accessToken string) *client {
 type client struct {
 	accessToken string
 	client      *http.Client
+
+	account *account.Service
+}
+
+// Account returns account.Service API instance
+func (c *client) Account() *account.Service {
+	return c.account
 }
 
 // GET sends a GET request to the YNAB API

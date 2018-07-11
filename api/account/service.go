@@ -35,7 +35,7 @@ func (s *Service) GetAccounts(budgetID string) ([]*Account, error) {
 // GetAccountByID fetches a specific account from a budget
 // https://api.youneedabudget.com/v1#/Accounts/getAccountById
 func (s *Service) GetAccountByID(budgetID, accountID string) (*Account, error) {
-	url := fmt.Sprintf("budgets/%s/accounts/%s", budgetID, accountID)
+	url := fmt.Sprintf("/budgets/%s/accounts/%s", budgetID, accountID)
 	resModel := struct {
 		Data struct {
 			Account *Account `json:"account"`
