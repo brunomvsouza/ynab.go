@@ -1,6 +1,8 @@
 package budget
 
 import (
+	"fmt"
+
 	"bmvs.io/ynab/api"
 )
 
@@ -16,10 +18,10 @@ type Service struct {
 
 // GetBudgets fetches the list of budgets of the logger in user
 // https://api.youneedabudget.com/v1#/Budgets/getBudgets
-func (s *Service) GetBudgets() ([]*Budget, error) {
+func (s *Service) GetBudgets() ([]*ResumedBudget, error) {
 	resModel := struct {
 		Data struct {
-			Budgets []*Budget `json:"budgets"`
+			Budgets []*ResumedBudget `json:"budgets"`
 		} `json:"data"`
 	}{}
 
@@ -27,4 +29,47 @@ func (s *Service) GetBudgets() ([]*Budget, error) {
 		return nil, err
 	}
 	return resModel.Data.Budgets, nil
+}
+
+// GetBudgetByID fetches a single budget with all related entities,
+// effectively a full budget export.
+// https://api.youneedabudget.com/v1#/Budgets/getBudgetById
+func (s *Service) GetBudgetByID(ID string) (*BudgetSummary, error) {
+	resModel := struct {
+		Data struct {
+			Budget          *Budget `json:"budget"`
+			ServerKnowledge int64   `json:"server_knowledge"`
+		} `json:"data"`
+	}{}
+
+	if err := s.c.GET(fmt.Sprintf("/budgets/%s", ID), &resModel); err != nil {
+		return nil, err
+	}
+
+	return &BudgetSummary{
+		Budget:          resModel.Data.Budget,
+		ServerKnowledge: resModel.Data.ServerKnowledge,
+	}, nil
+}
+
+// GetBudgetDeltaByID fetches the delta of a single budget since the last
+// server knowledge number
+// https://api.youneedabudget.com/v1#/Budgets/getBudgetById
+func (s *Service) GetBudgetDeltaByID(ID string, serverKnowledge int64) (*BudgetSummary, error) {
+	resModel := struct {
+		Data struct {
+			Budget          *Budget `json:"budget"`
+			ServerKnowledge int64   `json:"server_knowledge"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s?last_knowledge_of_server=%d", ID, serverKnowledge)
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+
+	return &BudgetSummary{
+		Budget:          resModel.Data.Budget,
+		ServerKnowledge: resModel.Data.ServerKnowledge,
+	}, nil
 }
