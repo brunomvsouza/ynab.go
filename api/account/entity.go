@@ -1,6 +1,6 @@
 package account
 
-// Account represents an account
+// Account represents an account for a budget
 type Account struct {
 	ID               string `json:"id"`
 	Name             string `json:"name"`

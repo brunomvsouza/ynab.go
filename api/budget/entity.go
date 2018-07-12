@@ -11,21 +11,7 @@ import (
 	"bmvs.io/ynab/api/transaction"
 )
 
-// ResumedBudget represents a budget
-type ResumedBudget struct {
-	Settings
-
-	ID   string `json:"id"`
-	Name string `json:"name"`
-
-	LastModifiedOn *time.Time `json:"last_modified_on"`
-	// FirstMonth undocumented field
-	FirstMonth *api.Date `json:"first_month"`
-	// LastMonth undocumented field
-	LastMonth *api.Date `json:"last_month"`
-}
-
-// Budget represents the extended version of a budget
+// Budget represents a budget
 type Budget struct {
 	ResumedBudget
 
@@ -41,24 +27,38 @@ type Budget struct {
 	ScheduledSubTransactions []*transaction.ScheduledSub
 }
 
-// BudgetSummary represents a snapshot of an entire budget
+// ResumedBudget represents a resumed version of a budget
+type ResumedBudget struct {
+	Settings
+
+	ID   string `json:"id"`
+	Name string `json:"name"`
+
+	LastModifiedOn *time.Time `json:"last_modified_on"`
+	// FirstMonth undocumented field
+	FirstMonth *api.Date `json:"first_month"`
+	// LastMonth undocumented field
+	LastMonth *api.Date `json:"last_month"`
+}
+
+// BudgetSummary represents a snapshot for a budget
 type BudgetSummary struct {
 	Budget          *Budget
 	ServerKnowledge int64
 }
 
-// Settings represents budget settings
+// Settings represents settings for a budget
 type Settings struct {
 	DateFormat     DateFormat     `json:"date_format"`
 	CurrencyFormat CurrencyFormat `json:"currency_format"`
 }
 
-// DateFormat represents a date format
+// DateFormat represents date format for a budget settings
 type DateFormat struct {
 	Format string `json:"format"`
 }
 
-// CurrencyFormat represents a currency format
+// CurrencyFormat represents a currency format for a budget settings
 type CurrencyFormat struct {
 	ISOCode          string `json:"iso_code"`
 	ExampleFormat    string `json:"example_format"`
