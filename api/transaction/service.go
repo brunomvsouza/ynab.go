@@ -146,6 +146,22 @@ func (s *Service) GetScheduledTransactions(budgetID string) ([]*Scheduled, error
 	return resModel.Data.ScheduledTransactions, nil
 }
 
+// GetScheduledTransaction fetches a specific scheduled transaction from a budget
+// https://api.youneedabudget.com/v1#/Scheduled_Transactions/getScheduledTransactionById
+func (s *Service) GetScheduledTransaction(budgetID, scheduledTransactionID string) (*Scheduled, error) {
+	resModel := struct {
+		Data struct {
+			ScheduledTransactions *Scheduled `json:"scheduled_transaction"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/scheduled_transactions/%s", budgetID, scheduledTransactionID)
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+	return resModel.Data.ScheduledTransactions, nil
+}
+
 // Filter represents the optional filter while fetching transactions
 type Filter struct {
 	SinceDate *api.Date
