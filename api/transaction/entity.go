@@ -2,7 +2,7 @@ package transaction
 
 import "bmvs.io/ynab/api"
 
-// Transaction represents a transaction
+// Transaction represents a transaction for a budget
 type Transaction struct {
 	ID        string   `json:"id"`
 	Date      api.Date `json:"date"`
@@ -20,7 +20,7 @@ type Transaction struct {
 	ImportID          *string    `json:"import_id"`
 }
 
-// Sub represents a sub transaction
+// Sub represents a sub-transaction for a transaction
 type Sub struct {
 	ID            string `json:"id"`
 	TransactionID string `json:"transaction_id"`
@@ -33,7 +33,7 @@ type Sub struct {
 	TransferAccountID *string `json:"transfer_account_id"`
 }
 
-// Scheduled represents a scheduled transaction
+// Scheduled represents a scheduled transaction for a budget
 type Scheduled struct {
 	ID        string    `json:"id"`
 	DateFirst api.Date  `json:"date_first"`
@@ -50,7 +50,8 @@ type Scheduled struct {
 	TransferAccountID *string    `json:"transfer_account_id"`
 }
 
-// ScheduledSub represents a scheduled sub transaction
+// ScheduledSub represents a scheduled sub-transaction for
+// a scheduled transaction
 type ScheduledSub struct {
 	ID                     string `json:"id"`
 	ScheduledTransactionID string `json:"scheduled_transaction_id"`
