@@ -425,3 +425,46 @@ func TestService_GetBudgetDeltaByID(t *testing.T) {
 		assert.NoError(t, err)
 	})
 }
+
+func TestService_GetBudgetSettingsByID(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/settings",
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "settings": {
+      "date_format": {
+        "format": "DD/MM/YYYY"
+      },
+      "currency_format": {
+        "iso_code": "BRL",
+        "example_format": "123.456,78",
+        "decimal_digits": 2,
+        "decimal_separator": ",",
+        "symbol_first": true,
+        "group_separator": ".",
+        "currency_symbol": "R$",
+        "display_symbol": true
+      }
+    }
+  }
+}`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	settings, err := client.Budget().GetBudgetSettingsByID("aa248caa-eed7-4575-a990-717386438d2c")
+	assert.NoError(t, err)
+
+	assert.Equal(t, "DD/MM/YYYY", settings.DateFormat.Format)
+	assert.Equal(t, "BRL", settings.CurrencyFormat.ISOCode)
+	assert.Equal(t, "123.456,78", settings.CurrencyFormat.ExampleFormat)
+	assert.Equal(t, uint64(2), settings.CurrencyFormat.DecimalDigits)
+	assert.Equal(t, ",", settings.CurrencyFormat.DecimalSeparator)
+	assert.True(t, settings.CurrencyFormat.SymbolFirst)
+	assert.Equal(t, ".", settings.CurrencyFormat.GroupSeparator)
+	assert.Equal(t, "R$", settings.CurrencyFormat.CurrencySymbol)
+	assert.True(t, settings.CurrencyFormat.DisplaySymbol)
+}

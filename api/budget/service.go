@@ -73,3 +73,19 @@ func (s *Service) GetBudgetDeltaByID(ID string, serverKnowledge int64) (*BudgetS
 		ServerKnowledge: resModel.Data.ServerKnowledge,
 	}, nil
 }
+
+// GetBudgetSettingsByID fetches a budget settings
+// https://api.youneedabudget.com/v1#/Budgets/getBudgetSettingsById
+func (s *Service) GetBudgetSettingsByID(ID string) (*Settings, error) {
+	resModel := struct {
+		Data struct {
+			Settings *Settings `json:"settings"`
+		} `json:"data"`
+	}{}
+
+	if err := s.c.GET(fmt.Sprintf("/budgets/%s/settings", ID), &resModel); err != nil {
+		return nil, err
+	}
+
+	return resModel.Data.Settings, nil
+}
