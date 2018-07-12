@@ -15,7 +15,8 @@ func TestService_GetBudgets(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets",
+	url := "https://api.youneedabudget.com/v1/budgets"
+	httpmock.RegisterResponder("GET", url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -73,7 +74,8 @@ func TestService_GetBudgetByID(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c",
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c"
+	httpmock.RegisterResponder("GET", url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -233,7 +235,8 @@ func TestService_GetBudgetDeltaByID(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c?last_knowledge_of_server=470",
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c?last_knowledge_of_server=470"
+	httpmock.RegisterResponder("GET", url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -367,7 +370,8 @@ func TestService_GetBudgetSettingsByID(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/settings",
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/settings"
+	httpmock.RegisterResponder("GET", url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
