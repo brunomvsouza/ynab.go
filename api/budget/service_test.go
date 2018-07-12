@@ -227,142 +227,7 @@ func TestService_GetBudgetByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	_, err := client.Budget().GetBudgetByID("aa248caa-eed7-4575-a990-717386438d2c")
-	assert.NoError(t, err)
-}
-
-func TestService_GetBudgetDeltaByID(t *testing.T) {
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
-	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c?last_knowledge_of_server=470"
-	httpmock.RegisterResponder("GET", url,
-		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
-  "data": {
-    "budget": {
-      "id": "aa248caa-eed7-4575-a990-717386438d2c",
-      "name": "Test Budget",
-      "last_modified_on": "2018-03-05T17:24:36+00:00",
-      "date_format": {
-        "format": "DD/MM/YYYY"
-      },
-      "currency_format": {
-        "iso_code": "BRL",
-        "example_format": "123.456,78",
-        "decimal_digits": 2,
-        "decimal_separator": ",",
-        "symbol_first": true,
-        "group_separator": ".",
-        "currency_symbol": "R$",
-        "display_symbol": true
-      },
-      "first_month": "2017-12-01",
-      "last_month": "2018-02-01",
-      "accounts": [
-        {
-          "id": "312bf0ae-9d1a-42d7-84c1-8f1d5e4e7bb0",
-          "name": "Cash",
-          "type": "cash",
-          "on_budget": true,
-          "closed": false,
-          "note": null,
-          "balance": 0,
-          "cleared_balance": 0,
-          "uncleared_balance": 0,
-          "deleted": false
-        }
-			],
-			"payees": [
-        {
-          "id": "793846ad-f8f5-454e-9ae4-8d938d0d89ca",
-          "name": "Starting Balance",
-          "transfer_account_id": null,
-          "deleted": false
-        }
-			],
-			"payee_locations": [
-        {
-          "id": "47471638-da3e-4cdd-9288-e373b50fafa7",
-          "payee_id": "793846ad-f8f5-454e-9ae4-8d938d0d89ca",
-          "latitude": "20.8988754",
-          "longitude": "-33.9167891",
-          "deleted": false
-        }
-			],
-			"category_groups": [
-        {
-          "id": "840512c5-3b1d-426f-b033-f7c64a16a076",
-          "name": "Category group",
-          "hidden": false,
-          "deleted": false
-        }
-			],
-			"categories": [
-        {
-          "id": "138c8bcd-6ca3-4c09-82ca-1cde7aa1d6f8",
-          "category_group_id": "840512c5-3b1d-426f-b033-f7c64a16a076",
-          "name": "Category",
-          "hidden": false,
-          "original_category_group_id": null,
-          "note": null,
-          "budgeted": 0,
-          "activity": 12190,
-          "balance": 18740,
-          "deleted": false
-        }
-			],
-			"months": [
-        {
-          "month": "2018-03-01",
-          "note": null,
-          "to_be_budgeted": 0,
-          "age_of_money": null,
-          "categories": [
-            {
-              "id": "138c8bcd-6ca3-4c09-82ca-1cde7aa1d6f8",
-          		"category_group_id": "840512c5-3b1d-426f-b033-f7c64a16a076",
-              "name": "Category",
-              "hidden": true,
-              "note": null,
-              "budgeted": 0,
-              "activity": 12190,
-              "balance": 18740,
-              "deleted": false
-            }
-					]
-				}
-			],
-			"transactions": [
-        {
-          "id": "e31928db-b236-4c88-9a99-7aa46ff7a6f7",
-          "date": "2018-01-09",
-          "amount": -85440,
-          "memo": null,
-          "cleared": "cleared",
-          "approved": true,
-          "flag_color": null,
-          "account_id": "312bf0ae-9d1a-42d7-84c1-8f1d5e4e7bb0",
-          "payee_id": "fa8d442e-0bfc-4386-8e5b-480c4f70733a",
-          "category_id": "0d3552a4-49da-4191-bac6-e22f80eb2056",
-          "transfer_account_id": null,
-          "import_id": null,
-          "deleted": false
-        }
-			],
-			"subtransactions": [],
-      "scheduled_transactions": [],
-      "scheduled_subtransactions": []
-		},
-    "server_knowledge": 473
-  }
-}
-		`), nil
-		},
-	)
-
-	client := ynab.NewClient("")
-	_, err := client.Budget().GetBudgetDeltaByID("aa248caa-eed7-4575-a990-717386438d2c", 470)
+	_, err := client.Budget().GetBudgetByID("aa248caa-eed7-4575-a990-717386438d2c", nil)
 	assert.NoError(t, err)
 }
 
@@ -416,4 +281,28 @@ func TestService_GetBudgetSettingsByID(t *testing.T) {
 	}
 
 	assert.Equal(t, expected, settings)
+}
+
+func TestFilter_ToQuery(t *testing.T) {
+	table := []struct {
+		Input  budget.Filter
+		Output string
+	}{
+		{
+			Input:  budget.Filter{LastKnowledgeOfServer: uint64(2)},
+			Output: "last_knowledge_of_server=2",
+		},
+		{
+			Input:  budget.Filter{LastKnowledgeOfServer: uint64(0)},
+			Output: "last_knowledge_of_server=0",
+		},
+		{
+			Input:  budget.Filter{},
+			Output: "last_knowledge_of_server=0",
+		},
+	}
+
+	for _, test := range table {
+		assert.Equal(t, test.Output, test.Input.ToQuery())
+	}
 }

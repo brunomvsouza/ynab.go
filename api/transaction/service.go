@@ -21,7 +21,7 @@ type Service struct {
 // GetTransactions fetches the list of transactions from
 // a budget with filtering capabilities
 // https://api.youneedabudget.com/v1#/Transactions/getTransactions
-func (s *Service) GetTransactions(budgetID string, filter *Filter) ([]*Transaction, error) {
+func (s *Service) GetTransactions(budgetID string, f *Filter) ([]*Transaction, error) {
 	resModel := struct {
 		Data struct {
 			Transactions []*Transaction `json:"transactions"`
@@ -29,13 +29,14 @@ func (s *Service) GetTransactions(budgetID string, filter *Filter) ([]*Transacti
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/transactions", budgetID)
-	if filter != nil {
-		url = fmt.Sprintf("%s?%s", url, filter.ToQuery())
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
 	}
 
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
+
 	return resModel.Data.Transactions, nil
 }
 
