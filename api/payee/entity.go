@@ -2,10 +2,13 @@ package payee
 
 // Payee represents a payee for a budget
 type Payee struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Deleted bool   `json:"deleted"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	// Deleted Deleted payees will only be included in delta requests
+	Deleted bool `json:"deleted"`
 
+	// TransferAccountID If a transfer payee, the account_id to which this
+	// payee transfers to
 	TransferAccountID *string `json:"transfer_account_id"`
 }
 
@@ -17,7 +20,8 @@ type Payee struct {
 type Location struct {
 	ID      string `json:"id"`
 	PayeeID string `json:"payee_id"`
-	Deleted bool   `json:"deleted"`
+	// Deleted Deleted payees will only be included in delta requests
+	Deleted bool `json:"deleted"`
 
 	Latitude  *float64 `json:"latitude,string"`
 	Longitude *float64 `json:"longitude,string"`

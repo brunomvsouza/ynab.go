@@ -18,10 +18,10 @@ type Service struct {
 
 // GetCategories fetches the list of category groups for a budget
 // https://api.youneedabudget.com/v1#/Categories/getCategories
-func (s *Service) GetCategories(budgetID string) ([]*Group, error) {
+func (s *Service) GetCategories(budgetID string) ([]*GroupWithCategories, error) {
 	resModel := struct {
 		Data struct {
-			CategoryGroups []*Group `json:"category_groups"`
+			CategoryGroups []*GroupWithCategories `json:"category_groups"`
 		} `json:"data"`
 	}{}
 

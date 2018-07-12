@@ -18,12 +18,12 @@ const (
 	TypeOtherAsset Type = "otherAsset"
 	// TypeOtherLiability identifies an other liability account
 	TypeOtherLiability Type = "otherLiability"
-	// TypePayPal identifies a PayPal account
+	// TypePayPal DEPRECATED identifies a PayPal account
 	TypePayPal Type = "payPal"
-	// TypeMerchant identifies a merchant account
+	// TypeMerchant DEPRECATED identifies a merchant account
 	TypeMerchant Type = "merchantAccount"
-	// TypeInvestment identifies an investment account
+	// TypeInvestment DEPRECATED identifies an investment account
 	TypeInvestment Type = "investmentAccount"
-	// TypeMortgage identifies a mortgage account
+	// TypeMortgage DEPRECATED identifies a mortgage account
 	TypeMortgage Type = "mortgage"
 )

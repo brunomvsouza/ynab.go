@@ -52,13 +52,11 @@ func TestService_GetCategories(t *testing.T) {
 	groups, err := client.Category().GetCategories("aa248caa-eed7-4575-a990-717386438d2c")
 	assert.NoError(t, err)
 
-	expected := &category.Group{
-		ResumedGroup: category.ResumedGroup{
-			ID:      "13419c12-78d3-4818-a5dc-601b2b8a6064",
-			Name:    "Credit Card Payments",
-			Hidden:  false,
-			Deleted: false,
-		},
+	expected := &category.GroupWithCategories{
+		ID:      "13419c12-78d3-4818-a5dc-601b2b8a6064",
+		Name:    "Credit Card Payments",
+		Hidden:  false,
+		Deleted: false,
 		Categories: []*category.Category{
 			{
 				ID:              "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
