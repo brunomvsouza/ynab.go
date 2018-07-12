@@ -1,25 +1,25 @@
 package transaction
 
-// Type represents the type of a transaction
-type Type string
+// Status represents the type of a transaction
+type Status string
 
 const (
-	// TypeUncategorized identifies an uncategorized transaction
-	TypeUncategorized Type = "uncategorized"
-	// TypeUnapproved identifies an unapproved transaction
-	TypeUnapproved Type = "unapproved"
+	// StatusUncategorized identifies an uncategorized transaction
+	StatusUncategorized Status = "uncategorized"
+	// StatusUnapproved identifies an unapproved transaction
+	StatusUnapproved Status = "unapproved"
 )
 
 // ClearingStatus represents the clearing status of a transaction
 type ClearingStatus string
 
 const (
-	// StatusUncleared identifies an uncleared transaction
-	StatusUncleared ClearingStatus = "uncleared"
-	// StatusCleared identifies a cleared transaction
-	StatusCleared ClearingStatus = "cleared"
-	// StatusReconciled identifies a reconciled transaction
-	StatusReconciled ClearingStatus = "reconciled"
+	// ClearingStatusUncleared identifies an uncleared transaction
+	ClearingStatusUncleared ClearingStatus = "uncleared"
+	// ClearingStatusCleared identifies a cleared transaction
+	ClearingStatusCleared ClearingStatus = "cleared"
+	// ClearingStatusReconciled identifies a reconciled transaction
+	ClearingStatusReconciled ClearingStatus = "reconciled"
 )
 
 // FlagColor represents the flag color of a transaction
@@ -79,4 +79,14 @@ const (
 	// FrequencyEveryOtherYear identifies a transaction that will repeat
 	// every other year
 	FrequencyEveryOtherYear ScheduledFrequency = "everyOtherYear"
+)
+
+// Type represents the type of a hybrid transaction
+type Type string
+
+const (
+	// TypeTransaction identifies a hybrid transaction as transaction
+	TypeTransaction Type = "transaction"
+	// TypeSubTransaction identifies a hybrid transaction as sub-transaction
+	TypeSubTransaction Type = "subtransaction"
 )

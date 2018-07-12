@@ -40,10 +40,10 @@ func (s *Service) GetTransactions(budgetID string, f *Filter) ([]*Transaction, e
 	return resModel.Data.Transactions, nil
 }
 
-// GetTransactionsByAccountID fetches the list of transactions of a specific account
+// GetTransactionsByAccount fetches the list of transactions of a specific account
 // from a budget with filtering capabilities
 // https://api.youneedabudget.com/v1#/Transactions/getTransactionsByAccount
-func (s *Service) GetTransactionsByAccountID(budgetID, accountID string,
+func (s *Service) GetTransactionsByAccount(budgetID, accountID string,
 	f *Filter) ([]*Transaction, error) {
 
 	resModel := struct {
@@ -64,10 +64,34 @@ func (s *Service) GetTransactionsByAccountID(budgetID, accountID string,
 	return resModel.Data.Transactions, nil
 }
 
+// GetTransactionsByCategory fetches the list of transactions of a specific category
+// from a budget with filtering capabilities
+// https://api.youneedabudget.com/v1#/Transactions/getTransactionsByCategory
+func (s *Service) GetTransactionsByCategory(budgetID, categoryID string,
+	f *Filter) ([]*Hybrid, error) {
+
+	resModel := struct {
+		Data struct {
+			Transactions []*Hybrid `json:"transactions"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/categories/%s/transactions", budgetID, categoryID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
+
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+
+	return resModel.Data.Transactions, nil
+}
+
 // Filter represents the optional filter while fetching transactions
 type Filter struct {
 	SinceDate *api.Date
-	Type      *Type
+	Type      *Status
 }
 
 // ToQuery returns the filters as a HTTP query string

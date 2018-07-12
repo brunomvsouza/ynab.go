@@ -32,9 +32,9 @@ func (s *Service) GetPayees(budgetID string) ([]*Payee, error) {
 	return resModel.Data.Payees, nil
 }
 
-// GetPayeeByID fetches a specific payee from a budget
+// GetPayee fetches a specific payee from a budget
 // https://api.youneedabudget.com/v1#/Payees/getPayeeById
-func (s *Service) GetPayeeByID(budgetID, payeeID string) (*Payee, error) {
+func (s *Service) GetPayee(budgetID, payeeID string) (*Payee, error) {
 	resModel := struct {
 		Data struct {
 			Payee *Payee `json:"payee"`
@@ -64,9 +64,9 @@ func (s *Service) GetPayeeLocations(budgetID string) ([]*Location, error) {
 	return resModel.Data.PayeeLocations, nil
 }
 
-// GetPayeeLocationByID fetches a specific payee location from a budget
+// GetPayeeLocation fetches a specific payee location from a budget
 // https://api.youneedabudget.com/v1#/Payee_Locations/getPayeeLocationById
-func (s *Service) GetPayeeLocationByID(budgetID, payeeLocationID string) (*Location, error) {
+func (s *Service) GetPayeeLocation(budgetID, payeeLocationID string) (*Location, error) {
 	resModel := struct {
 		Data struct {
 			PayeeLocation *Location `json:"payee_location"`

@@ -32,9 +32,9 @@ func (s *Service) GetCategories(budgetID string) ([]*GroupWithCategories, error)
 	return resModel.Data.CategoryGroups, nil
 }
 
-// GetCategoryByID fetches a specific category from a budget
+// GetCategory fetches a specific category from a budget
 // https://api.youneedabudget.com/v1#/Categories/getCategoryById
-func (s *Service) GetCategoryByID(budgetID, categoryID string) (*Category, error) {
+func (s *Service) GetCategory(budgetID, categoryID string) (*Category, error) {
 	resModel := struct {
 		Data struct {
 			Category *Category `json:"category"`
