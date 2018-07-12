@@ -522,6 +522,76 @@ func TestService_GetScheduledTransactions(t *testing.T) {
 	assert.Equal(t, expected, transactions)
 }
 
+func TestService_GetScheduledTransaction(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/scheduled_transactions/56f4fc86-2ed7-4b3b-9116-7a214261b3cd"
+	httpmock.RegisterResponder("GET", url,
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "scheduled_transaction": {
+			"id": "56f4fc86-2ed7-4b3b-9116-7a214261b3cd",
+			"date_first": "2018-11-13",
+			"date_next": "2018-11-13",
+			"frequency": "never",
+			"amount": -9000,
+			"memo": "nice memo",
+			"flag_color": "yellow",
+			"account_id": "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+			"account_name": "Bank Name",
+			"payee_id": "0d0e928d-312a-4bcd-89c4-e02f40d1fe46",
+			"payee_name": "bla bla bla",
+			"category_id": "f3cc4f55-312a-4bcd-89c4-db34379cb1dc",
+			"category_name": "Yearly subscription",
+			"transfer_account_id": null,
+			"deleted": false,
+			"subtransactions": []
+    }
+	}
+}
+		`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	stx, err := client.Transaction().GetScheduledTransaction(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		"56f4fc86-2ed7-4b3b-9116-7a214261b3cd",
+	)
+	assert.NoError(t, err)
+
+	expectedFirstAndLastDate, err := api.NewDateFromString("2018-11-13")
+	assert.NoError(t, err)
+
+	expectedMemo := "nice memo"
+	expectedFlagColor := transaction.FlagColorYellow
+	expectedPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
+	expectedPayeeName := "bla bla bla"
+	expectedCategoryID := "f3cc4f55-312a-4bcd-89c4-db34379cb1dc"
+	expectedCategoryName := "Yearly subscription"
+
+	expected := &transaction.Scheduled{
+		ID:              "56f4fc86-2ed7-4b3b-9116-7a214261b3cd",
+		DateFirst:       expectedFirstAndLastDate,
+		DateNext:        expectedFirstAndLastDate,
+		Frequency:       transaction.FrequencyNever,
+		Amount:          int64(-9000),
+		Memo:            &expectedMemo,
+		FlagColor:       &expectedFlagColor,
+		AccountID:       "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+		AccountName:     "Bank Name",
+		PayeeID:         &expectedPayeeID,
+		PayeeName:       &expectedPayeeName,
+		CategoryID:      &expectedCategoryID,
+		CategoryName:    &expectedCategoryName,
+		Deleted:         false,
+		SubTransactions: []*transaction.ScheduledSubTransaction{},
+	}
+	assert.Equal(t, expected, stx)
+}
+
 func TestFilter_ToQuery(t *testing.T) {
 	sinceDate, err := api.NewDateFromString("2020-02-02")
 	assert.NoError(t, err)
