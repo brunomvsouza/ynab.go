@@ -43,3 +43,20 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 		assert.Nil(t, wrapper.Date)
 	})
 }
+
+func TestNewDateFromString(t *testing.T) {
+	table := []struct {
+		InputDate          string
+		OutputDateToString string
+		OutputError        bool
+	}{
+		{"2018-02-01", "2018-02-01 00:00:00 +0000 UTC", false},
+		{"2018-13-01", "0001-01-01 00:00:00 +0000 UTC", true},
+	}
+
+	for _, test := range table {
+		date, err := api.NewDateFromString(test.InputDate)
+		assert.Equal(t, test.OutputError, err != nil)
+		assert.Equal(t, test.OutputDateToString, date.String())
+	}
+}
