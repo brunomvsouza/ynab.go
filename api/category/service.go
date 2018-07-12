@@ -11,7 +11,7 @@ func NewService(c api.Getter) *Service {
 	return &Service{c}
 }
 
-// Service wraps YNAB budget API endpoints
+// Service wraps YNAB category API endpoints
 type Service struct {
 	c api.Getter
 }
