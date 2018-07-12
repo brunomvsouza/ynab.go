@@ -74,7 +74,7 @@ func TestService_GetCategories(t *testing.T) {
 	assert.Equal(t, expected, groups[0])
 }
 
-func TestService_GetCategoryByID(t *testing.T) {
+func TestService_GetCategory(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -102,7 +102,7 @@ func TestService_GetCategoryByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	c, err := client.Category().GetCategoryByID(
+	c, err := client.Category().GetCategory(
 		"aa248caa-eed7-4575-a990-717386438d2c",
 		"13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
 	)

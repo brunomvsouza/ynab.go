@@ -50,7 +50,7 @@ func TestService_GetPayees(t *testing.T) {
 	assert.Equal(t, expected, payees)
 }
 
-func TestService_GetPayeeByID(t *testing.T) {
+func TestService_GetPayee(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -72,7 +72,7 @@ func TestService_GetPayeeByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	p, err := client.Payee().GetPayeeByID(
+	p, err := client.Payee().GetPayee(
 		"aa248caa-eed7-4575-a990-717386438d2c",
 		"34e88373-ef48-4386-9ab3-7f86c2a8988f",
 	)
@@ -134,7 +134,7 @@ func TestService_GetPayeeLocations(t *testing.T) {
 	assert.Equal(t, expected, locations)
 }
 
-func TestService_GetPayeeLocationByID(t *testing.T) {
+func TestService_GetPayeeLocation(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -157,7 +157,7 @@ func TestService_GetPayeeLocationByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	location, err := client.Payee().GetPayeeLocationByID(
+	location, err := client.Payee().GetPayeeLocation(
 		"aa248caa-eed7-4575-a990-717386438d2c",
 		"34fabc3-1234-4a11-8bcd-7f63756b7193",
 	)

@@ -31,10 +31,10 @@ func (s *Service) GetBudgets() ([]*Summary, error) {
 	return resModel.Data.Budgets, nil
 }
 
-// GetBudgetByID fetches a single budget with all related entities,
+// GetBudget fetches a single budget with all related entities,
 // effectively a full budget export with filtering capabilities
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudgetByID(ID string, f *Filter) (*BudgetDetail, error) {
+func (s *Service) GetBudget(budgetID string, f *Filter) (*BudgetDetail, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
@@ -42,7 +42,7 @@ func (s *Service) GetBudgetByID(ID string, f *Filter) (*BudgetDetail, error) {
 		} `json:"data"`
 	}{}
 
-	url := fmt.Sprintf("/budgets/%s", ID)
+	url := fmt.Sprintf("/budgets/%s", budgetID)
 	if f != nil {
 		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
 	}
@@ -57,16 +57,16 @@ func (s *Service) GetBudgetByID(ID string, f *Filter) (*BudgetDetail, error) {
 	}, nil
 }
 
-// GetBudgetSettingsByID fetches a budget settings
+// GetBudgetSettings fetches a budget settings
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetSettingsById
-func (s *Service) GetBudgetSettingsByID(ID string) (*Settings, error) {
+func (s *Service) GetBudgetSettings(budgetID string) (*Settings, error) {
 	resModel := struct {
 		Data struct {
 			Settings *Settings `json:"settings"`
 		} `json:"data"`
 	}{}
 
-	url := fmt.Sprintf("/budgets/%s/settings", ID)
+	url := fmt.Sprintf("/budgets/%s/settings", budgetID)
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
