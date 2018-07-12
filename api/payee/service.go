@@ -47,3 +47,19 @@ func (s *Service) GetPayeeByID(budgetID, payeeID string) (*Payee, error) {
 	}
 	return resModel.Data.Payee, nil
 }
+
+// GetPayeeLocations fetches the list of payee locations from a budget
+// https://api.youneedabudget.com/v1#/Payee_Locations/getPayeeLocations
+func (s *Service) GetPayeeLocations(budgetID string) ([]*Location, error) {
+	resModel := struct {
+		Data struct {
+			PayeeLocations []*Location `json:"payee_locations"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/payee_locations", budgetID)
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+	return resModel.Data.PayeeLocations, nil
+}

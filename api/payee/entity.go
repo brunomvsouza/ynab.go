@@ -15,6 +15,6 @@ type Location struct {
 	PayeeID string `json:"payee_id"`
 	Deleted bool   `json:"deleted"`
 
-	Latitude  *float64 `json:"latitude"`
-	Longitude *float64 `json:"longitude"`
+	Latitude  *float64 `json:"latitude,string"`
+	Longitude *float64 `json:"longitude,string"`
 }
