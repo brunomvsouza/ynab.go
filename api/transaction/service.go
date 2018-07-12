@@ -88,6 +88,30 @@ func (s *Service) GetTransactionsByCategory(budgetID, categoryID string,
 	return resModel.Data.Transactions, nil
 }
 
+// GetTransactionsByPayee fetches the list of transactions of a specific payee
+// from a budget with filtering capabilities
+// https://api.youneedabudget.com/v1#/Transactions/getTransactionsByPayee
+func (s *Service) GetTransactionsByPayee(budgetID, payeeID string,
+	f *Filter) ([]*Hybrid, error) {
+
+	resModel := struct {
+		Data struct {
+			Transactions []*Hybrid `json:"transactions"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/payees/%s/transactions", budgetID, payeeID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
+
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+
+	return resModel.Data.Transactions, nil
+}
+
 // Filter represents the optional filter while fetching transactions
 type Filter struct {
 	SinceDate *api.Date
