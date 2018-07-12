@@ -31,3 +31,19 @@ func (s *Service) GetCategories(budgetID string) ([]*Group, error) {
 	}
 	return resModel.Data.CategoryGroups, nil
 }
+
+// GetCategoryByID fetches a specific category from a budget
+// https://api.youneedabudget.com/v1#/Categories/getCategoryById
+func (s *Service) GetCategoryByID(budgetID, categoryID string) (*Category, error) {
+	resModel := struct {
+		Data struct {
+			Category *Category `json:"category"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/categories/%s", budgetID, categoryID)
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+	return resModel.Data.Category, nil
+}
