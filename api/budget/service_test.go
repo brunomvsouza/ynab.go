@@ -8,16 +8,16 @@ import (
 	"gopkg.in/jarcoal/httpmock.v1"
 
 	"bmvs.io/ynab"
+	"bmvs.io/ynab/api/budget"
 )
 
 func TestService_GetBudgets(t *testing.T) {
-	t.Run("success with filled optional fields", func(t *testing.T) {
-		httpmock.Activate()
-		defer httpmock.DeactivateAndReset()
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
 
-		httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets",
-			func(req *http.Request) (*http.Response, error) {
-				return httpmock.NewStringResponse(200, `{
+	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets",
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
   "data": {
     "budgets": [
       {
@@ -44,98 +44,38 @@ func TestService_GetBudgets(t *testing.T) {
   }
 }
 		`), nil
-			},
-		)
+		},
+	)
 
-		client := ynab.NewClient("")
-		budgets, err := client.Budget().GetBudgets()
-		assert.NoError(t, err)
+	client := ynab.NewClient("")
+	budgets, err := client.Budget().GetBudgets()
+	assert.NoError(t, err)
 
-		budget := budgets[0]
-		assert.NotNil(t, budget)
+	b := budgets[0]
 
-		assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", budget.ID)
-		assert.Equal(t, "TestBudget", budget.Name)
-		assert.Equal(t, "2018-03-05 17:05:23 +0000 +0000", budget.LastModifiedOn.String())
-		assert.Equal(t, "2018-03-01 00:00:00 +0000 UTC", budget.FirstMonth.String())
-		assert.Equal(t, "2018-04-01 00:00:00 +0000 UTC", budget.LastMonth.String())
-		assert.Equal(t, "DD.MM.YYYY", budget.DateFormat.Format)
-		assert.Equal(t, "EUR", budget.CurrencyFormat.ISOCode)
-		assert.Equal(t, "123,456.78", budget.CurrencyFormat.ExampleFormat)
-		assert.Equal(t, uint64(2), budget.CurrencyFormat.DecimalDigits)
-		assert.Equal(t, ".", budget.CurrencyFormat.DecimalSeparator)
-		assert.Equal(t, false, budget.CurrencyFormat.SymbolFirst)
-		assert.Equal(t, ",", budget.CurrencyFormat.GroupSeparator)
-		assert.Equal(t, "€", budget.CurrencyFormat.CurrencySymbol)
-		assert.Equal(t, true, budget.CurrencyFormat.DisplaySymbol)
-	})
-
-	t.Run("success with empty optional fields", func(t *testing.T) {
-		httpmock.Activate()
-		defer httpmock.DeactivateAndReset()
-
-		httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets",
-			func(req *http.Request) (*http.Response, error) {
-				return httpmock.NewStringResponse(200, `{
-  "data": {
-    "budgets": [
-      {
-        "id": "aa248caa-eed7-4575-a990-717386438d2c",
-        "name": "TestBudget",
-        "date_format": {
-          "format": "DD.MM.YYYY"
-        },
-        "currency_format": {
-          "iso_code": "EUR",
-          "example_format": "123,456.78",
-          "decimal_digits": 2,
-          "decimal_separator": ".",
-          "symbol_first": false,
-          "group_separator": ",",
-          "currency_symbol": "€",
-          "display_symbol": true
-        }
-      }
-    ]
-  }
-}
-		`), nil
-			},
-		)
-
-		client := ynab.NewClient("")
-		budgets, err := client.Budget().GetBudgets()
-		assert.NoError(t, err)
-
-		budget := budgets[0]
-		assert.NotNil(t, budget)
-
-		assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", budget.ID)
-		assert.Equal(t, "TestBudget", budget.Name)
-		assert.Nil(t, budget.LastModifiedOn)
-		assert.Nil(t, budget.FirstMonth)
-		assert.Nil(t, budget.LastMonth)
-		assert.Equal(t, "DD.MM.YYYY", budget.DateFormat.Format)
-		assert.Equal(t, "EUR", budget.CurrencyFormat.ISOCode)
-		assert.Equal(t, "123,456.78", budget.CurrencyFormat.ExampleFormat)
-		assert.Equal(t, uint64(2), budget.CurrencyFormat.DecimalDigits)
-		assert.Equal(t, ".", budget.CurrencyFormat.DecimalSeparator)
-		assert.Equal(t, false, budget.CurrencyFormat.SymbolFirst)
-		assert.Equal(t, ",", budget.CurrencyFormat.GroupSeparator)
-		assert.Equal(t, "€", budget.CurrencyFormat.CurrencySymbol)
-		assert.Equal(t, true, budget.CurrencyFormat.DisplaySymbol)
-	})
-
+	assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
+	assert.Equal(t, "TestBudget", b.Name)
+	assert.Equal(t, "2018-03-05 17:05:23 +0000 +0000", b.LastModifiedOn.String())
+	assert.Equal(t, "2018-03-01 00:00:00 +0000 UTC", b.FirstMonth.String())
+	assert.Equal(t, "2018-04-01 00:00:00 +0000 UTC", b.LastMonth.String())
+	assert.Equal(t, "DD.MM.YYYY", b.DateFormat.Format)
+	assert.Equal(t, "EUR", b.CurrencyFormat.ISOCode)
+	assert.Equal(t, "123,456.78", b.CurrencyFormat.ExampleFormat)
+	assert.Equal(t, uint64(2), b.CurrencyFormat.DecimalDigits)
+	assert.Equal(t, ".", b.CurrencyFormat.DecimalSeparator)
+	assert.Equal(t, false, b.CurrencyFormat.SymbolFirst)
+	assert.Equal(t, ",", b.CurrencyFormat.GroupSeparator)
+	assert.Equal(t, "€", b.CurrencyFormat.CurrencySymbol)
+	assert.Equal(t, true, b.CurrencyFormat.DisplaySymbol)
 }
 
 func TestService_GetBudgetByID(t *testing.T) {
-	t.Run("success", func(t *testing.T) {
-		httpmock.Activate()
-		defer httpmock.DeactivateAndReset()
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
 
-		httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c",
-			func(req *http.Request) (*http.Response, error) {
-				return httpmock.NewStringResponse(200, `{
+	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c",
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
   "data": {
     "budget": {
       "id": "aa248caa-eed7-4575-a990-717386438d2c",
@@ -281,23 +221,21 @@ func TestService_GetBudgetByID(t *testing.T) {
   }
 }
 		`), nil
-			},
-		)
+		},
+	)
 
-		client := ynab.NewClient("")
-		_, err := client.Budget().GetBudgetByID("aa248caa-eed7-4575-a990-717386438d2c")
-		assert.NoError(t, err)
-	})
+	client := ynab.NewClient("")
+	_, err := client.Budget().GetBudgetByID("aa248caa-eed7-4575-a990-717386438d2c")
+	assert.NoError(t, err)
 }
 
 func TestService_GetBudgetDeltaByID(t *testing.T) {
-	t.Run("success", func(t *testing.T) {
-		httpmock.Activate()
-		defer httpmock.DeactivateAndReset()
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
 
-		httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c?last_knowledge_of_server=470",
-			func(req *http.Request) (*http.Response, error) {
-				return httpmock.NewStringResponse(200, `{
+	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c?last_knowledge_of_server=470",
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
   "data": {
     "budget": {
       "id": "aa248caa-eed7-4575-a990-717386438d2c",
@@ -417,13 +355,12 @@ func TestService_GetBudgetDeltaByID(t *testing.T) {
   }
 }
 		`), nil
-			},
-		)
+		},
+	)
 
-		client := ynab.NewClient("")
-		_, err := client.Budget().GetBudgetDeltaByID("aa248caa-eed7-4575-a990-717386438d2c", 470)
-		assert.NoError(t, err)
-	})
+	client := ynab.NewClient("")
+	_, err := client.Budget().GetBudgetDeltaByID("aa248caa-eed7-4575-a990-717386438d2c", 470)
+	assert.NoError(t, err)
 }
 
 func TestService_GetBudgetSettingsByID(t *testing.T) {
@@ -458,13 +395,21 @@ func TestService_GetBudgetSettingsByID(t *testing.T) {
 	settings, err := client.Budget().GetBudgetSettingsByID("aa248caa-eed7-4575-a990-717386438d2c")
 	assert.NoError(t, err)
 
-	assert.Equal(t, "DD/MM/YYYY", settings.DateFormat.Format)
-	assert.Equal(t, "BRL", settings.CurrencyFormat.ISOCode)
-	assert.Equal(t, "123.456,78", settings.CurrencyFormat.ExampleFormat)
-	assert.Equal(t, uint64(2), settings.CurrencyFormat.DecimalDigits)
-	assert.Equal(t, ",", settings.CurrencyFormat.DecimalSeparator)
-	assert.True(t, settings.CurrencyFormat.SymbolFirst)
-	assert.Equal(t, ".", settings.CurrencyFormat.GroupSeparator)
-	assert.Equal(t, "R$", settings.CurrencyFormat.CurrencySymbol)
-	assert.True(t, settings.CurrencyFormat.DisplaySymbol)
+	expected := &budget.Settings{
+		DateFormat: budget.DateFormat{
+			Format: "DD/MM/YYYY",
+		},
+		CurrencyFormat: budget.CurrencyFormat{
+			ISOCode:          "BRL",
+			ExampleFormat:    "123.456,78",
+			DecimalDigits:    uint64(2),
+			DecimalSeparator: ",",
+			SymbolFirst:      true,
+			GroupSeparator:   ".",
+			CurrencySymbol:   "R$",
+			DisplaySymbol:    true,
+		},
+	}
+
+	assert.Equal(t, expected, settings)
 }
