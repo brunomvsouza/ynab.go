@@ -21,10 +21,10 @@ type Budget struct {
 	Categories               []*category.Category
 	CategoryGroups           []*category.ResumedGroup
 	Months                   []*month.Month
-	Transactions             []*transaction.Transaction
-	SubTransactions          []*transaction.Sub
-	ScheduledTransactions    []*transaction.Scheduled
-	ScheduledSubTransactions []*transaction.ScheduledSub
+	Transactions             []*transaction.Summary
+	SubTransactions          []*transaction.SubTransaction
+	ScheduledTransactions    []*transaction.ScheduledSummary
+	ScheduledSubTransactions []*transaction.ScheduledSubTransaction
 }
 
 // ResumedBudget represents a resumed version of a budget
