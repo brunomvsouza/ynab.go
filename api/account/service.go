@@ -19,13 +19,13 @@ type Service struct {
 // GetAccounts fetches the list of accounts from a budget
 // https://api.youneedabudget.com/v1#/Accounts/getAccounts
 func (s *Service) GetAccounts(budgetID string) ([]*Account, error) {
-	url := fmt.Sprintf("/budgets/%s/accounts", budgetID)
 	resModel := struct {
 		Data struct {
 			Accounts []*Account `json:"accounts"`
 		} `json:"data"`
 	}{}
 
+	url := fmt.Sprintf("/budgets/%s/accounts", budgetID)
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
@@ -35,13 +35,13 @@ func (s *Service) GetAccounts(budgetID string) ([]*Account, error) {
 // GetAccountByID fetches a specific account from a budget
 // https://api.youneedabudget.com/v1#/Accounts/getAccountById
 func (s *Service) GetAccountByID(budgetID, accountID string) (*Account, error) {
-	url := fmt.Sprintf("/budgets/%s/accounts/%s", budgetID, accountID)
 	resModel := struct {
 		Data struct {
 			Account *Account `json:"account"`
 		} `json:"data"`
 	}{}
 
+	url := fmt.Sprintf("/budgets/%s/accounts/%s", budgetID, accountID)
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}

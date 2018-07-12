@@ -83,7 +83,8 @@ func (s *Service) GetBudgetSettingsByID(ID string) (*Settings, error) {
 		} `json:"data"`
 	}{}
 
-	if err := s.c.GET(fmt.Sprintf("/budgets/%s/settings", ID), &resModel); err != nil {
+	url := fmt.Sprintf("/budgets/%s/settings", ID)
+	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
 

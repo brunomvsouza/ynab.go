@@ -10,6 +10,7 @@ import (
 	"bmvs.io/ynab/api"
 	"bmvs.io/ynab/api/account"
 	"bmvs.io/ynab/api/budget"
+	"bmvs.io/ynab/api/category"
 	"bmvs.io/ynab/api/user"
 )
 
@@ -25,6 +26,7 @@ func NewClient(accessToken string) *client {
 	c.user = user.NewService(c)
 	c.budget = budget.NewService(c)
 	c.account = account.NewService(c)
+	c.category = category.NewService(c)
 	return c
 }
 
@@ -33,9 +35,10 @@ type client struct {
 	accessToken string
 	client      *http.Client
 
-	user    *user.Service
-	budget  *budget.Service
-	account *account.Service
+	user     *user.Service
+	budget   *budget.Service
+	account  *account.Service
+	category *category.Service
 }
 
 // User returns user.Service API instance
@@ -51,6 +54,11 @@ func (c *client) Budget() *budget.Service {
 // Account returns account.Service API instance
 func (c *client) Account() *account.Service {
 	return c.account
+}
+
+// Category returns category.Service API instance
+func (c *client) Category() *category.Service {
+	return c.category
 }
 
 // GET sends a GET request to the YNAB API
