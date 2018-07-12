@@ -5,7 +5,10 @@ import (
 	"bmvs.io/ynab/api/category"
 )
 
-// Month represents a month
+// Month represents a month for a budget
+// Each budget contains one or more months, which is where To be Budgeted,
+// Age of Money and Category (budgeted / activity / balances)
+// amounts are available.
 type Month struct {
 	Month      api.Date             `json:"month"`
 	Categories []*category.Category `json:"categories"`
