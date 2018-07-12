@@ -80,6 +80,40 @@ type SubTransaction struct {
 	TransferAccountID *string `json:"transfer_account_id"`
 }
 
+type Hybrid struct {
+	ID   string   `json:"id"`
+	Date api.Date `json:"date"`
+	// Amount Transaction amount in milliunits format
+	Amount      int64          `json:"amount"`
+	Cleared     ClearingStatus `json:"cleared"`
+	Approved    bool           `json:"approved"`
+	AccountID   string         `json:"account_id"`
+	AccountName string         `json:"account_name"`
+	// Deleted Deleted transactions will only be included in delta requests
+	Deleted bool `json:"deleted"`
+	Type    Type `json:"type"`
+
+	Memo              *string    `json:"memo"`
+	FlagColor         *FlagColor `json:"flag_color"`
+	PayeeID           *string    `json:"payee_id"`
+	CategoryID        *string    `json:"category_id"`
+	TransferAccountID *string    `json:"transfer_account_id"`
+	// ImportID If the Transaction was imported, this field is a unique (by account) import
+	// identifier. If this transaction was imported through File Based Import or
+	// Direct Import and not through the API, the import_id will have the format:
+	// 'YNAB:[milliunit_amount]:[iso_date]:[occurrence]'. For example, a transaction
+	// dated 2015-12-30 in the amount of -$294.23 USD would have an import_id of
+	// 'YNAB:-294230:2015-12-30:1’. If a second transaction on the same account
+	// was imported and had the same date and same amount, its import_id would
+	// be 'YNAB:-294230:2015-12-30:2’.
+	ImportID *string `json:"import_id"`
+	// ParentTransactionID For subtransaction types, this is the id of the parent transaction
+	// For transaction types, this id will be always be null
+	ParentTransactionID *string `json:"parent_transaction_id"`
+	PayeeName           *string `json:"payee_name"`
+	CategoryName        *string `json:"category_name"`
+}
+
 // Scheduled represents a scheduled transaction for a budget
 type Scheduled struct {
 	ID        string             `json:"id"`

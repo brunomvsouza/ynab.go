@@ -70,7 +70,7 @@ func TestService_GetBudgets(t *testing.T) {
 	assert.Equal(t, true, b.CurrencyFormat.DisplaySymbol)
 }
 
-func TestService_GetBudgetByID(t *testing.T) {
+func TestService_GetBudget(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -227,11 +227,11 @@ func TestService_GetBudgetByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	_, err := client.Budget().GetBudgetByID("aa248caa-eed7-4575-a990-717386438d2c", nil)
+	_, err := client.Budget().GetBudget("aa248caa-eed7-4575-a990-717386438d2c", nil)
 	assert.NoError(t, err)
 }
 
-func TestService_GetBudgetSettingsByID(t *testing.T) {
+func TestService_GetBudgetSettings(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -261,7 +261,7 @@ func TestService_GetBudgetSettingsByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	settings, err := client.Budget().GetBudgetSettingsByID("aa248caa-eed7-4575-a990-717386438d2c")
+	settings, err := client.Budget().GetBudgetSettings("aa248caa-eed7-4575-a990-717386438d2c")
 	assert.NoError(t, err)
 
 	expected := &budget.Settings{

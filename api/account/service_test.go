@@ -60,7 +60,7 @@ func TestService_GetAccounts(t *testing.T) {
 	assert.Equal(t, expected, accounts[0])
 }
 
-func TestService_GetAccountByID(t *testing.T) {
+func TestService_GetAccount(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -88,7 +88,7 @@ func TestService_GetAccountByID(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	a, err := client.Account().GetAccountByID(
+	a, err := client.Account().GetAccount(
 		"bbdccdb0-9007-42aa-a6fe-02a3e94476be",
 		"aa248caa-eed7-4575-a990-717386438d2c",
 	)

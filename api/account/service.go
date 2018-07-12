@@ -32,9 +32,9 @@ func (s *Service) GetAccounts(budgetID string) ([]*Account, error) {
 	return resModel.Data.Accounts, nil
 }
 
-// GetAccountByID fetches a specific account from a budget
+// GetAccount fetches a specific account from a budget
 // https://api.youneedabudget.com/v1#/Accounts/getAccountById
-func (s *Service) GetAccountByID(budgetID, accountID string) (*Account, error) {
+func (s *Service) GetAccount(budgetID, accountID string) (*Account, error) {
 	resModel := struct {
 		Data struct {
 			Account *Account `json:"account"`
