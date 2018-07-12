@@ -31,3 +31,19 @@ func (s *Service) GetPayees(budgetID string) ([]*Payee, error) {
 	}
 	return resModel.Data.Payees, nil
 }
+
+// GetPayeeByID fetches a specific payee from a budget
+// https://api.youneedabudget.com/v1#/Payees/getPayeeById
+func (s *Service) GetPayeeByID(budgetID, payeeID string) (*Payee, error) {
+	resModel := struct {
+		Data struct {
+			Payee *Payee `json:"payee"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/payees/%s", budgetID, payeeID)
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+	return resModel.Data.Payee, nil
+}
