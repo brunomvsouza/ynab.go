@@ -275,6 +275,79 @@ func TestService_GetTransactionsByCategory(t *testing.T) {
 	assert.Equal(t, expected, transactions[0])
 }
 
+func TestService_GetTransactionsByPayee(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/b391144e-444c-469c-be27-fed6aa352a7a/transactions"
+	httpmock.RegisterResponder("GET", url,
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "transactions": [
+      {
+        "type": "transaction",
+        "id": "c132c55c-1200-4606-a321-99f4ec24b4df",
+        "parent_transaction_id": null,
+        "date": "2018-01-10",
+        "amount": -42000,
+        "memo": "",
+        "cleared": "reconciled",
+        "approved": true,
+        "flag_color": null,
+        "account_id": "134d159-444c-469c-be27-44094e388fa0",
+        "account_name": "Cash",
+        "payee_id": "b391144e-444c-469c-be27-fed6aa352a7a",
+        "payee_name": "Landlord",
+        "category_id": "a33c906e-444c-469c-be27-04c8e0c9959f",
+        "category_name": "Rent",
+        "transfer_account_id": null,
+        "import_id": null,
+        "deleted": false
+      }
+		]
+	}
+}
+		`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	transactions, err := client.Transaction().GetTransactionsByPayee(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		"b391144e-444c-469c-be27-fed6aa352a7a",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	expectedDate, err := api.NewDateFromString("2018-01-10")
+	assert.NoError(t, err)
+
+	expectedMemo := ""
+	expectedPayeeID := "b391144e-444c-469c-be27-fed6aa352a7a"
+	expectedPayeeName := "Landlord"
+	expectedCategoryID := "a33c906e-444c-469c-be27-04c8e0c9959f"
+	expectedCategoryName := "Rent"
+
+	expected := &transaction.Hybrid{
+		Type:         transaction.TypeTransaction,
+		ID:           "c132c55c-1200-4606-a321-99f4ec24b4df",
+		Date:         expectedDate,
+		Amount:       int64(-42000),
+		Memo:         &expectedMemo,
+		Cleared:      transaction.ClearingStatusReconciled,
+		Approved:     true,
+		AccountID:    "134d159-444c-469c-be27-44094e388fa0",
+		AccountName:  "Cash",
+		PayeeID:      &expectedPayeeID,
+		PayeeName:    &expectedPayeeName,
+		CategoryID:   &expectedCategoryID,
+		CategoryName: &expectedCategoryName,
+		Deleted:      false,
+	}
+	assert.Equal(t, expected, transactions[0])
+}
+
 func TestFilter_ToQuery(t *testing.T) {
 	sinceDate, err := api.NewDateFromString("2020-02-02")
 	assert.NoError(t, err)
