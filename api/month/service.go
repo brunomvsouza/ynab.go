@@ -18,10 +18,10 @@ type Service struct {
 
 // GetMonths fetches the list of months from a budget
 // https://api.youneedabudget.com/v1#/Months/getBudgetMonths
-func (s *Service) GetMonths(budgetID string) ([]*Month, error) {
+func (s *Service) GetMonths(budgetID string) ([]*Summary, error) {
 	resModel := struct {
 		Data struct {
-			Months []*Month `json:"months"`
+			Months []*Summary `json:"months"`
 		} `json:"data"`
 	}{}
 
