@@ -18,10 +18,10 @@ type Service struct {
 
 // GetBudgets fetches the list of budgets of the logger in user
 // https://api.youneedabudget.com/v1#/Budgets/getBudgets
-func (s *Service) GetBudgets() ([]*ResumedBudget, error) {
+func (s *Service) GetBudgets() ([]*Summary, error) {
 	resModel := struct {
 		Data struct {
-			Budgets []*ResumedBudget `json:"budgets"`
+			Budgets []*Summary `json:"budgets"`
 		} `json:"data"`
 	}{}
 
@@ -34,7 +34,7 @@ func (s *Service) GetBudgets() ([]*ResumedBudget, error) {
 // GetBudgetByID fetches a single budget with all related entities,
 // effectively a full budget export.
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudgetByID(ID string) (*BudgetSummary, error) {
+func (s *Service) GetBudgetByID(ID string) (*BudgetDetail, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
@@ -46,7 +46,7 @@ func (s *Service) GetBudgetByID(ID string) (*BudgetSummary, error) {
 		return nil, err
 	}
 
-	return &BudgetSummary{
+	return &BudgetDetail{
 		Budget:          resModel.Data.Budget,
 		ServerKnowledge: resModel.Data.ServerKnowledge,
 	}, nil
@@ -55,7 +55,7 @@ func (s *Service) GetBudgetByID(ID string) (*BudgetSummary, error) {
 // GetBudgetDeltaByID fetches the delta of a single budget since the last
 // server knowledge number
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudgetDeltaByID(ID string, serverKnowledge int64) (*BudgetSummary, error) {
+func (s *Service) GetBudgetDeltaByID(ID string, serverKnowledge int64) (*BudgetDetail, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
@@ -68,7 +68,7 @@ func (s *Service) GetBudgetDeltaByID(ID string, serverKnowledge int64) (*BudgetS
 		return nil, err
 	}
 
-	return &BudgetSummary{
+	return &BudgetDetail{
 		Budget:          resModel.Data.Budget,
 		ServerKnowledge: resModel.Data.ServerKnowledge,
 	}, nil

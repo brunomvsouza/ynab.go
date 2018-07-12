@@ -13,26 +13,21 @@ import (
 
 // Budget represents a budget
 type Budget struct {
-	ResumedBudget
+	ID             string         `json:"id"`
+	Name           string         `json:"name"`
+	DateFormat     DateFormat     `json:"date_format"`
+	CurrencyFormat CurrencyFormat `json:"currency_format"`
 
-	Accounts                 []*account.Account
-	Payees                   []*payee.Payee
-	PayeeLocations           []*payee.Location
-	Categories               []*category.Category
-	CategoryGroups           []*category.ResumedGroup
-	Months                   []*month.Month
-	Transactions             []*transaction.Summary
-	SubTransactions          []*transaction.SubTransaction
-	ScheduledTransactions    []*transaction.ScheduledSummary
-	ScheduledSubTransactions []*transaction.ScheduledSubTransaction
-}
-
-// ResumedBudget represents a resumed version of a budget
-type ResumedBudget struct {
-	Settings
-
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	Accounts                 []*account.Account                     `json:"accounts"`
+	Payees                   []*payee.Payee                         `json:"payees"`
+	PayeeLocations           []*payee.Location                      `json:"payee_locations"`
+	Categories               []*category.Category                   `json:"categories"`
+	CategoryGroups           []*category.Group                      `json:"category_groups"`
+	Months                   []*month.Month                         `json:"months"`
+	Transactions             []*transaction.Summary                 `json:"transactions"`
+	SubTransactions          []*transaction.SubTransaction          `json:"subtransactions"`
+	ScheduledTransactions    []*transaction.ScheduledSummary        `json:"scheduled_transactions"`
+	ScheduledSubTransactions []*transaction.ScheduledSubTransaction `json:"scheduled_sub_transactions"`
 
 	LastModifiedOn *time.Time `json:"last_modified_on"`
 	// FirstMonth undocumented field
@@ -41,13 +36,27 @@ type ResumedBudget struct {
 	LastMonth *api.Date `json:"last_month"`
 }
 
-// BudgetSummary represents a snapshot for a budget
-type BudgetSummary struct {
+// Summary represents the summary of a budget
+type Summary struct {
+	ID             string         `json:"id"`
+	Name           string         `json:"name"`
+	DateFormat     DateFormat     `json:"date_format"`
+	CurrencyFormat CurrencyFormat `json:"currency_format"`
+
+	LastModifiedOn *time.Time `json:"last_modified_on"`
+	// FirstMonth undocumented field
+	FirstMonth *api.Date `json:"first_month"`
+	// LastMonth undocumented field
+	LastMonth *api.Date `json:"last_month"`
+}
+
+// BudgetDetail represents a versioned snapshot for a budget
+type BudgetDetail struct {
 	Budget          *Budget
 	ServerKnowledge int64
 }
 
-// Settings represents settings for a budget
+// Settings represents the settings for a budget
 type Settings struct {
 	DateFormat     DateFormat     `json:"date_format"`
 	CurrencyFormat CurrencyFormat `json:"currency_format"`
