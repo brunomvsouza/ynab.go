@@ -8,6 +8,7 @@ import (
 	"gopkg.in/jarcoal/httpmock.v1"
 
 	"bmvs.io/ynab"
+	"bmvs.io/ynab/api/user"
 )
 
 func TestService_GetUser(t *testing.T) {
@@ -30,7 +31,10 @@ func TestService_GetUser(t *testing.T) {
 	client := ynab.NewClient("")
 	u, err := client.User().GetUser()
 	assert.NoError(t, err)
-	assert.NotNil(t, u)
-	assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", u.ID)
+
+	expected := &user.User{
+		ID: "aa248caa-eed7-4575-a990-717386438d2c",
+	}
+	assert.Equal(t, expected, u)
 
 }
