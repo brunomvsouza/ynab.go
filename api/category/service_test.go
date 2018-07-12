@@ -8,6 +8,7 @@ import (
 	"gopkg.in/jarcoal/httpmock.v1"
 
 	"bmvs.io/ynab"
+	"bmvs.io/ynab/api/category"
 )
 
 func TestService_GetCategories(t *testing.T) {
@@ -50,23 +51,28 @@ func TestService_GetCategories(t *testing.T) {
 	groups, err := client.Category().GetCategories("aa248caa-eed7-4575-a990-717386438d2c")
 	assert.NoError(t, err)
 
-	g := groups[0]
-	assert.Equal(t, "13419c12-78d3-4818-a5dc-601b2b8a6064", g.ID)
-	assert.Equal(t, "Credit Card Payments", g.Name)
-	assert.False(t, g.Hidden)
-	assert.False(t, g.Deleted)
+	expected := &category.Group{
+		ResumedGroup: category.ResumedGroup{
+			ID:      "13419c12-78d3-4818-a5dc-601b2b8a6064",
+			Name:    "Credit Card Payments",
+			Hidden:  false,
+			Deleted: false,
+		},
+		Categories: []*category.Category{
+			{
+				ID:              "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+				CategoryGroupID: "13419c12-78d3-4818-a5dc-601b2b8a6064",
+				Name:            "MasterCard",
+				Hidden:          false,
+				Budgeted:        int64(0),
+				Activity:        int64(12190),
+				Balance:         int64(18740),
+				Deleted:         false,
+			},
+		},
+	}
 
-	c := g.Categories[0]
-	assert.Equal(t, "13419c12-78d3-4a26-82ca-1cde7aa1d6f8", c.ID)
-	assert.Equal(t, "13419c12-78d3-4818-a5dc-601b2b8a6064", c.CategoryGroupID)
-	assert.Equal(t, "MasterCard", c.Name)
-	assert.False(t, c.Hidden)
-	assert.Nil(t, c.OriginalCategoryGroupID)
-	assert.Nil(t, c.Note)
-	assert.Equal(t, int64(0), c.Budgeted)
-	assert.Equal(t, int64(12190), c.Activity)
-	assert.Equal(t, int64(18740), c.Balance)
-	assert.False(t, c.Deleted)
+	assert.Equal(t, expected, groups[0])
 }
 
 func TestService_GetCategoryByID(t *testing.T) {
@@ -102,14 +108,15 @@ func TestService_GetCategoryByID(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	assert.Equal(t, "13419c12-78d3-4a26-82ca-1cde7aa1d6f8", c.ID)
-	assert.Equal(t, "13419c12-78d3-4818-a5dc-601b2b8a6064", c.CategoryGroupID)
-	assert.Equal(t, "MasterCard", c.Name)
-	assert.False(t, c.Hidden)
-	assert.Nil(t, c.OriginalCategoryGroupID)
-	assert.Nil(t, c.Note)
-	assert.Equal(t, int64(0), c.Budgeted)
-	assert.Equal(t, int64(12190), c.Activity)
-	assert.Equal(t, int64(18740), c.Balance)
-	assert.False(t, c.Deleted)
+	expected := &category.Category{
+		ID:              "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+		CategoryGroupID: "13419c12-78d3-4818-a5dc-601b2b8a6064",
+		Name:            "MasterCard",
+		Hidden:          false,
+		Budgeted:        int64(0),
+		Activity:        int64(12190),
+		Balance:         int64(18740),
+		Deleted:         false,
+	}
+	assert.Equal(t, expected, c)
 }
