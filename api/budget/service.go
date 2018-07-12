@@ -32,9 +32,9 @@ func (s *Service) GetBudgets() ([]*Summary, error) {
 }
 
 // GetBudgetByID fetches a single budget with all related entities,
-// effectively a full budget export.
+// effectively a full budget export with filtering capabilities
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudgetByID(ID string) (*BudgetDetail, error) {
+func (s *Service) GetBudgetByID(ID string, f *Filter) (*BudgetDetail, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
@@ -42,28 +42,11 @@ func (s *Service) GetBudgetByID(ID string) (*BudgetDetail, error) {
 		} `json:"data"`
 	}{}
 
-	if err := s.c.GET(fmt.Sprintf("/budgets/%s", ID), &resModel); err != nil {
-		return nil, err
+	url := fmt.Sprintf("/budgets/%s", ID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
 	}
 
-	return &BudgetDetail{
-		Budget:          resModel.Data.Budget,
-		ServerKnowledge: resModel.Data.ServerKnowledge,
-	}, nil
-}
-
-// GetBudgetDeltaByID fetches the delta of a single budget since the last
-// server knowledge number
-// https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudgetDeltaByID(ID string, serverKnowledge int64) (*BudgetDetail, error) {
-	resModel := struct {
-		Data struct {
-			Budget          *Budget `json:"budget"`
-			ServerKnowledge int64   `json:"server_knowledge"`
-		} `json:"data"`
-	}{}
-
-	url := fmt.Sprintf("/budgets/%s?last_knowledge_of_server=%d", ID, serverKnowledge)
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
@@ -89,4 +72,17 @@ func (s *Service) GetBudgetSettingsByID(ID string) (*Settings, error) {
 	}
 
 	return resModel.Data.Settings, nil
+}
+
+// Filter represents the optional version filter while fetching a budget
+type Filter struct {
+	// LastKnowledgeOfServer The starting server knowledge. If provided,
+	// only entities that have changed since last_knowledge_of_server
+	// will be included
+	LastKnowledgeOfServer uint64
+}
+
+// ToQuery returns the filters as a HTTP query string
+func (f *Filter) ToQuery() string {
+	return fmt.Sprintf("last_knowledge_of_server=%d", f.LastKnowledgeOfServer)
 }
