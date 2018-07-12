@@ -33,7 +33,7 @@ type Budget struct {
 	Payees                   []*payee.Payee
 	PayeeLocations           []*payee.Location
 	Categories               []*category.Category
-	CategoryGroups           []*category.Group
+	CategoryGroups           []*category.ResumedGroup
 	Months                   []*month.Month
 	Transactions             []*transaction.Transaction
 	SubTransactions          []*transaction.Sub
