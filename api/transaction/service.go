@@ -40,6 +40,30 @@ func (s *Service) GetTransactions(budgetID string, f *Filter) ([]*Transaction, e
 	return resModel.Data.Transactions, nil
 }
 
+// GetTransactionsByAccountID fetches the list of transactions of a specific account
+// from a budget with filtering capabilities
+// https://api.youneedabudget.com/v1#/Transactions/getTransactionsByAccount
+func (s *Service) GetTransactionsByAccountID(budgetID, accountID string,
+	f *Filter) ([]*Transaction, error) {
+
+	resModel := struct {
+		Data struct {
+			Transactions []*Transaction `json:"transactions"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/accounts/%s/transactions", budgetID, accountID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
+
+	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+
+	return resModel.Data.Transactions, nil
+}
+
 // Filter represents the optional filter while fetching transactions
 type Filter struct {
 	SinceDate *api.Date
