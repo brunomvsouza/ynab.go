@@ -138,6 +138,10 @@ func TestFilter_ToQuery(t *testing.T) {
 			Input:  transaction.Filter{SinceDate: &zeroDate, Type: &uncategorizedTransaction},
 			Output: "type=uncategorized",
 		},
+		{
+			Input:  transaction.Filter{},
+			Output: "",
+		},
 	}
 
 	for _, test := range table {
