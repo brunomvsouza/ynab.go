@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"testing"
 
+	"strconv"
+
 	"bmvs.io/ynab"
 	"bmvs.io/ynab/api/payee"
 	"github.com/stretchr/testify/assert"
@@ -83,4 +85,51 @@ func TestService_GetPayeeByID(t *testing.T) {
 	}
 
 	assert.Equal(t, expected, p)
+}
+
+func TestService_GetPayeeLocations(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payee_locations"
+	httpmock.RegisterResponder("GET", url,
+		func(req *http.Request) (*http.Response, error) {
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "payee_locations": [
+      {
+        "id": "34fabc3-1234-4a11-8bcd-7f63756b7193",
+        "payee_id": "34e88373-ef48-4386-9ab3-7f86c2a8988f",
+        "latitude": "42.496348",
+        "longitude": "23.3095594",
+        "deleted": false
+      }
+		]
+	}
+}
+		`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	locations, err := client.Payee().GetPayeeLocations("aa248caa-eed7-4575-a990-717386438d2c")
+	assert.NoError(t, err)
+
+	latitude, err := strconv.ParseFloat("42.496348", 64)
+	assert.NoError(t, err)
+
+	longitude, err := strconv.ParseFloat("23.3095594", 64)
+	assert.NoError(t, err)
+
+	expected := []*payee.Location{
+		{
+			ID:        "34fabc3-1234-4a11-8bcd-7f63756b7193",
+			PayeeID:   "34e88373-ef48-4386-9ab3-7f86c2a8988f",
+			Latitude:  &latitude,
+			Longitude: &longitude,
+			Deleted:   false,
+		},
+	}
+
+	assert.Equal(t, expected, locations)
 }
