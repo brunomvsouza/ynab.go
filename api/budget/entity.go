@@ -13,10 +13,10 @@ import (
 
 // ResumedBudget represents a budget
 type ResumedBudget struct {
-	ID             string         `json:"id"`
-	Name           string         `json:"name"`
-	DateFormat     DateFormat     `json:"date_format"`
-	CurrencyFormat CurrencyFormat `json:"currency_format"`
+	Settings
+
+	ID   string `json:"id"`
+	Name string `json:"name"`
 
 	LastModifiedOn *time.Time `json:"last_modified_on"`
 	// FirstMonth undocumented field
@@ -45,6 +45,12 @@ type Budget struct {
 type BudgetSummary struct {
 	Budget          *Budget
 	ServerKnowledge int64
+}
+
+// Settings represents budget settings
+type Settings struct {
+	DateFormat     DateFormat     `json:"date_format"`
+	CurrencyFormat CurrencyFormat `json:"currency_format"`
 }
 
 // DateFormat represents a date format
