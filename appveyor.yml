@@ -6,6 +6,7 @@ shallow_clone: true # for startup speed
 environment:
   GOROOT: C:\go
   GOPATH: C:\gopath
+  GOBIN: C:\gopath\bin
 
 platform:
   - x64
@@ -17,7 +18,7 @@ install:
   - go env
   # pre-installed MinGW at C:\MinGW is 32bit only
   # but MSYS2 at C:\msys64 has mingw64
-  - set PATH=C:\go\bin;C:\gopath\bin;C:\msys64\mingw64\bin;%PATH%
+  - set PATH=%GOROOT%\bin;%GOBIN%;C:\msys64\mingw64\bin;%PATH%
   - gcc --version
   - g++ --version
   - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
