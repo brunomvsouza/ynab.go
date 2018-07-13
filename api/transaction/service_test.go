@@ -64,7 +64,7 @@ func TestService_GetTransactions(t *testing.T) {
 	transactions, err := client.Transaction().GetTransactions("aa248caa-eed7-4575-a990-717386438d2c", nil)
 	assert.NoError(t, err)
 
-	expectedDate, err := api.NewDateFromString("2018-03-10")
+	expectedDate, err := api.DateFromString("2018-03-10")
 	assert.NoError(t, err)
 
 	expectedMemo := "nice memo"
@@ -160,7 +160,7 @@ func TestService_GetTransaction(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	expectedDate, err := api.NewDateFromString("2018-03-10")
+	expectedDate, err := api.DateFromString("2018-03-10")
 	assert.NoError(t, err)
 
 	expectedMemo := "nice memo"
@@ -257,7 +257,7 @@ func TestService_GetTransactionsByAccount(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	expectedDate, err := api.NewDateFromString("2018-03-10")
+	expectedDate, err := api.DateFromString("2018-03-10")
 	assert.NoError(t, err)
 
 	expectedMemo := "nice memo"
@@ -346,7 +346,7 @@ func TestService_GetTransactionsByCategory(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	expectedDate, err := api.NewDateFromString("2018-01-10")
+	expectedDate, err := api.DateFromString("2018-01-10")
 	assert.NoError(t, err)
 
 	expectedMemo := ""
@@ -421,7 +421,7 @@ func TestService_GetTransactionsByPayee(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	expectedDate, err := api.NewDateFromString("2018-01-10")
+	expectedDate, err := api.DateFromString("2018-01-10")
 	assert.NoError(t, err)
 
 	expectedMemo := ""
@@ -491,7 +491,7 @@ func TestService_GetScheduledTransactions(t *testing.T) {
 		"aa248caa-eed7-4575-a990-717386438d2c")
 	assert.NoError(t, err)
 
-	expectedFirstAndLastDate, err := api.NewDateFromString("2018-11-13")
+	expectedFirstAndLastDate, err := api.DateFromString("2018-11-13")
 	assert.NoError(t, err)
 
 	expectedMemo := "nice memo"
@@ -563,7 +563,7 @@ func TestService_GetScheduledTransaction(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	expectedFirstAndLastDate, err := api.NewDateFromString("2018-11-13")
+	expectedFirstAndLastDate, err := api.DateFromString("2018-11-13")
 	assert.NoError(t, err)
 
 	expectedMemo := "nice memo"
@@ -597,7 +597,7 @@ func TestService_CreateTransaction(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	payloadDate, err := api.NewDateFromString("2018-11-13")
+	payloadDate, err := api.DateFromString("2018-11-13")
 	assert.NoError(t, err)
 
 	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
@@ -686,7 +686,7 @@ func TestService_BulkCreateTransactions(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	payloadDate, err := api.NewDateFromString("2018-11-13")
+	payloadDate, err := api.DateFromString("2018-11-13")
 	assert.NoError(t, err)
 
 	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
@@ -766,7 +766,7 @@ func TestService_UpdateTransaction(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	payloadDate, err := api.NewDateFromString("2018-11-13")
+	payloadDate, err := api.DateFromString("2018-11-13")
 	assert.NoError(t, err)
 
 	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
@@ -852,7 +852,7 @@ func TestService_UpdateTransaction(t *testing.T) {
 }
 
 func TestFilter_ToQuery(t *testing.T) {
-	sinceDate, err := api.NewDateFromString("2020-02-02")
+	sinceDate, err := api.DateFromString("2020-02-02")
 	assert.NoError(t, err)
 
 	var zeroDate api.Date
@@ -865,15 +865,15 @@ func TestFilter_ToQuery(t *testing.T) {
 		Output string
 	}{
 		{
-			Input:  transaction.Filter{SinceDate: &sinceDate, Type: &unapprovedTransaction},
+			Input:  transaction.Filter{Since: &sinceDate, Type: &unapprovedTransaction},
 			Output: "since_date=2020-02-02&type=unapproved",
 		},
 		{
-			Input:  transaction.Filter{SinceDate: &sinceDate, Type: &uncategorizedTransaction},
+			Input:  transaction.Filter{Since: &sinceDate, Type: &uncategorizedTransaction},
 			Output: "since_date=2020-02-02&type=uncategorized",
 		},
 		{
-			Input:  transaction.Filter{SinceDate: &sinceDate},
+			Input:  transaction.Filter{Since: &sinceDate},
 			Output: "since_date=2020-02-02",
 		},
 		{
@@ -881,7 +881,7 @@ func TestFilter_ToQuery(t *testing.T) {
 			Output: "type=uncategorized",
 		},
 		{
-			Input:  transaction.Filter{SinceDate: &zeroDate, Type: &uncategorizedTransaction},
+			Input:  transaction.Filter{Since: &zeroDate, Type: &uncategorizedTransaction},
 			Output: "type=uncategorized",
 		},
 		{

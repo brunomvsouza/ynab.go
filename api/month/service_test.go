@@ -71,7 +71,7 @@ func TestService_GetMonth(t *testing.T) {
 		},
 	)
 
-	date, err := api.NewDateFromString("2017-10-01")
+	date, err := api.DateFromString("2017-10-01")
 	assert.NoError(t, err)
 
 	client := ynab.NewClient("")

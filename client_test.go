@@ -28,7 +28,7 @@ func TestClient_GET(t *testing.T) {
 		}{}
 
 		c := NewClient("6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA")
-		err := c.GET("/foo", &response)
+		err := c.(*client).GET("/foo", &response)
 		assert.NoError(t, err)
 		assert.Equal(t, "bar", response.Foo)
 	})
@@ -54,7 +54,7 @@ func TestClient_GET(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.GET("/foo", &response)
+		err := c.(*client).GET("/foo", &response)
 		expectedErrStr := "api: error id=400 name=error_name detail=Error detail"
 		assert.EqualError(t, err, expectedErrStr)
 	})
@@ -74,7 +74,7 @@ func TestClient_GET(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.GET("/foo", &response)
+		err := c.(*client).GET("/foo", &response)
 		expectedErrStr := "api: error id=500 name=unknown_api_error detail=Unknown API error"
 		assert.EqualError(t, err, expectedErrStr)
 	})
@@ -94,7 +94,7 @@ func TestClient_GET(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.GET("/foo", &response)
+		err := c.(*client).GET("/foo", &response)
 		assert.NoError(t, err)
 		assert.Equal(t, struct {
 			Foo string `json:"foo"`
@@ -124,7 +124,7 @@ func TestClient_POST(t *testing.T) {
 		}{}
 
 		c := NewClient("6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA")
-		err := c.POST("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).POST("/foo", &response, []byte(`{"bar":"foo"}`))
 		assert.NoError(t, err)
 		assert.Equal(t, "foo", response.Bar)
 	})
@@ -150,7 +150,7 @@ func TestClient_POST(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.POST("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).POST("/foo", &response, []byte(`{"bar":"foo"}`))
 		expectedErrStr := "api: error id=400 name=error_name detail=Error detail"
 		assert.EqualError(t, err, expectedErrStr)
 	})
@@ -170,7 +170,7 @@ func TestClient_POST(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.POST("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).POST("/foo", &response, []byte(`{"bar":"foo"}`))
 		expectedErrStr := "api: error id=500 name=unknown_api_error detail=Unknown API error"
 		assert.EqualError(t, err, expectedErrStr)
 	})
@@ -190,7 +190,7 @@ func TestClient_POST(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.POST("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).POST("/foo", &response, []byte(`{"bar":"foo"}`))
 		assert.NoError(t, err)
 		assert.Equal(t, struct {
 			Foo string `json:"foo"`
@@ -220,7 +220,7 @@ func TestClient_PUT(t *testing.T) {
 		}{}
 
 		c := NewClient("6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA")
-		err := c.PUT("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).PUT("/foo", &response, []byte(`{"bar":"foo"}`))
 		assert.NoError(t, err)
 		assert.Equal(t, "foo", response.Bar)
 	})
@@ -246,7 +246,7 @@ func TestClient_PUT(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.PUT("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).PUT("/foo", &response, []byte(`{"bar":"foo"}`))
 		expectedErrStr := "api: error id=400 name=error_name detail=Error detail"
 		assert.EqualError(t, err, expectedErrStr)
 	})
@@ -266,7 +266,7 @@ func TestClient_PUT(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.PUT("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).PUT("/foo", &response, []byte(`{"bar":"foo"}`))
 		expectedErrStr := "api: error id=500 name=unknown_api_error detail=Unknown API error"
 		assert.EqualError(t, err, expectedErrStr)
 	})
@@ -286,7 +286,7 @@ func TestClient_PUT(t *testing.T) {
 		}{}
 
 		c := NewClient("")
-		err := c.PUT("/foo", &response, []byte(`{"bar":"foo"}`))
+		err := c.(*client).PUT("/foo", &response, []byte(`{"bar":"foo"}`))
 		assert.NoError(t, err)
 		assert.Equal(t, struct {
 			Foo string `json:"foo"`
