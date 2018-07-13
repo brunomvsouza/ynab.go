@@ -1,7 +1,7 @@
 package transaction
 
 import (
-	"bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api"
 )
 
 // PayloadCreateTransaction is the payload contract for creating a new transaction

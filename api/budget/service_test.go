@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"bmvs.io/ynab"
-	"bmvs.io/ynab/api/budget"
+	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api/budget"
 )
 
 func TestService_GetBudgets(t *testing.T) {

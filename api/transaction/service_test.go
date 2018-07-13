@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"bmvs.io/ynab"
-	"bmvs.io/ynab/api"
-	"bmvs.io/ynab/api/transaction"
+	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api/transaction"
 )
 
 func TestService_GetTransactions(t *testing.T) {

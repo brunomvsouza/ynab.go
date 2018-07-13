@@ -1,4 +1,4 @@
-package user // import "bmvs.io/ynab/api/user"
+package user // import "go.bmvs.io/ynab/api/user"
 
 // User represents an user
 type User struct {

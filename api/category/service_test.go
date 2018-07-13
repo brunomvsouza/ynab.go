@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"bmvs.io/ynab"
-	"bmvs.io/ynab/api/category"
+	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api/category"
 )
 
 func TestService_GetCategories(t *testing.T) {
