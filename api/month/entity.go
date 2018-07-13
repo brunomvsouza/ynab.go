@@ -1,8 +1,8 @@
-package month // import "bmvs.io/ynab/api/month"
+package month // import "go.bmvs.io/ynab/api/month"
 
 import (
-	"bmvs.io/ynab/api"
-	"bmvs.io/ynab/api/category"
+	"go.bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api/category"
 )
 
 // Month represents a month for a budget

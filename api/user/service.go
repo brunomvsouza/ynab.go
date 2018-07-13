@@ -1,7 +1,7 @@
 package user
 
 import (
-	"bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api"
 )
 
 // NewService facilitates the creation of a new user service instance

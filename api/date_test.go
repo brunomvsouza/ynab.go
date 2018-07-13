@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api"
 )
 
 func TestDate_UnmarshalJSON(t *testing.T) {

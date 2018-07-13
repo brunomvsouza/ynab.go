@@ -1,4 +1,4 @@
-package account // import "bmvs.io/ynab/api/account"
+package account // import "go.bmvs.io/ynab/api/account"
 
 // Account represents an account for a budget
 type Account struct {

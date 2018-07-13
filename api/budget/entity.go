@@ -1,14 +1,14 @@
-package budget // import "bmvs.io/ynab/api/budget"
+package budget // import "go.bmvs.io/ynab/api/budget"
 
 import (
 	"time"
 
-	"bmvs.io/ynab/api"
-	"bmvs.io/ynab/api/account"
-	"bmvs.io/ynab/api/category"
-	"bmvs.io/ynab/api/month"
-	"bmvs.io/ynab/api/payee"
-	"bmvs.io/ynab/api/transaction"
+	"go.bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api/account"
+	"go.bmvs.io/ynab/api/category"
+	"go.bmvs.io/ynab/api/month"
+	"go.bmvs.io/ynab/api/payee"
+	"go.bmvs.io/ynab/api/transaction"
 )
 
 // Budget represents a budget
