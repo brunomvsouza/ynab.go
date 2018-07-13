@@ -20,8 +20,18 @@ import (
 
 const apiEndpoint = "https://api.youneedabudget.com/v1"
 
+type ClientServicer interface {
+	User() *user.Service
+	Budget() *budget.Service
+	Account() *account.Service
+	Category() *category.Service
+	Payee() *payee.Service
+	Month() *month.Service
+	Transaction() *transaction.Service
+}
+
 // NewClient facilitates the creation of a new client instance
-func NewClient(accessToken string) *client {
+func NewClient(accessToken string) ClientServicer {
 	c := &client{
 		accessToken: accessToken,
 		client:      http.DefaultClient,

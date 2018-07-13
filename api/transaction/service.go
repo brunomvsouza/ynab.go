@@ -251,16 +251,16 @@ func (s *Service) GetScheduledTransaction(budgetID, scheduledTransactionID strin
 
 // Filter represents the optional filter while fetching transactions
 type Filter struct {
-	SinceDate *api.Date
-	Type      *Status
+	Since *api.Date
+	Type  *Status
 }
 
 // ToQuery returns the filters as a HTTP query string
 func (f *Filter) ToQuery() string {
 	pairs := make([]string, 0, 2)
-	if f.SinceDate != nil && !f.SinceDate.IsZero() {
+	if f.Since != nil && !f.Since.IsZero() {
 		pairs = append(pairs, fmt.Sprintf("since_date=%s",
-			f.SinceDate.Format(api.DateLayout)))
+			f.Since.Format(api.DateLayout)))
 	}
 	if f.Type != nil {
 		pairs = append(pairs, fmt.Sprintf("type=%s", string(*f.Type)))
