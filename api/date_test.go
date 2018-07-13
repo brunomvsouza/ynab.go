@@ -44,6 +44,21 @@ func TestDate_UnmarshalJSON(t *testing.T) {
 	})
 }
 
+func TestDate_MarshalJSON(t *testing.T) {
+	date, err := api.NewDateFromString("2020-01-20")
+	assert.NoError(t, err)
+
+	wrapper := struct {
+		Date api.Date
+	}{
+		date,
+	}
+
+	buf, err := json.Marshal(&wrapper)
+	assert.NoError(t, err)
+	assert.Equal(t, `{"Date":"2020-01-20"}`, string(buf))
+}
+
 func TestNewDateFromString(t *testing.T) {
 	table := []struct {
 		InputDate          string
