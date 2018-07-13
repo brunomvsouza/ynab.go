@@ -3,6 +3,10 @@ package transaction
 // Status represents the type of a transaction
 type Status string
 
+func (s Status) Pointer() *Status {
+	return &s
+}
+
 const (
 	// StatusUncategorized identifies an uncategorized transaction
 	StatusUncategorized Status = "uncategorized"

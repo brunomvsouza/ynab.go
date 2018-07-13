@@ -19,7 +19,7 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 	// b value comes in surrounded by quotes
 	s := strings.Trim(string(b), "\"")
 
-	date, err := NewDateFromString(s)
+	date, err := DateFromString(s)
 	if err != nil {
 		return err
 	}
@@ -34,9 +34,9 @@ func (d *Date) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`"%s"`, val)), nil
 }
 
-// NewDateFromString creates a new Date from a given string date
+// DateFromString creates a new Date from a given string date
 // formatted as DateLayout
-func NewDateFromString(s string) (Date, error) {
+func DateFromString(s string) (Date, error) {
 	t, err := time.Parse(DateLayout, s)
 	if err != nil {
 		return Date{}, err
