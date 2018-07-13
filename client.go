@@ -1,4 +1,4 @@
-package ynab
+package ynab // import "bmvs.io/ynab"
 
 import (
 	"bytes"

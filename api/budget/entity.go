@@ -1,4 +1,4 @@
-package budget
+package budget // import "bmvs.io/ynab/api/budget"
 
 import (
 	"time"

@@ -1,4 +1,4 @@
-package api
+package api // import "bmvs.io/ynab/api"
 
 // ClientReader contract for a read only client
 type ClientReader interface {
