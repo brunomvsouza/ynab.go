@@ -1,6 +1,6 @@
 # YNAB API Go Library
 
-This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by th [YNAB API](https://api.youneedabudget.com).
+This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by the [YNAB API](https://api.youneedabudget.com).
 
 ## Installation
 
