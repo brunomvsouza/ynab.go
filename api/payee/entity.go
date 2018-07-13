@@ -1,4 +1,4 @@
-package payee
+package payee // import "bmvs.io/ynab/api/payee"
 
 // Payee represents a payee for a budget
 type Payee struct {
