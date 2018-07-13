@@ -9,10 +9,7 @@ import (
 
 func ExampleNewClient() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
-	u, _ := c.User().GetUser()
-	fmt.Println(u.ID)
-
-	// Output: a9398633-7fb4-4951-a3c3-3fa425606be0
+	c.User().GetUser()
 }
 
 func ExampleClient_User() {

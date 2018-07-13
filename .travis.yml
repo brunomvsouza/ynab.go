@@ -1,0 +1,22 @@
+language : go
+
+go:
+  - 1.8.x
+  - 1.9.x
+  - 1.10.x
+  - tip
+
+go_import_path: go.bmvs.io/ynab
+
+sudo: false
+
+before_install:
+  - go get -u github.com/mattn/goveralls
+  - go get -u github.com/golang/dep/cmd/dep
+  - dep ensure
+
+script:
+  - go test -v -race $(go list ./... | grep -v vendor)
+
+after_success:
+  - goveralls -service=travis-ci
