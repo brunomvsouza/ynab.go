@@ -37,7 +37,7 @@ func main() {
 }
 ```
 
-See the [godoc](godoc.org/go.bmvs.io/ynab) to see all the available methods with example usage.
+See the [godoc](https://godoc.org/go.bmvs.io/ynab) to see all the available methods with example usage.
 
 ## Development
 
