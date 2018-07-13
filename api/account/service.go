@@ -7,13 +7,13 @@ import (
 )
 
 // NewService facilitates the creation of a new account service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReader) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB account API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReader
 }
 
 // GetAccounts fetches the list of accounts from a budget

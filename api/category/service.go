@@ -7,13 +7,13 @@ import (
 )
 
 // NewService facilitates the creation of a new category service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReader) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB category API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReader
 }
 
 // GetCategories fetches the list of category groups for a budget
