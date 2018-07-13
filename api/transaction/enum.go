@@ -3,6 +3,7 @@ package transaction
 // Status represents the type of a transaction
 type Status string
 
+// Pointer returns the pointer of a Status
 func (s Status) Pointer() *Status {
 	return &s
 }
