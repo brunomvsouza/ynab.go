@@ -1,6 +1,7 @@
 package ynab
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -88,12 +89,18 @@ func (c *client) Transaction() *transaction.Service {
 
 // GET sends a GET request to the YNAB API
 func (c *client) GET(url string, responseModel interface{}) error {
-	return c.do(http.MethodGet, url, responseModel)
+	return c.do(http.MethodGet, url, responseModel, nil)
+}
+
+// POST sends a POST request to the YNAB API
+func (c *client) POST(url string, responseModel interface{}, requestBody []byte) error {
+	return c.do(http.MethodPost, url, responseModel, requestBody)
 }
 
 // do sends a request to the YNAB API
-func (c *client) do(method, url string, responseModel interface{}) error {
-	req, err := http.NewRequest(method, fmt.Sprintf("%s%s", apiEndpoint, url), nil)
+func (c *client) do(method, url string, responseModel interface{}, requestBody []byte) error {
+	fullURL := fmt.Sprintf("%s%s", apiEndpoint, url)
+	req, err := http.NewRequest(method, fullURL, bytes.NewBuffer(requestBody))
 	if err != nil {
 		return err
 	}
