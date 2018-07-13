@@ -50,8 +50,8 @@ type Summary struct {
 	LastMonth *api.Date `json:"last_month"`
 }
 
-// BudgetDetail represents a versioned snapshot for a budget
-type BudgetDetail struct {
+// Snapshot represents a versioned snapshot for a budget
+type Snapshot struct {
 	Budget          *Budget
 	ServerKnowledge int64
 }

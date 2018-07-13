@@ -34,7 +34,7 @@ func (s *Service) GetBudgets() ([]*Summary, error) {
 // GetBudget fetches a single budget with all related entities,
 // effectively a full budget export with filtering capabilities
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudget(budgetID string, f *Filter) (*BudgetDetail, error) {
+func (s *Service) GetBudget(budgetID string, f *Filter) (*Snapshot, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
@@ -51,7 +51,7 @@ func (s *Service) GetBudget(budgetID string, f *Filter) (*BudgetDetail, error) {
 		return nil, err
 	}
 
-	return &BudgetDetail{
+	return &Snapshot{
 		Budget:          resModel.Data.Budget,
 		ServerKnowledge: resModel.Data.ServerKnowledge,
 	}, nil
