@@ -7,7 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
+	"time"
+
 	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api"
 	"go.bmvs.io/ynab/api/budget"
 )
 
@@ -52,13 +55,22 @@ func TestService_GetBudgets(t *testing.T) {
 	budgets, err := client.Budget().GetBudgets()
 	assert.NoError(t, err)
 
+	expectedFirstMonth, err := api.DateFromString("2018-03-01")
+	assert.NoError(t, err)
+
+	expectedLastDate, err := api.DateFromString("2018-04-01")
+	assert.NoError(t, err)
+
+	expectedLastModifiedOn, err := time.Parse(time.RFC3339, "2018-03-05T17:05:23+00:00")
+	assert.NoError(t, err)
+
 	b := budgets[0]
 
 	assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
 	assert.Equal(t, "TestBudget", b.Name)
-	assert.Equal(t, "2018-03-05 17:05:23 +0000 UTC", b.LastModifiedOn.String())
-	assert.Equal(t, "2018-03-01 00:00:00 +0000 UTC", b.FirstMonth.String())
-	assert.Equal(t, "2018-04-01 00:00:00 +0000 UTC", b.LastMonth.String())
+	assert.Equal(t, &expectedLastModifiedOn, b.LastModifiedOn)
+	assert.Equal(t, &expectedFirstMonth, b.FirstMonth)
+	assert.Equal(t, &expectedLastDate, b.LastMonth)
 	assert.Equal(t, "DD.MM.YYYY", b.DateFormat.Format)
 	assert.Equal(t, "EUR", b.CurrencyFormat.ISOCode)
 	assert.Equal(t, "123,456.78", b.CurrencyFormat.ExampleFormat)
