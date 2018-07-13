@@ -16,7 +16,7 @@ func TestService_GetCategories(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/categories"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -79,7 +79,7 @@ func TestService_GetCategory(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/categories/13419c12-78d3-4a26-82ca-1cde7aa1d6f8"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {

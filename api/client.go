@@ -8,6 +8,7 @@ type ClientReader interface {
 // ClientWriter contract for a write only client
 type ClientWriter interface {
 	POST(url string, responseModel interface{}, requestBody []byte) error
+	PUT(url string, responseModel interface{}, requestBody []byte) error
 }
 
 // ClientReaderWriter contract for a read-write client

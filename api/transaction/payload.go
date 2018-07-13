@@ -4,8 +4,8 @@ import (
 	"go.bmvs.io/ynab/api"
 )
 
-// PayloadCreateTransaction is the payload contract for creating a new transaction
-type PayloadCreateTransaction struct {
+// PayloadTransaction is the payload contract for saving a transaction, new or existent
+type PayloadTransaction struct {
 	AccountID string   `json:"account_id"`
 	Date      api.Date `json:"date"`
 	// Amount The transaction amount in milliunits format

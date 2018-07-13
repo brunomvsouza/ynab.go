@@ -16,7 +16,7 @@ func TestService_GetBudgets(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -75,7 +75,7 @@ func TestService_GetBudget(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -236,7 +236,7 @@ func TestService_GetBudgetSettings(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/settings"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {

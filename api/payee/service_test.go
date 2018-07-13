@@ -17,7 +17,7 @@ func TestService_GetPayees(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -55,7 +55,7 @@ func TestService_GetPayee(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/34e88373-ef48-4386-9ab3-7f86c2a8988f"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -92,7 +92,7 @@ func TestService_GetPayeeLocations(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payee_locations"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -139,7 +139,7 @@ func TestService_GetPayeeLocation(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payee_locations/34fabc3-1234-4a11-8bcd-7f63756b7193"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -185,7 +185,7 @@ func TestService_GetPayeeLocationsByPayee(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/34e88373-ef48-4386-9ab3-7f86c2a8988f/payee_locations"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
