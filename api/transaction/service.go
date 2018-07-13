@@ -1,21 +1,21 @@
 package transaction
 
 import (
+	"encoding/json"
 	"fmt"
-
 	"strings"
 
 	"bmvs.io/ynab/api"
 )
 
 // NewService facilitates the creation of a new transaction service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReaderWriter) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB transaction API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReaderWriter
 }
 
 // GetTransactions fetches the list of transactions from
@@ -51,6 +51,35 @@ func (s *Service) GetTransaction(budgetID, transactionID string) (*Transaction, 
 
 	url := fmt.Sprintf("/budgets/%s/transactions/%s", budgetID, transactionID)
 	if err := s.c.GET(url, &resModel); err != nil {
+		return nil, err
+	}
+	return resModel.Data.Transaction, nil
+}
+
+// CreateTransaction creates a new transaction for a budget
+// https://api.youneedabudget.com/v1#/Transactions/createTransaction
+func (s *Service) CreateTransaction(budgetID string,
+	p PayloadCreateTransaction) (*Transaction, error) {
+
+	resModel := struct {
+		Data struct {
+			Transaction *Transaction `json:"transaction"`
+		} `json:"data"`
+	}{}
+
+	payload := struct {
+		Transaction *PayloadCreateTransaction `json:"transaction"`
+	}{
+		&p,
+	}
+
+	buf, err := json.Marshal(&payload)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("/budgets/%s/transactions", budgetID)
+	if err := s.c.POST(url, &resModel, buf); err != nil {
 		return nil, err
 	}
 	return resModel.Data.Transaction, nil

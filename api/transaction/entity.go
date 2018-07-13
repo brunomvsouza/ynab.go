@@ -80,6 +80,7 @@ type SubTransaction struct {
 	TransferAccountID *string `json:"transfer_account_id"`
 }
 
+// Hybrid represents a hybrid transaction
 type Hybrid struct {
 	ID   string   `json:"id"`
 	Date api.Date `json:"date"`

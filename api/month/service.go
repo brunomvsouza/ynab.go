@@ -7,13 +7,13 @@ import (
 )
 
 // NewService facilitates the creation of a new month service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReader) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB month API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReader
 }
 
 // GetMonths fetches the list of months from a budget

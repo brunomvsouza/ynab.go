@@ -5,13 +5,13 @@ import (
 )
 
 // NewService facilitates the creation of a new user service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReader) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB user API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReader
 }
 
 // GetUser fetches information about the authenticated user

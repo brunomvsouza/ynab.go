@@ -7,13 +7,13 @@ import (
 )
 
 // NewService facilitates the creation of a new payee service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReader) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB payee API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReader
 }
 
 // GetPayees fetches the list of payees from a budget

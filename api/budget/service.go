@@ -7,13 +7,13 @@ import (
 )
 
 // NewService facilitates the creation of a new budget service instance
-func NewService(c api.Getter) *Service {
+func NewService(c api.ClientReader) *Service {
 	return &Service{c}
 }
 
 // Service wraps YNAB budget API endpoints
 type Service struct {
-	c api.Getter
+	c api.ClientReader
 }
 
 // GetBudgets fetches the list of budgets of the logger in user
