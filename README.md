@@ -1,5 +1,7 @@
 # YNAB API Go Library
 
+[![Build Status](https://travis-ci.com/brunomvsouza/ynab.go.svg?branch=master)](https://travis-ci.com/brunomvsouza/ynab.go) [![codecov](https://codecov.io/gh/brunomvsouza/ynab.go/branch/master/graph/badge.svg)](https://codecov.io/gh/brunomvsouza/ynab.go)
+
 This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by the [YNAB API](https://api.youneedabudget.com).
 
 ## Installation
