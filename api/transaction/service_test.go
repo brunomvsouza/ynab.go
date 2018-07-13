@@ -627,9 +627,7 @@ func TestService_CreateTransaction(t *testing.T) {
 			}{}
 			err := json.NewDecoder(req.Body).Decode(&resModel)
 			assert.NoError(t, err)
-
-			tx := resModel.Transaction
-			assert.Equal(t, &payload, tx)
+			assert.Equal(t, &payload, resModel.Transaction)
 
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -682,6 +680,86 @@ func TestService_CreateTransaction(t *testing.T) {
 	}
 
 	assert.Equal(t, expectedTransaction, tx)
+}
+
+func TestService_BulkCreateTransactions(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	payloadDate, err := api.NewDateFromString("2018-11-13")
+	assert.NoError(t, err)
+
+	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
+	payloadPayeeName := "bla bla bla"
+	payloadCategoryID := "f3cc4f55-312a-4bcd-89c4-db34379cb1dc"
+	payloadMemo := "nice memo"
+	payloadFlagColor := transaction.FlagColorBlue
+	payloadImportID := "asdfg"
+
+	payload := []transaction.PayloadCreateTransaction{
+		{
+			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+			Date:       payloadDate,
+			Amount:     int64(-9000),
+			Cleared:    transaction.ClearingStatusCleared,
+			Approved:   true,
+			PayeeID:    &payloadPayeeID,
+			PayeeName:  &payloadPayeeName,
+			CategoryID: &payloadCategoryID,
+			Memo:       &payloadMemo,
+			FlagColor:  &payloadFlagColor,
+			ImportID:   &payloadImportID,
+		},
+		{
+			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+			Date:       payloadDate,
+			Amount:     int64(-9000),
+			Cleared:    transaction.ClearingStatusCleared,
+			Approved:   true,
+			PayeeID:    &payloadPayeeID,
+			PayeeName:  &payloadPayeeName,
+			CategoryID: &payloadCategoryID,
+			Memo:       &payloadMemo,
+			FlagColor:  &payloadFlagColor,
+			ImportID:   &payloadImportID,
+		},
+	}
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions/bulk"
+	httpmock.RegisterResponder("POST", url,
+		func(req *http.Request) (*http.Response, error) {
+			resModel := struct {
+				Transactions []transaction.PayloadCreateTransaction `json:"transactions"`
+			}{}
+			err := json.NewDecoder(req.Body).Decode(&resModel)
+			assert.NoError(t, err)
+			assert.Equal(t, payload, resModel.Transactions)
+
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "bulk": {
+      "transaction_ids": ["aaaaa321-eed7-4575-a990-717386438d2c"],
+      "duplicate_import_ids": ["asdfg"]
+    }
+	}
+}
+		`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	bulk, err := client.Transaction().BulkCreateTransactions(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		payload,
+	)
+	assert.NoError(t, err)
+
+	expectedBunk := &transaction.Bulk{
+		TransactionIDs:     []string{"aaaaa321-eed7-4575-a990-717386438d2c"},
+		DuplicateImportIDs: []string{"asdfg"},
+	}
+
+	assert.Equal(t, expectedBunk, bulk)
 }
 
 func TestFilter_ToQuery(t *testing.T) {
