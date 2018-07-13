@@ -18,7 +18,7 @@ func TestService_GetTransactions(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -113,7 +113,7 @@ func TestService_GetTransaction(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions/e6ad88f5-6f16-4480-9515-5377012750dd"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -207,7 +207,7 @@ func TestService_GetTransactionsByAccount(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/accounts/09eaca5e-6f16-4480-9515-828fb90638f2/transactions"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -306,7 +306,7 @@ func TestService_GetTransactionsByCategory(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/categories/a33c906e-444c-469c-be27-04c8e0c9959f/transactions"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -381,7 +381,7 @@ func TestService_GetTransactionsByPayee(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/b391144e-444c-469c-be27-fed6aa352a7a/transactions"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -456,7 +456,7 @@ func TestService_GetScheduledTransactions(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/scheduled_transactions"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -528,7 +528,7 @@ func TestService_GetScheduledTransaction(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/scheduled_transactions/56f4fc86-2ed7-4b3b-9116-7a214261b3cd"
-	httpmock.RegisterResponder("GET", url,
+	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
@@ -606,7 +606,7 @@ func TestService_CreateTransaction(t *testing.T) {
 	payloadMemo := "nice memo"
 	payloadFlagColor := transaction.FlagColorBlue
 
-	payload := transaction.PayloadCreateTransaction{
+	payload := transaction.PayloadTransaction{
 		AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
 		Date:       payloadDate,
 		Amount:     int64(-9000),
@@ -620,10 +620,10 @@ func TestService_CreateTransaction(t *testing.T) {
 	}
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions"
-	httpmock.RegisterResponder("POST", url,
+	httpmock.RegisterResponder(http.MethodPost, url,
 		func(req *http.Request) (*http.Response, error) {
 			resModel := struct {
-				Transaction *transaction.PayloadCreateTransaction `json:"transaction"`
+				Transaction *transaction.PayloadTransaction `json:"transaction"`
 			}{}
 			err := json.NewDecoder(req.Body).Decode(&resModel)
 			assert.NoError(t, err)
@@ -696,7 +696,7 @@ func TestService_BulkCreateTransactions(t *testing.T) {
 	payloadFlagColor := transaction.FlagColorBlue
 	payloadImportID := "asdfg"
 
-	payload := []transaction.PayloadCreateTransaction{
+	payload := []transaction.PayloadTransaction{
 		{
 			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
 			Date:       payloadDate,
@@ -726,10 +726,10 @@ func TestService_BulkCreateTransactions(t *testing.T) {
 	}
 
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions/bulk"
-	httpmock.RegisterResponder("POST", url,
+	httpmock.RegisterResponder(http.MethodPost, url,
 		func(req *http.Request) (*http.Response, error) {
 			resModel := struct {
-				Transactions []transaction.PayloadCreateTransaction `json:"transactions"`
+				Transactions []transaction.PayloadTransaction `json:"transactions"`
 			}{}
 			err := json.NewDecoder(req.Body).Decode(&resModel)
 			assert.NoError(t, err)
@@ -760,6 +760,95 @@ func TestService_BulkCreateTransactions(t *testing.T) {
 	}
 
 	assert.Equal(t, expectedBunk, bulk)
+}
+
+func TestService_UpdateTransaction(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	payloadDate, err := api.NewDateFromString("2018-11-13")
+	assert.NoError(t, err)
+
+	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
+	payloadPayeeName := "bla bla bla"
+	payloadCategoryID := "f3cc4f55-312a-4bcd-89c4-db34379cb1dc"
+
+	payload := transaction.PayloadTransaction{
+		AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+		Date:       payloadDate,
+		Amount:     int64(-100000),
+		Cleared:    transaction.ClearingStatusCleared,
+		Approved:   true,
+		PayeeID:    &payloadPayeeID,
+		PayeeName:  &payloadPayeeName,
+		CategoryID: &payloadCategoryID,
+		Memo:       nil,
+		FlagColor:  nil,
+	}
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions/0f5b3f73-ded2-4dd7-8b01-c23022622cd6"
+	httpmock.RegisterResponder(http.MethodPut, url,
+		func(req *http.Request) (*http.Response, error) {
+			resModel := struct {
+				Transaction *transaction.PayloadTransaction `json:"transaction"`
+			}{}
+			err := json.NewDecoder(req.Body).Decode(&resModel)
+			assert.NoError(t, err)
+			assert.Equal(t, &payload, resModel.Transaction)
+
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "transaction": {
+      "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+      "date": "2018-11-13",
+      "amount": -100000,
+      "memo": null,
+      "cleared": "cleared",
+      "approved": true,
+      "flag_color": null,
+      "account_id": "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+      "account_name": "Bank Name",
+      "payee_id": "0d0e928d-312a-4bcd-89c4-e02f40d1fe46",
+      "payee_name": "bla bla bla",
+      "category_id": "f3cc4f55-312a-4bcd-89c4-db34379cb1dc",
+      "category_name": "Groceries",
+      "transfer_account_id": null,
+      "import_id": null,
+      "deleted": false,
+      "subtransactions": []
+    }
+	}
+}
+		`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	tx, err := client.Transaction().UpdateTransaction(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		"0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+		payload,
+	)
+	assert.NoError(t, err)
+
+	expectedCategoryName := "Groceries"
+	expectedTransaction := &transaction.Transaction{
+		ID:              "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+		Date:            payload.Date,
+		Amount:          payload.Amount,
+		Cleared:         payload.Cleared,
+		Approved:        payload.Approved,
+		AccountID:       payload.AccountID,
+		AccountName:     "Bank Name",
+		PayeeID:         payload.PayeeID,
+		PayeeName:       payload.PayeeName,
+		CategoryID:      payload.CategoryID,
+		CategoryName:    &expectedCategoryName,
+		Deleted:         false,
+		SubTransactions: []*transaction.SubTransaction{},
+	}
+
+	assert.Equal(t, expectedTransaction, tx)
 }
 
 func TestFilter_ToQuery(t *testing.T) {

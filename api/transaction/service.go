@@ -59,10 +59,10 @@ func (s *Service) GetTransaction(budgetID, transactionID string) (*Transaction, 
 // CreateTransaction creates a new transaction for a budget
 // https://api.youneedabudget.com/v1#/Transactions/createTransaction
 func (s *Service) CreateTransaction(budgetID string,
-	p PayloadCreateTransaction) (*Transaction, error) {
+	p PayloadTransaction) (*Transaction, error) {
 
 	payload := struct {
-		Transaction *PayloadCreateTransaction `json:"transaction"`
+		Transaction *PayloadTransaction `json:"transaction"`
 	}{
 		&p,
 	}
@@ -88,10 +88,10 @@ func (s *Service) CreateTransaction(budgetID string,
 // BulkCreateTransactions creates multiple transactions for a budget
 // https://api.youneedabudget.com/v1#/Transactions/bulkCreateTransactions
 func (s *Service) BulkCreateTransactions(budgetID string,
-	ps []PayloadCreateTransaction) (*Bulk, error) {
+	ps []PayloadTransaction) (*Bulk, error) {
 
 	payload := struct {
-		Transactions []PayloadCreateTransaction `json:"transactions"`
+		Transactions []PayloadTransaction `json:"transactions"`
 	}{
 		ps,
 	}
@@ -112,6 +112,35 @@ func (s *Service) BulkCreateTransactions(budgetID string,
 		return nil, err
 	}
 	return resModel.Data.Bulk, nil
+}
+
+// UpdateTransaction updates a whole transaction for a replacement
+// https://api.youneedabudget.com/v1#/Transactions/updateTransaction
+func (s *Service) UpdateTransaction(budgetID, transactionID string,
+	p PayloadTransaction) (*Transaction, error) {
+
+	payload := struct {
+		Transaction *PayloadTransaction `json:"transaction"`
+	}{
+		&p,
+	}
+
+	buf, err := json.Marshal(&payload)
+	if err != nil {
+		return nil, err
+	}
+
+	resModel := struct {
+		Data struct {
+			Transaction *Transaction `json:"transaction"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/transactions/%s", budgetID, transactionID)
+	if err := s.c.PUT(url, &resModel, buf); err != nil {
+		return nil, err
+	}
+	return resModel.Data.Transaction, nil
 }
 
 // GetTransactionsByAccount fetches the list of transactions of a specific account

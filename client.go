@@ -97,6 +97,11 @@ func (c *client) POST(url string, responseModel interface{}, requestBody []byte)
 	return c.do(http.MethodPost, url, responseModel, requestBody)
 }
 
+// PUT sends a PUT request to the YNAB API
+func (c *client) PUT(url string, responseModel interface{}, requestBody []byte) error {
+	return c.do(http.MethodPut, url, responseModel, requestBody)
+}
+
 // do sends a request to the YNAB API
 func (c *client) do(method, url string, responseModel interface{}, requestBody []byte) error {
 	fullURL := fmt.Sprintf("%s%s", apiEndpoint, url)
