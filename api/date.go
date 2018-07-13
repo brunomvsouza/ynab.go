@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -25,6 +26,12 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 
 	*d = date
 	return err
+}
+
+// MarshalJSON parses the expected format for a Date
+func (d *Date) MarshalJSON() ([]byte, error) {
+	val := d.Format(DateLayout)
+	return []byte(fmt.Sprintf(`"%s"`, val)), nil
 }
 
 // NewDateFromString creates a new Date from a given string date

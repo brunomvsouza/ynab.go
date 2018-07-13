@@ -1,6 +1,7 @@
 package transaction_test
 
 import (
+	"encoding/json"
 	"net/http"
 	"testing"
 
@@ -590,6 +591,97 @@ func TestService_GetScheduledTransaction(t *testing.T) {
 		SubTransactions: []*transaction.ScheduledSubTransaction{},
 	}
 	assert.Equal(t, expected, stx)
+}
+
+func TestService_CreateTransaction(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	payloadDate, err := api.NewDateFromString("2018-11-13")
+	assert.NoError(t, err)
+
+	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
+	payloadPayeeName := "bla bla bla"
+	payloadCategoryID := "f3cc4f55-312a-4bcd-89c4-db34379cb1dc"
+	payloadMemo := "nice memo"
+	payloadFlagColor := transaction.FlagColorBlue
+
+	payload := transaction.PayloadCreateTransaction{
+		AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+		Date:       payloadDate,
+		Amount:     int64(-9000),
+		Cleared:    transaction.ClearingStatusCleared,
+		Approved:   true,
+		PayeeID:    &payloadPayeeID,
+		PayeeName:  &payloadPayeeName,
+		CategoryID: &payloadCategoryID,
+		Memo:       &payloadMemo,
+		FlagColor:  &payloadFlagColor,
+	}
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions"
+	httpmock.RegisterResponder("POST", url,
+		func(req *http.Request) (*http.Response, error) {
+			resModel := struct {
+				Transaction *transaction.PayloadCreateTransaction `json:"transaction"`
+			}{}
+			err := json.NewDecoder(req.Body).Decode(&resModel)
+			assert.NoError(t, err)
+
+			tx := resModel.Transaction
+			assert.Equal(t, &payload, tx)
+
+			return httpmock.NewStringResponse(200, `{
+  "data": {
+    "transaction": {
+      "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+      "date": "2018-11-13",
+      "amount": -9000,
+      "memo": "nice memo",
+      "cleared": "cleared",
+      "approved": true,
+      "flag_color": "blue",
+      "account_id": "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+      "account_name": "Bank Name",
+      "payee_id": "0d0e928d-312a-4bcd-89c4-e02f40d1fe46",
+      "payee_name": "bla bla bla",
+      "category_id": "f3cc4f55-312a-4bcd-89c4-db34379cb1dc",
+      "category_name": "Groceries",
+      "transfer_account_id": null,
+      "import_id": null,
+      "deleted": false,
+      "subtransactions": []
+    }
+	}
+}
+		`), nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	tx, err := client.Transaction().CreateTransaction("aa248caa-eed7-4575-a990-717386438d2c", payload)
+	assert.NoError(t, err)
+
+	expectedCategoryName := "Groceries"
+	expectedTransaction := &transaction.Transaction{
+		ID:              "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+		Date:            payload.Date,
+		Amount:          payload.Amount,
+		Memo:            payload.Memo,
+		Cleared:         payload.Cleared,
+		Approved:        payload.Approved,
+		FlagColor:       payload.FlagColor,
+		AccountID:       payload.AccountID,
+		AccountName:     "Bank Name",
+		PayeeID:         payload.PayeeID,
+		PayeeName:       payload.PayeeName,
+		CategoryID:      payload.CategoryID,
+		CategoryName:    &expectedCategoryName,
+		Deleted:         false,
+		SubTransactions: []*transaction.SubTransaction{},
+	}
+
+	assert.Equal(t, expectedTransaction, tx)
 }
 
 func TestFilter_ToQuery(t *testing.T) {
