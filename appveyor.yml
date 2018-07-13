@@ -4,6 +4,7 @@ clone_folder: C:\gopath\src\go.bmvs.io\ynab
 shallow_clone: true # for startup speed
 
 environment:
+  GOBIN: C:\gopath\bin
   GOPATH: C:\gopath
 
 platform:
@@ -11,6 +12,7 @@ platform:
 
 # http://www.appveyor.com/docs/installed-software
 install:
+  - mkdir C:\gopath\bin
   # some helpful output for debugging builds
   - go version
   - go env
