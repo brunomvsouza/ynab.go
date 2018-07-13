@@ -1,4 +1,4 @@
-package month
+package month // import "bmvs.io/ynab/api/month"
 
 import (
 	"bmvs.io/ynab/api"

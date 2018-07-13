@@ -1,4 +1,4 @@
-package transaction
+package transaction // import "bmvs.io/ynab/api/transaction"
 
 import "bmvs.io/ynab/api"
 
