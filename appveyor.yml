@@ -25,7 +25,7 @@ install:
   - dep ensure
 
 test_script:
-  - go test -v -race $(go list ./... | grep -v vendor)
+  - for /f "" %%G in ('go list go.bmvs.io/ynab/...') do ( go test -v -race %%G & IF ERRORLEVEL == 1 EXIT 1)
 
 #artifacts:
 #  - path: '%GOPATH%\bin\*.exe'
