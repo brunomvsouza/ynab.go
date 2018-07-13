@@ -61,12 +61,6 @@ func (s *Service) GetTransaction(budgetID, transactionID string) (*Transaction, 
 func (s *Service) CreateTransaction(budgetID string,
 	p PayloadCreateTransaction) (*Transaction, error) {
 
-	resModel := struct {
-		Data struct {
-			Transaction *Transaction `json:"transaction"`
-		} `json:"data"`
-	}{}
-
 	payload := struct {
 		Transaction *PayloadCreateTransaction `json:"transaction"`
 	}{
@@ -78,11 +72,46 @@ func (s *Service) CreateTransaction(budgetID string,
 		return nil, err
 	}
 
+	resModel := struct {
+		Data struct {
+			Transaction *Transaction `json:"transaction"`
+		} `json:"data"`
+	}{}
+
 	url := fmt.Sprintf("/budgets/%s/transactions", budgetID)
 	if err := s.c.POST(url, &resModel, buf); err != nil {
 		return nil, err
 	}
 	return resModel.Data.Transaction, nil
+}
+
+// BulkCreateTransactions creates multiple transactions for a budget
+// https://api.youneedabudget.com/v1#/Transactions/bulkCreateTransactions
+func (s *Service) BulkCreateTransactions(budgetID string,
+	ps []PayloadCreateTransaction) (*Bulk, error) {
+
+	payload := struct {
+		Transactions []PayloadCreateTransaction `json:"transactions"`
+	}{
+		ps,
+	}
+
+	buf, err := json.Marshal(&payload)
+	if err != nil {
+		return nil, err
+	}
+
+	resModel := struct {
+		Data struct {
+			Bulk *Bulk `json:"bulk"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/transactions/bulk", budgetID)
+	if err := s.c.POST(url, &resModel, buf); err != nil {
+		return nil, err
+	}
+	return resModel.Data.Bulk, nil
 }
 
 // GetTransactionsByAccount fetches the list of transactions of a specific account

@@ -174,6 +174,17 @@ type ScheduledSubTransaction struct {
 	Memo       *string `json:"memo"`
 	PayeeID    *string `json:"payee_id"`
 	CategoryID *string `json:"category_id"`
-	// TransferAccountID If a transfer, the account_id which the scheduled subtransaction transfers to
+	// TransferAccountID If a transfer, the account_id which the scheduled
+	// subtransaction transfers to
 	TransferAccountID *string `json:"transfer_account_id"`
+}
+
+// Bulk represents the output of transactions being created in bulk mode
+type Bulk struct {
+	// TransactionIDs The list of Transaction IDs that were created
+	TransactionIDs []string `json:"transaction_ids"`
+	// DuplicateImportIDs If any Transactions were not created because they had an
+	// import ID matching a transaction already on the same account, the
+	// specified import IDs will be included in this list
+	DuplicateImportIDs []string `json:"duplicate_import_ids"`
 }
