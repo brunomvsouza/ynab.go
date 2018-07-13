@@ -1,0 +1,32 @@
+version: build-{build}.{branch}
+
+clone_folder: C:\gopath\src\go.bmvs.io\ynab
+shallow_clone: true # for startup speed
+
+environment:
+  GOPATH: C:\gopath
+
+platform:
+  - x64
+
+# http://www.appveyor.com/docs/installed-software
+install:
+  # some helpful output for debugging builds
+  - go version
+  - go env
+  # pre-installed MinGW at C:\MinGW is 32bit only
+  # but MSYS2 at C:\msys64 has mingw64
+  - set PATH=C:\msys64\mingw64\bin;%PATH%
+  - gcc --version
+  - g++ --version
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - dep ensure
+
+test_script:
+  - set PATH=C:\gopath\bin;%PATH%
+  - go test -v -race $(go list ./... | grep -v vendor)
+
+#artifacts:
+#  - path: '%GOPATH%\bin\*.exe'
+deploy: false
+build: false
