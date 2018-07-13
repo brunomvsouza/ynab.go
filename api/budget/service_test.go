@@ -56,7 +56,7 @@ func TestService_GetBudgets(t *testing.T) {
 
 	assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
 	assert.Equal(t, "TestBudget", b.Name)
-	assert.Equal(t, "2018-03-05 17:05:23 +0000 +0000", b.LastModifiedOn.String())
+	assert.Equal(t, "2018-03-05 17:05:23 +0000 UTC", b.LastModifiedOn.String())
 	assert.Equal(t, "2018-03-01 00:00:00 +0000 UTC", b.FirstMonth.String())
 	assert.Equal(t, "2018-04-01 00:00:00 +0000 UTC", b.LastMonth.String())
 	assert.Equal(t, "DD.MM.YYYY", b.DateFormat.Format)
