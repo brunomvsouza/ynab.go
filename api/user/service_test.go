@@ -15,7 +15,7 @@ func TestService_GetUser(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("GET", "https://api.youneedabudget.com/v1/user",
+	httpmock.RegisterResponder(http.MethodGet, "https://api.youneedabudget.com/v1/user",
 		func(req *http.Request) (*http.Response, error) {
 			return httpmock.NewStringResponse(200, `{
   "data": {
