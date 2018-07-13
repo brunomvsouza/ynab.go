@@ -1,4 +1,4 @@
-package category // import "bmvs.io/ynab/api/category"
+package category // import "go.bmvs.io/ynab/api/category"
 
 // Category represents a category for a budget
 type Category struct {

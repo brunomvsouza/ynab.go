@@ -1,6 +1,6 @@
-package transaction // import "bmvs.io/ynab/api/transaction"
+package transaction // import "go.bmvs.io/ynab/api/transaction"
 
-import "bmvs.io/ynab/api"
+import "go.bmvs.io/ynab/api"
 
 // Transaction represents a full transaction for a budget
 type Transaction struct {

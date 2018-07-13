@@ -6,9 +6,9 @@ import (
 
 	"strconv"
 
-	"bmvs.io/ynab"
-	"bmvs.io/ynab/api/payee"
 	"github.com/stretchr/testify/assert"
+	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api/payee"
 	"gopkg.in/jarcoal/httpmock.v1"
 )
 

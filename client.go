@@ -1,4 +1,4 @@
-package ynab // import "bmvs.io/ynab"
+package ynab // import "go.bmvs.io/ynab"
 
 import (
 	"bytes"
@@ -8,14 +8,14 @@ import (
 	"net/http"
 	"strconv"
 
-	"bmvs.io/ynab/api"
-	"bmvs.io/ynab/api/account"
-	"bmvs.io/ynab/api/budget"
-	"bmvs.io/ynab/api/category"
-	"bmvs.io/ynab/api/month"
-	"bmvs.io/ynab/api/payee"
-	"bmvs.io/ynab/api/transaction"
-	"bmvs.io/ynab/api/user"
+	"go.bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api/account"
+	"go.bmvs.io/ynab/api/budget"
+	"go.bmvs.io/ynab/api/category"
+	"go.bmvs.io/ynab/api/month"
+	"go.bmvs.io/ynab/api/payee"
+	"go.bmvs.io/ynab/api/transaction"
+	"go.bmvs.io/ynab/api/user"
 )
 
 const apiEndpoint = "https://api.youneedabudget.com/v1"

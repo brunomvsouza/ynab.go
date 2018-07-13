@@ -3,7 +3,7 @@ package category
 import (
 	"fmt"
 
-	"bmvs.io/ynab/api"
+	"go.bmvs.io/ynab/api"
 )
 
 // NewService facilitates the creation of a new category service instance
