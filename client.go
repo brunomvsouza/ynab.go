@@ -20,6 +20,7 @@ import (
 
 const apiEndpoint = "https://api.youneedabudget.com/v1"
 
+// ClientServicer contract for a client service API
 type ClientServicer interface {
 	User() *user.Service
 	Budget() *budget.Service

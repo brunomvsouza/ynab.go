@@ -13,7 +13,7 @@ func ExampleService_GetBudget() {
 	b, _ := c.Budget().GetBudget("<valid_budget_id>", nil)
 	fmt.Println(reflect.TypeOf(b))
 
-	// Output: *budget.BudgetDetail
+	// Output: *budget.Snapshot
 }
 
 func ExampleService_GetBudget_filtered() {
@@ -23,7 +23,7 @@ func ExampleService_GetBudget_filtered() {
 	b, _ := c.Budget().GetBudget("<valid_budget_id>", &f)
 	fmt.Println(reflect.TypeOf(b))
 
-	// Output: *budget.BudgetDetail
+	// Output: *budget.Snapshot
 }
 
 func ExampleService_GetBudgets() {
