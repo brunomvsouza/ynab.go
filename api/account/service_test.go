@@ -18,7 +18,8 @@ func TestService_GetAccounts(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/bbdccdb0-9007-42aa-a6fe-02a3e94476be/accounts"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "accounts": [
 			{
@@ -36,7 +37,9 @@ func TestService_GetAccounts(t *testing.T) {
     ]
   }
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -67,7 +70,7 @@ func TestService_GetAccount(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/bbdccdb0-9007-42aa-a6fe-02a3e94476be/accounts/aa248caa-eed7-4575-a990-717386438d2c"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "account": {
       "id": "aa248caa-eed7-4575-a990-717386438d2c",
@@ -83,7 +86,9 @@ func TestService_GetAccount(t *testing.T) {
     }
   }
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 

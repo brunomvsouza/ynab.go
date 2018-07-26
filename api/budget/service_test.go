@@ -3,11 +3,10 @@ package budget_test
 import (
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
-
-	"time"
 
 	"go.bmvs.io/ynab"
 	"go.bmvs.io/ynab/api"
@@ -21,7 +20,7 @@ func TestService_GetBudgets(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "budgets": [
       {
@@ -47,7 +46,9 @@ func TestService_GetBudgets(t *testing.T) {
     ]
   }
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -89,7 +90,7 @@ func TestService_GetBudget(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "budget": {
       "id": "aa248caa-eed7-4575-a990-717386438d2c",
@@ -234,7 +235,9 @@ func TestService_GetBudget(t *testing.T) {
     "server_knowledge": 473
   }
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -250,7 +253,7 @@ func TestService_GetBudgetSettings(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/settings"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "settings": {
       "date_format": {
@@ -268,7 +271,9 @@ func TestService_GetBudgetSettings(t *testing.T) {
       }
     }
   }
-}`), nil
+}`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
