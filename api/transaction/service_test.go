@@ -20,7 +20,7 @@ func TestService_GetTransactions(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transactions": [
       {
@@ -56,7 +56,9 @@ func TestService_GetTransactions(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -115,7 +117,7 @@ func TestService_GetTransaction(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions/e6ad88f5-6f16-4480-9515-5377012750dd"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transaction": {
 			"id": "e6ad88f5-6f16-4480-9515-5377012750dd",
@@ -149,7 +151,9 @@ func TestService_GetTransaction(t *testing.T) {
 		}
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -209,7 +213,7 @@ func TestService_GetTransactionsByAccount(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/accounts/09eaca5e-6f16-4480-9515-828fb90638f2/transactions"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transactions": [
       {
@@ -245,7 +249,9 @@ func TestService_GetTransactionsByAccount(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -308,7 +314,7 @@ func TestService_GetTransactionsByCategory(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/categories/a33c906e-444c-469c-be27-04c8e0c9959f/transactions"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transactions": [
       {
@@ -334,7 +340,9 @@ func TestService_GetTransactionsByCategory(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -383,7 +391,7 @@ func TestService_GetTransactionsByPayee(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/b391144e-444c-469c-be27-fed6aa352a7a/transactions"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transactions": [
       {
@@ -409,7 +417,9 @@ func TestService_GetTransactionsByPayee(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -458,7 +468,7 @@ func TestService_GetScheduledTransactions(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/scheduled_transactions"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "scheduled_transactions": [
       {
@@ -482,7 +492,9 @@ func TestService_GetScheduledTransactions(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -530,7 +542,7 @@ func TestService_GetScheduledTransaction(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/scheduled_transactions/56f4fc86-2ed7-4b3b-9116-7a214261b3cd"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "scheduled_transaction": {
 			"id": "56f4fc86-2ed7-4b3b-9116-7a214261b3cd",
@@ -552,7 +564,9 @@ func TestService_GetScheduledTransaction(t *testing.T) {
     }
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -629,7 +643,7 @@ func TestService_CreateTransaction(t *testing.T) {
 			assert.NoError(t, err)
 			assert.Equal(t, &payload, resModel.Transaction)
 
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transaction": {
       "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
@@ -652,7 +666,9 @@ func TestService_CreateTransaction(t *testing.T) {
     }
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -735,7 +751,7 @@ func TestService_BulkCreateTransactions(t *testing.T) {
 			assert.NoError(t, err)
 			assert.Equal(t, payload, resModel.Transactions)
 
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "bulk": {
       "transaction_ids": ["aaaaa321-eed7-4575-a990-717386438d2c"],
@@ -743,7 +759,9 @@ func TestService_BulkCreateTransactions(t *testing.T) {
     }
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -796,7 +814,7 @@ func TestService_UpdateTransaction(t *testing.T) {
 			assert.NoError(t, err)
 			assert.Equal(t, &payload, resModel.Transaction)
 
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "transaction": {
       "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
@@ -819,7 +837,9 @@ func TestService_UpdateTransaction(t *testing.T) {
     }
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 

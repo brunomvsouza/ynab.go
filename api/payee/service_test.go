@@ -2,9 +2,8 @@ package payee_test
 
 import (
 	"net/http"
-	"testing"
-
 	"strconv"
+	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"go.bmvs.io/ynab"
@@ -19,7 +18,7 @@ func TestService_GetPayees(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "payees": [
       {
@@ -31,7 +30,9 @@ func TestService_GetPayees(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -57,7 +58,7 @@ func TestService_GetPayee(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/34e88373-ef48-4386-9ab3-7f86c2a8988f"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
 		"payee": {
 			"id": "34e88373-ef48-4386-9ab3-7f86c2a8988f",
@@ -67,7 +68,9 @@ func TestService_GetPayee(t *testing.T) {
 		}
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -94,7 +97,7 @@ func TestService_GetPayeeLocations(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payee_locations"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "payee_locations": [
       {
@@ -107,7 +110,9 @@ func TestService_GetPayeeLocations(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -141,7 +146,7 @@ func TestService_GetPayeeLocation(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payee_locations/34fabc3-1234-4a11-8bcd-7f63756b7193"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "payee_location": {
 			"id": "34fabc3-1234-4a11-8bcd-7f63756b7193",
@@ -152,7 +157,9 @@ func TestService_GetPayeeLocation(t *testing.T) {
 		}
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -187,7 +194,7 @@ func TestService_GetPayeeLocationsByPayee(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/payees/34e88373-ef48-4386-9ab3-7f86c2a8988f/payee_locations"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "payee_locations": [
       {
@@ -200,7 +207,9 @@ func TestService_GetPayeeLocationsByPayee(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 

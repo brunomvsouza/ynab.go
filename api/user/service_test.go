@@ -17,14 +17,16 @@ func TestService_GetUser(t *testing.T) {
 
 	httpmock.RegisterResponder(http.MethodGet, "https://api.youneedabudget.com/v1/user",
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "user": {
       "id": "aa248caa-eed7-4575-a990-717386438d2c"
     }
   }
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 

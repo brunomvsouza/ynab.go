@@ -18,7 +18,7 @@ func TestService_GetMonths(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/months"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "months": [
       {
@@ -30,7 +30,9 @@ func TestService_GetMonths(t *testing.T) {
 		]
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
@@ -57,7 +59,7 @@ func TestService_GetMonth(t *testing.T) {
 	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/months/2017-10-01"
 	httpmock.RegisterResponder(http.MethodGet, url,
 		func(req *http.Request) (*http.Response, error) {
-			return httpmock.NewStringResponse(200, `{
+			res := httpmock.NewStringResponse(200, `{
   "data": {
     "month": {
 			"month": "2017-10-01",
@@ -67,7 +69,9 @@ func TestService_GetMonth(t *testing.T) {
 		}
 	}
 }
-		`), nil
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
 		},
 	)
 
