@@ -1,4 +1,5 @@
 package category // import "go.bmvs.io/ynab/api/category"
+import "go.bmvs.io/ynab/api"
 
 // Category represents a category for a budget
 type Category struct {
@@ -19,14 +20,26 @@ type Category struct {
 	// OriginalCategoryGroupID If category is hidden this is the ID of the category
 	// group it originally belonged to before it was hidden
 	OriginalCategoryGroupID *string `json:"original_category_group_id"`
+
+	GoalType *Goal `json:"goal_type"`
+	// GoalCreationMonth the month a goal was created
+	GoalCreationMonth *api.Date `json:"goal_creation_month"`
+	// GoalTarget the goal target amount in milliunits
+	GoalTarget *int64 `json:"goal_target"`
+	// GoalTargetMonth if the goal type is GoalTargetCategoryBalanceByDate,
+	// this is the target month for the goal to be completed
+	GoalTargetMonth *api.Date `json:"goal_target_month"`
+	// GoalPercentageComplete the percentage completion of the goal
+	GoalPercentageComplete *uint8 `json:"goal_percentage_complete"`
 }
 
 // Group represents a resumed category group for a budget
 type Group struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Hidden  bool   `json:"hidden"`
-	Deleted bool   `json:"deleted"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Hidden bool   `json:"hidden"`
+	// Deleted Deleted category groups will only be included in delta requests
+	Deleted bool `json:"deleted"`
 }
 
 // GroupWithCategories represents a category group for a budget

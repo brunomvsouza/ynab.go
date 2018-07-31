@@ -25,7 +25,10 @@ func TestService_GetMonths(t *testing.T) {
         "month": "2017-10-01",
         "note": null,
         "to_be_budgeted": 0,
-        "age_of_money": 14
+        "age_of_money": 14,
+        "income": 3077330,
+        "budgeted": 3271990,
+        "activity": -3128590
       }
 		]
 	}
@@ -45,10 +48,16 @@ func TestService_GetMonths(t *testing.T) {
 	var (
 		expectedAgeOfMoney   int64 = 14
 		expectedToBeBudgeted int64
+		expectedIncome       int64 = 3077330
+		expectedBudgeted     int64 = 3271990
+		expectedActivity     int64 = -3128590
 	)
 	assert.Equal(t, "2017-10-01 00:00:00 +0000 UTC", m.Month.String())
 	assert.Equal(t, &expectedToBeBudgeted, m.ToBeBudgeted)
 	assert.Equal(t, &expectedAgeOfMoney, m.AgeOfMoney)
+	assert.Equal(t, &expectedIncome, m.Income)
+	assert.Equal(t, &expectedBudgeted, m.Budgeted)
+	assert.Equal(t, &expectedActivity, m.Activity)
 	assert.Nil(t, m.Note)
 }
 
@@ -65,7 +74,10 @@ func TestService_GetMonth(t *testing.T) {
 			"month": "2017-10-01",
 			"note": null,
 			"to_be_budgeted": 0,
-			"age_of_money": 14
+			"age_of_money": 14,
+			"income": 3077330,
+			"budgeted": 3271990,
+			"activity": -3128590
 		}
 	}
 }
@@ -85,9 +97,15 @@ func TestService_GetMonth(t *testing.T) {
 	var (
 		expectedAgeOfMoney   int64 = 14
 		expectedToBeBudgeted int64
+		expectedIncome       int64 = 3077330
+		expectedBudgeted     int64 = 3271990
+		expectedActivity     int64 = -3128590
 	)
 	assert.Equal(t, "2017-10-01 00:00:00 +0000 UTC", m.Month.String())
 	assert.Equal(t, &expectedToBeBudgeted, m.ToBeBudgeted)
 	assert.Equal(t, &expectedAgeOfMoney, m.AgeOfMoney)
+	assert.Equal(t, &expectedIncome, m.Income)
+	assert.Equal(t, &expectedBudgeted, m.Budgeted)
+	assert.Equal(t, &expectedActivity, m.Activity)
 	assert.Nil(t, m.Note)
 }
