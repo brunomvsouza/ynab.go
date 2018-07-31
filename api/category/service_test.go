@@ -8,6 +8,7 @@ import (
 	"gopkg.in/jarcoal/httpmock.v1"
 
 	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api"
 	"go.bmvs.io/ynab/api/category"
 )
 
@@ -37,7 +38,12 @@ func TestService_GetCategories(t *testing.T) {
             "budgeted": 0,
             "activity": 12190,
             "balance": 18740,
-            "deleted": false
+            "deleted": false,
+            "goal_type": "TB",
+            "goal_creation_month": "2018-04-01",
+            "goal_target": 18740,
+            "goal_target_month": "2018-05-01",
+            "goal_percentage_complete": 20
           }
         ]
       }
@@ -54,6 +60,15 @@ func TestService_GetCategories(t *testing.T) {
 	groups, err := client.Category().GetCategories("aa248caa-eed7-4575-a990-717386438d2c")
 	assert.NoError(t, err)
 
+	var (
+		expectedGoalTarget             int64 = 18740
+		expectedGoalPercentageComplete uint8 = 20
+	)
+	expectedGoalCreationMonth, err := api.DateFromString("2018-04-01")
+	assert.NoError(t, err)
+	expectedGoalTargetMonth, err := api.DateFromString("2018-05-01")
+	assert.NoError(t, err)
+
 	expected := &category.GroupWithCategories{
 		ID:      "13419c12-78d3-4818-a5dc-601b2b8a6064",
 		Name:    "Credit Card Payments",
@@ -61,14 +76,19 @@ func TestService_GetCategories(t *testing.T) {
 		Deleted: false,
 		Categories: []*category.Category{
 			{
-				ID:              "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
-				CategoryGroupID: "13419c12-78d3-4818-a5dc-601b2b8a6064",
-				Name:            "MasterCard",
-				Hidden:          false,
-				Budgeted:        int64(0),
-				Activity:        int64(12190),
-				Balance:         int64(18740),
-				Deleted:         false,
+				ID:                     "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+				CategoryGroupID:        "13419c12-78d3-4818-a5dc-601b2b8a6064",
+				Name:                   "MasterCard",
+				Hidden:                 false,
+				Budgeted:               int64(0),
+				Activity:               int64(12190),
+				Balance:                int64(18740),
+				Deleted:                false,
+				GoalType:               category.GoalTargetCategoryBalance.Pointer(),
+				GoalCreationMonth:      &expectedGoalCreationMonth,
+				GoalTargetMonth:        &expectedGoalTargetMonth,
+				GoalTarget:             &expectedGoalTarget,
+				GoalPercentageComplete: &expectedGoalPercentageComplete,
 			},
 		},
 	}
@@ -95,7 +115,12 @@ func TestService_GetCategory(t *testing.T) {
 			"budgeted": 0,
 			"activity": 12190,
 			"balance": 18740,
-			"deleted": false
+			"deleted": false,
+			"goal_type": "TB",
+			"goal_creation_month": "2018-04-01",
+			"goal_target": 18740,
+			"goal_target_month": "2018-05-01",
+			"goal_percentage_complete": 20
     }
 	}
 }
@@ -112,15 +137,29 @@ func TestService_GetCategory(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
+	var (
+		expectedGoalTarget             int64 = 18740
+		expectedGoalPercentageComplete uint8 = 20
+	)
+	expectedGoalCreationMonth, err := api.DateFromString("2018-04-01")
+	assert.NoError(t, err)
+	expectedGoalTargetMonth, err := api.DateFromString("2018-05-01")
+	assert.NoError(t, err)
+
 	expected := &category.Category{
-		ID:              "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
-		CategoryGroupID: "13419c12-78d3-4818-a5dc-601b2b8a6064",
-		Name:            "MasterCard",
-		Hidden:          false,
-		Budgeted:        int64(0),
-		Activity:        int64(12190),
-		Balance:         int64(18740),
-		Deleted:         false,
+		ID:                     "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+		CategoryGroupID:        "13419c12-78d3-4818-a5dc-601b2b8a6064",
+		Name:                   "MasterCard",
+		Hidden:                 false,
+		Budgeted:               int64(0),
+		Activity:               int64(12190),
+		Balance:                int64(18740),
+		Deleted:                false,
+		GoalType:               category.GoalTargetCategoryBalance.Pointer(),
+		GoalCreationMonth:      &expectedGoalCreationMonth,
+		GoalTargetMonth:        &expectedGoalTargetMonth,
+		GoalTarget:             &expectedGoalTarget,
+		GoalPercentageComplete: &expectedGoalPercentageComplete,
 	}
 	assert.Equal(t, expected, c)
 }
