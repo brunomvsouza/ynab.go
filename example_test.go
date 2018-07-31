@@ -12,7 +12,7 @@ func ExampleNewClient() {
 	c.User().GetUser()
 }
 
-func ExampleClient_User() {
+func ExampleClientServicer_User() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.User()
 	fmt.Println(reflect.TypeOf(s))
@@ -20,7 +20,7 @@ func ExampleClient_User() {
 	// Output: *user.Service
 }
 
-func ExampleClient_Account() {
+func ExampleClientServicer_Account() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.Account()
 	fmt.Println(reflect.TypeOf(s))
@@ -28,7 +28,7 @@ func ExampleClient_Account() {
 	// Output: *account.Service
 }
 
-func ExampleClient_Budget() {
+func ExampleClientServicer_Budget() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.Budget()
 	fmt.Println(reflect.TypeOf(s))
@@ -36,7 +36,7 @@ func ExampleClient_Budget() {
 	// Output: *budget.Service
 }
 
-func ExampleClient_Category() {
+func ExampleClientServicer_Category() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.Category()
 	fmt.Println(reflect.TypeOf(s))
@@ -44,7 +44,7 @@ func ExampleClient_Category() {
 	// Output: *category.Service
 }
 
-func ExampleClient_Month() {
+func ExampleClientServicer_Month() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.Month()
 	fmt.Println(reflect.TypeOf(s))
@@ -52,7 +52,7 @@ func ExampleClient_Month() {
 	// Output: *month.Service
 }
 
-func ExampleClient_Payee() {
+func ExampleClientServicer_Payee() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.Payee()
 	fmt.Println(reflect.TypeOf(s))
@@ -60,7 +60,7 @@ func ExampleClient_Payee() {
 	// Output: *payee.Service
 }
 
-func ExampleClient_Transaction() {
+func ExampleClientServicer_Transaction() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	s := c.Transaction()
 	fmt.Println(reflect.TypeOf(s))
@@ -68,7 +68,7 @@ func ExampleClient_Transaction() {
 	// Output: *transaction.Service
 }
 
-func ExampleClient_RateLimit() {
+func ExampleClientServicer_RateLimit() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	r := c.RateLimit()
 	fmt.Println(reflect.TypeOf(r))
