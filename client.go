@@ -135,6 +135,9 @@ func (c *client) do(method, url string, responseModel interface{}, requestBody [
 
 	req.Header.Set("Accept", "application/json")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.accessToken))
+	if method == http.MethodPost || method == http.MethodPut {
+		req.Header.Set("Content-Type", "application/json")
+	}
 
 	res, err := c.client.Do(req)
 	if err != nil {
