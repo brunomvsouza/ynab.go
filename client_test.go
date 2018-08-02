@@ -209,6 +209,31 @@ func TestClient_POST(t *testing.T) {
 			Foo string `json:"foo"`
 		}{}, response)
 	})
+
+	t.Run("regression test existence of request header content-type = application/json", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPost, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				assert.Equal(t, req.Header.Get("Content-Type"), "application/json")
+				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		response := struct {
+			Foo string `json:"foo"`
+		}{}
+
+		c := NewClient("")
+		err := c.(*client).POST("/foo", &response, []byte(`{"bar":"foo"}`))
+		assert.NoError(t, err)
+		assert.Equal(t, struct {
+			Foo string `json:"foo"`
+		}{}, response)
+	})
 }
 
 func TestClient_PUT(t *testing.T) {
@@ -294,6 +319,31 @@ func TestClient_PUT(t *testing.T) {
 
 		httpmock.RegisterResponder(http.MethodPut, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		response := struct {
+			Foo string `json:"foo"`
+		}{}
+
+		c := NewClient("")
+		err := c.(*client).PUT("/foo", &response, []byte(`{"bar":"foo"}`))
+		assert.NoError(t, err)
+		assert.Equal(t, struct {
+			Foo string `json:"foo"`
+		}{}, response)
+	})
+
+	t.Run("regression test existence of request header content-type = application/json", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPut, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				assert.Equal(t, req.Header.Get("Content-Type"), "application/json")
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
 				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
