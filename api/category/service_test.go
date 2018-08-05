@@ -61,8 +61,8 @@ func TestService_GetCategories(t *testing.T) {
 	assert.NoError(t, err)
 
 	var (
-		expectedGoalTarget             int64 = 18740
-		expectedGoalPercentageComplete uint8 = 20
+		expectedGoalTarget             int64  = 18740
+		expectedGoalPercentageComplete uint16 = 20
 	)
 	expectedGoalCreationMonth, err := api.DateFromString("2018-04-01")
 	assert.NoError(t, err)
@@ -138,8 +138,8 @@ func TestService_GetCategory(t *testing.T) {
 	assert.NoError(t, err)
 
 	var (
-		expectedGoalTarget             int64 = 18740
-		expectedGoalPercentageComplete uint8 = 20
+		expectedGoalTarget             int64  = 18740
+		expectedGoalPercentageComplete uint16 = 20
 	)
 	expectedGoalCreationMonth, err := api.DateFromString("2018-04-01")
 	assert.NoError(t, err)
