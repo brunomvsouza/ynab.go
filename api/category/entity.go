@@ -30,7 +30,7 @@ type Category struct {
 	// this is the target month for the goal to be completed
 	GoalTargetMonth *api.Date `json:"goal_target_month"`
 	// GoalPercentageComplete the percentage completion of the goal
-	GoalPercentageComplete *uint8 `json:"goal_percentage_complete"`
+	GoalPercentageComplete *uint16 `json:"goal_percentage_complete"`
 }
 
 // Group represents a resumed category group for a budget
