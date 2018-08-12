@@ -1,6 +1,7 @@
 # YNAB API Go Library
 
 [![GoDoc Reference](https://godoc.org/go.bmvs.io/ynab?status.svg)](http://godoc.org/go.bmvs.io/ynab) [![Build Status](https://travis-ci.com/brunomvsouza/ynab.go.svg?branch=master)](https://travis-ci.com/brunomvsouza/ynab.go) [![Build status](https://ci.appveyor.com/api/projects/status/bik3wi4c9i0ut2u5/branch/master?svg=true)](https://ci.appveyor.com/project/brunomvsouza/ynab-go/branch/master) [![Coverage Status](https://coveralls.io/repos/github/brunomvsouza/ynab.go/badge.svg?branch=master)](https://coveralls.io/github/brunomvsouza/ynab.go)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbrunomvsouza%2Fynab.go.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbrunomvsouza%2Fynab.go?ref=badge_shield)
 
 This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by the [YNAB API](https://api.youneedabudget.com).
 
@@ -49,3 +50,6 @@ See the [godoc](https://godoc.org/go.bmvs.io/ynab) to see all the available meth
 ## License
 
 BSD-2-Clause
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbrunomvsouza%2Fynab.go.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbrunomvsouza%2Fynab.go?ref=badge_large)
