@@ -25,3 +25,8 @@ script:
 
 after_success:
   - goveralls -service=travis-ci
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
