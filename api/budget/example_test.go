@@ -20,6 +20,14 @@ func ExampleService_GetBudget() {
 	// Output: *budget.Snapshot
 }
 
+func ExampleService_GetLastUsedBudget() {
+	c := ynab.NewClient("<valid_ynab_access_token>")
+	b, _ := c.Budget().GetLastUsedBudget(nil)
+	fmt.Println(reflect.TypeOf(b))
+
+	// Output: *budget.Snapshot
+}
+
 func ExampleService_GetBudget_filtered() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 
