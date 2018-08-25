@@ -61,6 +61,14 @@ func (s *Service) GetBudget(budgetID string, f *Filter) (*Snapshot, error) {
 	}, nil
 }
 
+// GetLastUsedBudget fetches the last used budget with all related
+// entities, effectively a full budget export with filtering capabilities
+// https://api.youneedabudget.com/v1#/Budgets/getBudgetById
+func (s *Service) GetLastUsedBudget(f *Filter) (*Snapshot, error) {
+	const lastUsedBudgetID = "last-used"
+	return s.GetBudget(lastUsedBudgetID, f)
+}
+
 // GetBudgetSettings fetches a budget settings
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetSettingsById
 func (s *Service) GetBudgetSettings(budgetID string) (*Settings, error) {
