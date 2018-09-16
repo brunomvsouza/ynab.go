@@ -6,6 +6,7 @@ shallow_clone: true # for startup speed
 environment:
   GOBIN: C:\gopath\bin
   GOPATH: C:\gopath
+  GO111MODULE: on
 
 platform:
   - x64
@@ -21,8 +22,6 @@ install:
   - set PATH=%GOBIN%;C:\msys64\mingw64\bin;%PATH%
   - gcc --version
   - g++ --version
-  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  - dep ensure
 
 test_script:
   - for /f "" %%G in ('go list go.bmvs.io/ynab/...') do ( go test -v -race %%G & IF ERRORLEVEL == 1 EXIT 1)

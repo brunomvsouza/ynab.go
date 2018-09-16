@@ -1,24 +1,17 @@
 language : go
 
+env:
+  - GO111MODULE=on
+
 os:
   - linux
-  - osx
 
 go:
-  - 1.8.x
-  - 1.9.x
-  - 1.10.x
-  - 1.11.x
-  - tip
+  - 1.x
 
 go_import_path: go.bmvs.io/ynab
 
 sudo: false
-
-before_install:
-  - go get -u github.com/mattn/goveralls
-  - go get -u github.com/golang/dep/cmd/dep
-  - dep ensure
 
 script:
   - go test -v -race $(go list ./... | grep -v vendor)
