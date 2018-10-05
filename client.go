@@ -185,9 +185,5 @@ func (c *client) do(method, url string, responseModel interface{}, requestBody [
 	c.rateLimit = rl
 	c.Unlock()
 
-	if err := json.Unmarshal(body, &responseModel); err != nil {
-		return err
-	}
-
-	return nil
+	return json.Unmarshal(body, &responseModel)
 }
