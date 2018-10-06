@@ -185,6 +185,7 @@ type ScheduledSubTransaction struct {
 }
 
 // Bulk represents the output of transactions being created in bulk mode
+// Deprecated: Use BulkTransactions instead.
 type Bulk struct {
 	// TransactionIDs The list of Transaction IDs that were created
 	TransactionIDs []string `json:"transaction_ids"`
