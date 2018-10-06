@@ -91,6 +91,7 @@ func (s *Service) CreateTransaction(budgetID string,
 
 // BulkCreateTransactions creates multiple transactions for a budget
 // https://api.youneedabudget.com/v1#/Transactions/bulkCreateTransactions
+// Deprecated: Use transaction.CreateTransactions instead.
 func (s *Service) BulkCreateTransactions(budgetID string,
 	ps []PayloadTransaction) (*Bulk, error) {
 
