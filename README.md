@@ -43,7 +43,8 @@ See the [godoc](https://godoc.org/go.bmvs.io/ynab) to see all the available meth
 
 ## Development
 
-- Install dependencies with [`dep`](https://github.com/golang/dep)
+- Make sure you have Go 1.11 or later installed
+- Make sure you have exported `GO111MODULE=on` in your environment to be able do handle dependencies
 - Run tests with `go test -race ./...`
 
 ## License
