@@ -1,6 +1,6 @@
 # YNAB API Go Library
 
-[![GoDoc Reference](https://godoc.org/go.bmvs.io/ynab?status.svg)](http://godoc.org/go.bmvs.io/ynab) [![Build Status](https://travis-ci.com/brunomvsouza/ynab.go.svg?branch=master)](https://travis-ci.com/brunomvsouza/ynab.go) [![Build status](https://ci.appveyor.com/api/projects/status/bik3wi4c9i0ut2u5/branch/master?svg=true)](https://ci.appveyor.com/project/brunomvsouza/ynab-go/branch/master) [![Coverage Status](https://coveralls.io/repos/github/brunomvsouza/ynab.go/badge.svg?branch=master)](https://coveralls.io/github/brunomvsouza/ynab.go)
+![Maintained](https://img.shields.io/maintenance/yes/2018.svg) [![GoDoc Reference](https://godoc.org/go.bmvs.io/ynab?status.svg)](http://godoc.org/go.bmvs.io/ynab) [![Build Status](https://travis-ci.com/brunomvsouza/ynab.go.svg?branch=master)](https://travis-ci.com/brunomvsouza/ynab.go) [![Build status](https://ci.appveyor.com/api/projects/status/bik3wi4c9i0ut2u5/branch/master?svg=true)](https://ci.appveyor.com/project/brunomvsouza/ynab-go/branch/master) [![Coverage Status](https://coveralls.io/repos/github/brunomvsouza/ynab.go/badge.svg?branch=master)](https://coveralls.io/github/brunomvsouza/ynab.go)
 
 This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by the [YNAB API](https://api.youneedabudget.com).
 
