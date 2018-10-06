@@ -641,16 +641,17 @@ func TestService_CreateTransaction(t *testing.T) {
 	httpmock.RegisterResponder(http.MethodPost, url,
 		func(req *http.Request) (*http.Response, error) {
 			resModel := struct {
-				Transaction *transaction.PayloadTransaction `json:"transaction"`
+				Data *transaction.CreatedTransactions `json:"data"`
 			}{}
 			err := json.NewDecoder(req.Body).Decode(&resModel)
 			assert.NoError(t, err)
-			assert.Equal(t, &payload, resModel.Transaction)
 
 			res := httpmock.NewStringResponse(200, `{
   "data": {
+		"transaction_ids": ["0f5b3f73-ded2-4dd7-8b01-c23022622cd6"],
+		"duplicate_import_ids": [],
     "transaction": {
-      "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+			"id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
       "date": "2018-11-13",
       "amount": -9000,
       "memo": "nice memo",
@@ -667,8 +668,8 @@ func TestService_CreateTransaction(t *testing.T) {
       "import_id": null,
       "deleted": false,
       "subtransactions": []
-    }
-	}
+		}
+  }
 }
 		`)
 			res.Header.Add("X-Rate-Limit", "36/200")
@@ -681,25 +682,184 @@ func TestService_CreateTransaction(t *testing.T) {
 	assert.NoError(t, err)
 
 	expectedCategoryName := "Groceries"
-	expectedTransaction := &transaction.Transaction{
-		ID:              "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
-		Date:            payload.Date,
-		Amount:          payload.Amount,
-		Memo:            payload.Memo,
-		Cleared:         payload.Cleared,
-		Approved:        payload.Approved,
-		FlagColor:       payload.FlagColor,
-		AccountID:       payload.AccountID,
-		AccountName:     "Bank Name",
-		PayeeID:         payload.PayeeID,
-		PayeeName:       payload.PayeeName,
-		CategoryID:      payload.CategoryID,
-		CategoryName:    &expectedCategoryName,
-		Deleted:         false,
-		SubTransactions: []*transaction.SubTransaction{},
+	expectedTransactions := &transaction.CreatedTransactions{
+		TransactionIDs: []string{
+			"0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+		},
+		DuplicateImportIDs: []string{},
+		Transaction: &transaction.Transaction{
+			ID:              "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+			Date:            payload.Date,
+			Amount:          payload.Amount,
+			Memo:            payload.Memo,
+			Cleared:         payload.Cleared,
+			Approved:        payload.Approved,
+			FlagColor:       payload.FlagColor,
+			AccountID:       payload.AccountID,
+			AccountName:     "Bank Name",
+			PayeeID:         payload.PayeeID,
+			PayeeName:       payload.PayeeName,
+			CategoryID:      payload.CategoryID,
+			CategoryName:    &expectedCategoryName,
+			Deleted:         false,
+			SubTransactions: []*transaction.SubTransaction{},
+		},
 	}
 
-	assert.Equal(t, expectedTransaction, tx)
+	assert.Equal(t, expectedTransactions, tx)
+}
+
+func TestService_CreateTransactions(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	payloadDate, err := api.DateFromString("2018-11-13")
+	assert.NoError(t, err)
+
+	payloadPayeeID := "0d0e928d-312a-4bcd-89c4-e02f40d1fe46"
+	payloadPayeeName := "bla bla bla"
+	payloadCategoryID := "f3cc4f55-312a-4bcd-89c4-db34379cb1dc"
+	payloadMemo := "nice memo"
+	payloadFlagColor := transaction.FlagColorBlue
+
+	payload := []transaction.PayloadTransaction{
+		{
+			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+			Date:       payloadDate,
+			Amount:     int64(-9000),
+			Cleared:    transaction.ClearingStatusCleared,
+			Approved:   true,
+			PayeeID:    &payloadPayeeID,
+			PayeeName:  &payloadPayeeName,
+			CategoryID: &payloadCategoryID,
+			Memo:       &payloadMemo,
+			FlagColor:  &payloadFlagColor,
+		},
+		{
+			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+			Date:       payloadDate,
+			Amount:     int64(-2000),
+			Cleared:    transaction.ClearingStatusUncleared,
+			Approved:   false,
+			PayeeID:    &payloadPayeeID,
+			PayeeName:  &payloadPayeeName,
+			CategoryID: &payloadCategoryID,
+			Memo:       &payloadMemo,
+			FlagColor:  &payloadFlagColor,
+		},
+	}
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions"
+	httpmock.RegisterResponder(http.MethodPost, url,
+		func(req *http.Request) (*http.Response, error) {
+			resModel := struct {
+				Data *transaction.CreatedTransactions `json:"data"`
+			}{}
+			err := json.NewDecoder(req.Body).Decode(&resModel)
+			assert.NoError(t, err)
+
+			res := httpmock.NewStringResponse(200, `{
+  "data": {
+		"transaction_ids": ["0f5b3f73-ded2-4dd7-8b01-c23022622cd6", "0f5b3f73-ded2-4dd7-8b01-c23022622cd7"],
+		"duplicate_import_ids": [],
+    "transactions": [
+      {
+        "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+        "date": "2018-11-13",
+        "amount": -9000,
+        "memo": "nice memo",
+        "cleared": "cleared",
+        "approved": true,
+        "flag_color": "blue",
+        "account_id": "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+        "account_name": "Bank Name",
+        "payee_id": "0d0e928d-312a-4bcd-89c4-e02f40d1fe46",
+        "payee_name": "bla bla bla",
+        "category_id": "f3cc4f55-312a-4bcd-89c4-db34379cb1dc",
+        "category_name": "Groceries",
+        "transfer_account_id": null,
+        "import_id": null,
+        "deleted": false,
+        "subtransactions": []
+      },
+      {
+        "id": "0f5b3f73-ded2-4dd7-8b01-c23022622cd7",
+        "date": "2018-11-13",
+        "amount": -2000,
+        "memo": "nice memo",
+        "cleared": "uncleared",
+        "approved": false,
+        "flag_color": "blue",
+        "account_id": "09eaca5e-312a-4bcd-89c4-828fb90638f2",
+        "account_name": "Bank Name",
+        "payee_id": "0d0e928d-312a-4bcd-89c4-e02f40d1fe46",
+        "payee_name": "bla bla bla",
+        "category_id": "f3cc4f55-312a-4bcd-89c4-db34379cb1dc",
+        "category_name": "Groceries",
+        "transfer_account_id": null,
+        "import_id": null,
+        "deleted": false,
+        "subtransactions": []
+      }
+    ]
+  }
+}
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	tx, err := client.Transaction().CreateTransactions("aa248caa-eed7-4575-a990-717386438d2c", payload)
+	assert.NoError(t, err)
+
+	expectedCategoryName := "Groceries"
+	expectedTransactions := &transaction.CreatedTransactions{
+		TransactionIDs: []string{
+			"0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+			"0f5b3f73-ded2-4dd7-8b01-c23022622cd7",
+		},
+		DuplicateImportIDs: []string{},
+		Transactions: []*transaction.Transaction{
+			{
+				ID:              "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
+				Date:            payload[0].Date,
+				Amount:          payload[0].Amount,
+				Memo:            payload[0].Memo,
+				Cleared:         payload[0].Cleared,
+				Approved:        payload[0].Approved,
+				FlagColor:       payload[0].FlagColor,
+				AccountID:       payload[0].AccountID,
+				AccountName:     "Bank Name",
+				PayeeID:         payload[0].PayeeID,
+				PayeeName:       payload[0].PayeeName,
+				CategoryID:      payload[0].CategoryID,
+				CategoryName:    &expectedCategoryName,
+				Deleted:         false,
+				SubTransactions: []*transaction.SubTransaction{},
+			},
+			{
+				ID:              "0f5b3f73-ded2-4dd7-8b01-c23022622cd7",
+				Date:            payload[1].Date,
+				Amount:          payload[1].Amount,
+				Memo:            payload[1].Memo,
+				Cleared:         payload[1].Cleared,
+				Approved:        payload[1].Approved,
+				FlagColor:       payload[1].FlagColor,
+				AccountID:       payload[1].AccountID,
+				AccountName:     "Bank Name",
+				PayeeID:         payload[1].PayeeID,
+				PayeeName:       payload[1].PayeeName,
+				CategoryID:      payload[1].CategoryID,
+				CategoryName:    &expectedCategoryName,
+				Deleted:         false,
+				SubTransactions: []*transaction.SubTransaction{},
+			},
+		},
+	}
+
+	assert.Equal(t, expectedTransactions, tx)
 }
 
 func TestService_BulkCreateTransactions(t *testing.T) {

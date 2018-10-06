@@ -63,12 +63,20 @@ func (s *Service) GetTransaction(budgetID, transactionID string) (*Transaction, 
 // CreateTransaction creates a new transaction for a budget
 // https://api.youneedabudget.com/v1#/Transactions/createTransaction
 func (s *Service) CreateTransaction(budgetID string,
-	p PayloadTransaction) (*Transaction, error) {
+	p PayloadTransaction) (*CreatedTransactions, error) {
+
+	return s.CreateTransactions(budgetID, []PayloadTransaction{p})
+}
+
+// CreateTransactions creates one or more new transactions for a budget
+// https://api.youneedabudget.com/v1#/Transactions/createTransaction
+func (s *Service) CreateTransactions(budgetID string,
+	p []PayloadTransaction) (*CreatedTransactions, error) {
 
 	payload := struct {
-		Transaction *PayloadTransaction `json:"transaction"`
+		Transactions []PayloadTransaction `json:"transactions"`
 	}{
-		&p,
+		p,
 	}
 
 	buf, err := json.Marshal(&payload)
@@ -77,16 +85,15 @@ func (s *Service) CreateTransaction(budgetID string,
 	}
 
 	resModel := struct {
-		Data struct {
-			Transaction *Transaction `json:"transaction"`
-		} `json:"data"`
+		Data *CreatedTransactions `json:"data"`
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/transactions", budgetID)
-	if err := s.c.POST(url, &resModel, buf); err != nil {
+	err = s.c.POST(url, &resModel, buf)
+	if err != nil {
 		return nil, err
 	}
-	return resModel.Data.Transaction, nil
+	return resModel.Data, nil
 }
 
 // BulkCreateTransactions creates multiple transactions for a budget
