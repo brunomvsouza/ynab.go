@@ -22,7 +22,21 @@ func ExampleService_CreateTransaction() {
 	tx, _ := c.Transaction().CreateTransaction("<valid_budget_id>", p)
 	fmt.Println(reflect.TypeOf(tx))
 
-	// Output: *transaction.Transaction
+	// Output: *transaction.CreatedTransactions
+}
+
+func ExampleService_CreateTransactions() {
+	c := ynab.NewClient("<valid_ynab_access_token>")
+	p := []transaction.PayloadTransaction{
+		{
+			AccountID: "<valid_account_id>",
+			// ...
+		},
+	}
+	tx, _ := c.Transaction().CreateTransactions("<valid_budget_id>", p)
+	fmt.Println(reflect.TypeOf(tx))
+
+	// Output: *transaction.CreatedTransactions
 }
 
 func ExampleService_BulkCreateTransactions() {

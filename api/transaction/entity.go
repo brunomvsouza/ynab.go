@@ -185,6 +185,7 @@ type ScheduledSubTransaction struct {
 }
 
 // Bulk represents the output of transactions being created in bulk mode
+// Deprecated: Use BulkTransactions instead.
 type Bulk struct {
 	// TransactionIDs The list of Transaction IDs that were created
 	TransactionIDs []string `json:"transaction_ids"`
@@ -192,4 +193,18 @@ type Bulk struct {
 	// import ID matching a transaction already on the same account, the
 	// specified import IDs will be included in this list
 	DuplicateImportIDs []string `json:"duplicate_import_ids"`
+}
+
+// CreatedTransactions represents the output of transactions being created
+type CreatedTransactions struct {
+	// TransactionIDs The list of Transaction IDs that were created
+	TransactionIDs []string `json:"transaction_ids"`
+	// DuplicateImportIDs If any Transactions were not created because they had an
+	// import ID matching a transaction already on the same account, the
+	// specified import IDs will be included in this list
+	DuplicateImportIDs []string `json:"duplicate_import_ids"`
+	// Transactions If multiple transactions were specified, the transactions that were saved
+	Transactions []*Transaction `json:"transactions"`
+	// Transactions If a single transaction was specified, the transaction that was saved
+	Transaction *Transaction `json:"transaction"`
 }
