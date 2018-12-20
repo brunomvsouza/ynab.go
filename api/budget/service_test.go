@@ -18,13 +18,14 @@ import (
 )
 
 func TestService_GetBudgets(t *testing.T) {
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
+	t.Run(`success`, func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
 
-	url := "https://api.youneedabudget.com/v1/budgets"
-	httpmock.RegisterResponder(http.MethodGet, url,
-		func(req *http.Request) (*http.Response, error) {
-			res := httpmock.NewStringResponse(200, `{
+		url := "https://api.youneedabudget.com/v1/budgets"
+		httpmock.RegisterResponder(http.MethodGet, url,
+			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(200, `{
   "data": {
     "budgets": [
       {
@@ -51,40 +52,128 @@ func TestService_GetBudgets(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
-			return res, nil
-		},
-	)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
 
-	client := ynab.NewClient("")
-	budgets, err := client.Budget().GetBudgets()
-	assert.NoError(t, err)
+		client := ynab.NewClient("")
+		budgets, err := client.Budget().GetBudgets()
+		assert.NoError(t, err)
 
-	expectedFirstMonth, err := api.DateFromString("2018-03-01")
-	assert.NoError(t, err)
+		expectedFirstMonth, err := api.DateFromString("2018-03-01")
+		assert.NoError(t, err)
 
-	expectedLastDate, err := api.DateFromString("2018-04-01")
-	assert.NoError(t, err)
+		expectedLastDate, err := api.DateFromString("2018-04-01")
+		assert.NoError(t, err)
 
-	expectedLastModifiedOn, err := time.Parse(time.RFC3339, "2018-03-05T17:05:23+00:00")
-	assert.NoError(t, err)
+		expectedLastModifiedOn, err := time.Parse(time.RFC3339, "2018-03-05T17:05:23+00:00")
+		assert.NoError(t, err)
 
-	b := budgets[0]
+		b := budgets[0]
 
-	assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
-	assert.Equal(t, "TestBudget", b.Name)
-	assert.Equal(t, &expectedLastModifiedOn, b.LastModifiedOn)
-	assert.Equal(t, &expectedFirstMonth, b.FirstMonth)
-	assert.Equal(t, &expectedLastDate, b.LastMonth)
-	assert.Equal(t, "DD.MM.YYYY", b.DateFormat.Format)
-	assert.Equal(t, "EUR", b.CurrencyFormat.ISOCode)
-	assert.Equal(t, "123,456.78", b.CurrencyFormat.ExampleFormat)
-	assert.Equal(t, uint64(2), b.CurrencyFormat.DecimalDigits)
-	assert.Equal(t, ".", b.CurrencyFormat.DecimalSeparator)
-	assert.Equal(t, false, b.CurrencyFormat.SymbolFirst)
-	assert.Equal(t, ",", b.CurrencyFormat.GroupSeparator)
-	assert.Equal(t, "€", b.CurrencyFormat.CurrencySymbol)
-	assert.Equal(t, true, b.CurrencyFormat.DisplaySymbol)
+		assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
+		assert.Equal(t, "TestBudget", b.Name)
+		assert.Equal(t, &expectedLastModifiedOn, b.LastModifiedOn)
+		assert.Equal(t, &expectedFirstMonth, b.FirstMonth)
+		assert.Equal(t, &expectedLastDate, b.LastMonth)
+		assert.Equal(t, "DD.MM.YYYY", b.DateFormat.Format)
+		assert.Equal(t, "EUR", b.CurrencyFormat.ISOCode)
+		assert.Equal(t, "123,456.78", b.CurrencyFormat.ExampleFormat)
+		assert.Equal(t, uint64(2), b.CurrencyFormat.DecimalDigits)
+		assert.Equal(t, ".", b.CurrencyFormat.DecimalSeparator)
+		assert.Equal(t, false, b.CurrencyFormat.SymbolFirst)
+		assert.Equal(t, ",", b.CurrencyFormat.GroupSeparator)
+		assert.Equal(t, "€", b.CurrencyFormat.CurrencySymbol)
+		assert.Equal(t, true, b.CurrencyFormat.DisplaySymbol)
+	})
+
+	t.Run(`success when date_format is null`, func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		url := "https://api.youneedabudget.com/v1/budgets"
+		httpmock.RegisterResponder(http.MethodGet, url,
+			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(200, `{
+  "data": {
+    "budgets": [
+      {
+        "id": "aa248caa-eed7-4575-a990-717386438d2c",
+        "name": "TestBudget",
+        "last_modified_on": "2018-03-05T17:05:23+00:00",
+        "first_month": "2018-03-01",
+        "last_month": "2018-04-01",
+        "date_format": null,
+        "currency_format": {
+          "iso_code": "EUR",
+          "example_format": "123,456.78",
+          "decimal_digits": 2,
+          "decimal_separator": ".",
+          "symbol_first": false,
+          "group_separator": ",",
+          "currency_symbol": "€",
+          "display_symbol": true
+        }
+      }
+    ]
+  }
+}
+		`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		client := ynab.NewClient("")
+		budgets, err := client.Budget().GetBudgets()
+		assert.NoError(t, err)
+
+		b := budgets[0]
+
+		assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
+		assert.Nil(t, b.DateFormat)
+	})
+
+	t.Run(`success when currency_format is null`, func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		url := "https://api.youneedabudget.com/v1/budgets"
+		httpmock.RegisterResponder(http.MethodGet, url,
+			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(200, `{
+  "data": {
+    "budgets": [
+      {
+        "id": "aa248caa-eed7-4575-a990-717386438d2c",
+        "name": "TestBudget",
+        "last_modified_on": "2018-03-05T17:05:23+00:00",
+        "first_month": "2018-03-01",
+        "last_month": "2018-04-01",
+        "date_format": {
+          "format": "DD.MM.YYYY"
+        },
+        "currency_format": null
+      }
+    ]
+  }
+}
+		`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		client := ynab.NewClient("")
+		budgets, err := client.Budget().GetBudgets()
+		assert.NoError(t, err)
+
+		b := budgets[0]
+
+		assert.Equal(t, "aa248caa-eed7-4575-a990-717386438d2c", b.ID)
+		assert.Nil(t, b.CurrencyFormat)
+	})
 }
 
 func TestService_GetBudget(t *testing.T) {

@@ -43,11 +43,11 @@ type Budget struct {
 
 // Summary represents the summary of a budget
 type Summary struct {
-	ID             string         `json:"id"`
-	Name           string         `json:"name"`
-	DateFormat     DateFormat     `json:"date_format"`
-	CurrencyFormat CurrencyFormat `json:"currency_format"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 
+	CurrencyFormat *CurrencyFormat `json:"currency_format"`
+	DateFormat     *DateFormat     `json:"date_format"`
 	// LastModifiedOn the last time any changes were made to the budget
 	// from either a web or mobile client.
 	LastModifiedOn *time.Time `json:"last_modified_on"`
