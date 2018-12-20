@@ -63,7 +63,7 @@ func TestDate_MarshalJSON(t *testing.T) {
 	assert.Equal(t, `{"Date":"2020-01-20"}`, string(buf))
 }
 
-func TestNewDateFromString(t *testing.T) {
+func TestDateFromString(t *testing.T) {
 	table := []struct {
 		InputDate          string
 		OutputDateToString string
