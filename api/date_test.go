@@ -63,7 +63,7 @@ func TestDate_MarshalJSON(t *testing.T) {
 	assert.Equal(t, `{"Date":"2020-01-20"}`, string(buf))
 }
 
-func TestNewDateFromString(t *testing.T) {
+func TestDateFromString(t *testing.T) {
 	table := []struct {
 		InputDate          string
 		OutputDateToString string
@@ -77,5 +77,27 @@ func TestNewDateFromString(t *testing.T) {
 		date, err := api.DateFromString(test.InputDate)
 		assert.Equal(t, test.OutputError, err != nil)
 		assert.Equal(t, test.OutputDateToString, date.String())
+	}
+}
+
+func TestDateFormat(t *testing.T) {
+	apiDate1, err := api.DateFromString("2018-02-01")
+	assert.NoError(t, err)
+
+	apiDate2, err := api.DateFromString("2018-12-01")
+	assert.NoError(t, err)
+
+	table := []struct {
+		InputDate           api.Date
+		OutputFormattedDate string
+	}{
+		{apiDate1, "2018-02-01"},
+		{apiDate2, "2018-12-01"},
+		{api.Date{}, "0001-01-01"},
+	}
+
+	for _, test := range table {
+		formattedDate := api.DateFormat(test.InputDate)
+		assert.Equal(t, test.OutputFormattedDate, formattedDate)
 	}
 }

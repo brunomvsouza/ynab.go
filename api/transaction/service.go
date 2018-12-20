@@ -272,7 +272,7 @@ func (f *Filter) ToQuery() string {
 	pairs := make([]string, 0, 2)
 	if f.Since != nil && !f.Since.IsZero() {
 		pairs = append(pairs, fmt.Sprintf("since_date=%s",
-			f.Since.Format(api.DateLayout)))
+			api.DateFormat(*f.Since)))
 	}
 	if f.Type != nil {
 		pairs = append(pairs, fmt.Sprintf("type=%s", string(*f.Type)))
