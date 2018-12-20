@@ -46,7 +46,7 @@ func (s *Service) GetMonth(budgetID string, month api.Date) (*Month, error) {
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/months/%s", budgetID,
-		month.Format(api.DateLayout))
+		api.DateFormat(month))
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}

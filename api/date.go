@@ -10,8 +10,8 @@ import (
 	"time"
 )
 
-// DateLayout expected layout format for the Date type
-const DateLayout = "2006-01-02"
+// dateLayout expected layout format for the Date type
+const dateLayout = "2006-01-02"
 
 // Date represents a budget date
 type Date struct {
@@ -34,14 +34,14 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 
 // MarshalJSON parses the expected format for a Date
 func (d *Date) MarshalJSON() ([]byte, error) {
-	val := d.Format(DateLayout)
+	val := d.Format(dateLayout)
 	return []byte(fmt.Sprintf(`"%s"`, val)), nil
 }
 
 // DateFromString creates a new Date from a given string date
-// formatted as DateLayout
+// formatted as dateLayout
 func DateFromString(s string) (Date, error) {
-	t, err := time.Parse(DateLayout, s)
+	t, err := time.Parse(dateLayout, s)
 	if err != nil {
 		return Date{}, err
 	}
@@ -49,4 +49,10 @@ func DateFromString(s string) (Date, error) {
 		Time: t,
 	}
 	return d, nil
+}
+
+// DateFormat creates a new string from a given api.Date
+// formatted as dateLayout
+func DateFormat(date Date) string {
+	return date.Format(dateLayout)
 }
