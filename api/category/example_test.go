@@ -9,6 +9,7 @@ import (
 	"reflect"
 
 	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api"
 )
 
 func ExampleService_GetCategory() {
@@ -25,4 +26,22 @@ func ExampleService_GetCategories() {
 	fmt.Println(reflect.TypeOf(categories))
 
 	// Output: []*category.GroupWithCategories
+}
+
+func ExampleService_GetCategoryForMonth() {
+	c := ynab.NewClient("<valid_ynab_access_token>")
+	category, _ := c.Category().GetCategoryForMonth("<valid_budget_id>",
+		"<valid_category_id>", api.Date{})
+	fmt.Println(reflect.TypeOf(category))
+
+	// Output: *category.Category
+}
+
+func ExampleService_GetCategoryForCurrentMonth() {
+	c := ynab.NewClient("<valid_ynab_access_token>")
+	category, _ := c.Category().GetCategoryForCurrentMonth("<valid_budget_id>",
+		"<valid_category_id>")
+	fmt.Println(reflect.TypeOf(category))
+
+	// Output: *category.Category
 }
