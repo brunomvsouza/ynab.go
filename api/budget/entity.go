@@ -69,7 +69,7 @@ type Settings struct {
 	CurrencyFormat CurrencyFormat `json:"currency_format"`
 }
 
-// DateFormat represents date format for a budget settings
+// DateFormat represents date format for a budget
 type DateFormat struct {
 	Format string `json:"format"`
 }
