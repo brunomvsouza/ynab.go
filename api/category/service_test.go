@@ -167,3 +167,143 @@ func TestService_GetCategory(t *testing.T) {
 	}
 	assert.Equal(t, expected, c)
 }
+
+func TestService_GetCategoryForMonth(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/months/2018-01-01/categories/13419c12-78d3-4a26-82ca-1cde7aa1d6f8"
+	httpmock.RegisterResponder(http.MethodGet, url,
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(200, `{
+  "data": {
+    "category": {
+			"id": "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+			"category_group_id": "13419c12-78d3-4818-a5dc-601b2b8a6064",
+			"name": "MasterCard",
+			"hidden": false,
+			"original_category_group_id": null,
+			"note": null,
+			"budgeted": 0,
+			"activity": 12190,
+			"balance": 18740,
+			"deleted": false,
+			"goal_type": "TB",
+			"goal_creation_month": "2018-04-01",
+			"goal_target": 18740,
+			"goal_target_month": "2018-05-01",
+			"goal_percentage_complete": 20
+    }
+	}
+}
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
+		},
+	)
+
+	date, err := api.DateFromString("2018-01-01")
+	assert.NoError(t, err)
+
+	client := ynab.NewClient("")
+	c, err := client.Category().GetCategoryForMonth(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		"13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+		date,
+	)
+	assert.NoError(t, err)
+
+	var (
+		expectedGoalTarget             int64  = 18740
+		expectedGoalPercentageComplete uint16 = 20
+	)
+	expectedGoalCreationMonth, err := api.DateFromString("2018-04-01")
+	assert.NoError(t, err)
+	expectedGoalTargetMonth, err := api.DateFromString("2018-05-01")
+	assert.NoError(t, err)
+
+	expected := &category.Category{
+		ID:                     "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+		CategoryGroupID:        "13419c12-78d3-4818-a5dc-601b2b8a6064",
+		Name:                   "MasterCard",
+		Hidden:                 false,
+		Budgeted:               int64(0),
+		Activity:               int64(12190),
+		Balance:                int64(18740),
+		Deleted:                false,
+		GoalType:               category.GoalTargetCategoryBalance.Pointer(),
+		GoalCreationMonth:      &expectedGoalCreationMonth,
+		GoalTargetMonth:        &expectedGoalTargetMonth,
+		GoalTarget:             &expectedGoalTarget,
+		GoalPercentageComplete: &expectedGoalPercentageComplete,
+	}
+	assert.Equal(t, expected, c)
+}
+
+func TestService_GetCategoryForCurrentMonth(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/months/current/categories/13419c12-78d3-4a26-82ca-1cde7aa1d6f8"
+	httpmock.RegisterResponder(http.MethodGet, url,
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(200, `{
+  "data": {
+    "category": {
+			"id": "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+			"category_group_id": "13419c12-78d3-4818-a5dc-601b2b8a6064",
+			"name": "MasterCard",
+			"hidden": false,
+			"original_category_group_id": null,
+			"note": null,
+			"budgeted": 0,
+			"activity": 12190,
+			"balance": 18740,
+			"deleted": false,
+			"goal_type": "TB",
+			"goal_creation_month": "2018-04-01",
+			"goal_target": 18740,
+			"goal_target_month": "2018-05-01",
+			"goal_percentage_complete": 20
+    }
+	}
+}
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	c, err := client.Category().GetCategoryForCurrentMonth(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		"13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+	)
+	assert.NoError(t, err)
+
+	var (
+		expectedGoalTarget             int64  = 18740
+		expectedGoalPercentageComplete uint16 = 20
+	)
+	expectedGoalCreationMonth, err := api.DateFromString("2018-04-01")
+	assert.NoError(t, err)
+	expectedGoalTargetMonth, err := api.DateFromString("2018-05-01")
+	assert.NoError(t, err)
+
+	expected := &category.Category{
+		ID:                     "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+		CategoryGroupID:        "13419c12-78d3-4818-a5dc-601b2b8a6064",
+		Name:                   "MasterCard",
+		Hidden:                 false,
+		Budgeted:               int64(0),
+		Activity:               int64(12190),
+		Balance:                int64(18740),
+		Deleted:                false,
+		GoalType:               category.GoalTargetCategoryBalance.Pointer(),
+		GoalCreationMonth:      &expectedGoalCreationMonth,
+		GoalTargetMonth:        &expectedGoalTargetMonth,
+		GoalTarget:             &expectedGoalTarget,
+		GoalPercentageComplete: &expectedGoalPercentageComplete,
+	}
+	assert.Equal(t, expected, c)
+}
