@@ -18,10 +18,8 @@ import (
 
 // Budget represents a budget
 type Budget struct {
-	ID             string         `json:"id"`
-	Name           string         `json:"name"`
-	DateFormat     DateFormat     `json:"date_format"`
-	CurrencyFormat CurrencyFormat `json:"currency_format"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 
 	Accounts                 []*account.Account                     `json:"accounts"`
 	Payees                   []*payee.Payee                         `json:"payees"`
@@ -34,6 +32,15 @@ type Budget struct {
 	ScheduledTransactions    []*transaction.ScheduledSummary        `json:"scheduled_transactions"`
 	ScheduledSubTransactions []*transaction.ScheduledSubTransaction `json:"scheduled_sub_transactions"`
 
+	// DateFormat the date format setting for the budget. In some cases
+	// the format will not be available and will be specified as null.
+	DateFormat *DateFormat `json:"date_format"`
+	// CurrencyFormat the currency format setting for the budget. In
+	// some cases the format will not be available and will be specified
+	// as null.
+	CurrencyFormat *CurrencyFormat `json:"currency_format"`
+	// LastModifiedOn the last time any changes were made to the budget
+	// from either a web or mobile client.
 	LastModifiedOn *time.Time `json:"last_modified_on"`
 	// FirstMonth undocumented field
 	FirstMonth *api.Date `json:"first_month"`
@@ -46,8 +53,13 @@ type Summary struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 
+	// DateFormat the date format setting for the budget. In some cases
+	// the format will not be available and will be specified as null.
+	DateFormat *DateFormat `json:"date_format"`
+	// CurrencyFormat the currency format setting for the budget. In
+	// some cases the format will not be available and will be specified
+	// as null.
 	CurrencyFormat *CurrencyFormat `json:"currency_format"`
-	DateFormat     *DateFormat     `json:"date_format"`
 	// LastModifiedOn the last time any changes were made to the budget
 	// from either a web or mobile client.
 	LastModifiedOn *time.Time `json:"last_modified_on"`
@@ -65,8 +77,13 @@ type Snapshot struct {
 
 // Settings represents the settings for a budget
 type Settings struct {
-	DateFormat     DateFormat     `json:"date_format"`
-	CurrencyFormat CurrencyFormat `json:"currency_format"`
+	// DateFormat the date format setting for the budget. In some cases
+	// the format will not be available and will be specified as null.
+	DateFormat *DateFormat `json:"date_format"`
+	// CurrencyFormat the currency format setting for the budget. In
+	// some cases the format will not be available and will be specified
+	// as null.
+	CurrencyFormat *CurrencyFormat `json:"currency_format"`
 }
 
 // DateFormat represents date format for a budget
