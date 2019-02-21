@@ -52,7 +52,8 @@ func TestService_GetCategories(t *testing.T) {
           }
         ]
       }
-		]
+		],
+		"server_knowledge": 10
 	}
 }
 		`)
@@ -62,7 +63,8 @@ func TestService_GetCategories(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	groups, err := client.Category().GetCategories("aa248caa-eed7-4575-a990-717386438d2c")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	snapshot, err := client.Category().GetCategories("aa248caa-eed7-4575-a990-717386438d2c", f)
 	assert.NoError(t, err)
 
 	var (
@@ -74,31 +76,36 @@ func TestService_GetCategories(t *testing.T) {
 	expectedGoalTargetMonth, err := api.DateFromString("2018-05-01")
 	assert.NoError(t, err)
 
-	expected := &category.GroupWithCategories{
-		ID:      "13419c12-78d3-4818-a5dc-601b2b8a6064",
-		Name:    "Credit Card Payments",
-		Hidden:  false,
-		Deleted: false,
-		Categories: []*category.Category{
+	expected := &category.SearchResultSnapshot{
+		GroupWithCategories: []*category.GroupWithCategories{
 			{
-				ID:                     "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
-				CategoryGroupID:        "13419c12-78d3-4818-a5dc-601b2b8a6064",
-				Name:                   "MasterCard",
-				Hidden:                 false,
-				Budgeted:               int64(0),
-				Activity:               int64(12190),
-				Balance:                int64(18740),
-				Deleted:                false,
-				GoalType:               category.GoalTargetCategoryBalance.Pointer(),
-				GoalCreationMonth:      &expectedGoalCreationMonth,
-				GoalTargetMonth:        &expectedGoalTargetMonth,
-				GoalTarget:             &expectedGoalTarget,
-				GoalPercentageComplete: &expectedGoalPercentageComplete,
+				ID:      "13419c12-78d3-4818-a5dc-601b2b8a6064",
+				Name:    "Credit Card Payments",
+				Hidden:  false,
+				Deleted: false,
+				Categories: []*category.Category{
+					{
+						ID:                     "13419c12-78d3-4a26-82ca-1cde7aa1d6f8",
+						CategoryGroupID:        "13419c12-78d3-4818-a5dc-601b2b8a6064",
+						Name:                   "MasterCard",
+						Hidden:                 false,
+						Budgeted:               int64(0),
+						Activity:               int64(12190),
+						Balance:                int64(18740),
+						Deleted:                false,
+						GoalType:               category.GoalTargetCategoryBalance.Pointer(),
+						GoalCreationMonth:      &expectedGoalCreationMonth,
+						GoalTargetMonth:        &expectedGoalTargetMonth,
+						GoalTarget:             &expectedGoalTarget,
+						GoalPercentageComplete: &expectedGoalPercentageComplete,
+					},
+				},
 			},
 		},
+		ServerKnowledge: 10,
 	}
 
-	assert.Equal(t, expected, groups[0])
+	assert.Equal(t, expected, snapshot)
 }
 
 func TestService_GetCategory(t *testing.T) {

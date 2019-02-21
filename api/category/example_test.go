@@ -25,10 +25,11 @@ func ExampleService_GetCategory() {
 
 func ExampleService_GetCategories() {
 	client := ynab.NewClient("<valid_ynab_access_token>")
-	categories, _ := client.Category().GetCategories("<valid_budget_id>")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	categories, _ := client.Category().GetCategories("<valid_budget_id>", f)
 	fmt.Println(reflect.TypeOf(categories))
 
-	// Output: []*category.GroupWithCategories
+	// Output: *category.SearchResultSnapshot
 }
 
 func ExampleService_GetCategoryForMonth() {
