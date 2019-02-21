@@ -22,18 +22,26 @@ type Service struct {
 
 // GetPayees fetches the list of payees from a budget
 // https://api.youneedabudget.com/v1#/Payees/getPayees
-func (s *Service) GetPayees(budgetID string) ([]*Payee, error) {
+func (s *Service) GetPayees(budgetID string, f *api.Filter) (*SearchResultSnapshot, error) {
 	resModel := struct {
 		Data struct {
-			Payees []*Payee `json:"payees"`
+			Payees          []*Payee `json:"payees"`
+			ServerKnowledge uint64   `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/payees", budgetID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
+
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
-	return resModel.Data.Payees, nil
+	return &SearchResultSnapshot{
+		Payees:          resModel.Data.Payees,
+		ServerKnowledge: resModel.Data.ServerKnowledge,
+	}, nil
 }
 
 // GetPayee fetches a specific payee from a budget
