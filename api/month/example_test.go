@@ -23,8 +23,9 @@ func ExampleService_GetMonth() {
 
 func ExampleService_GetMonths() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
-	months, _ := c.Month().GetMonths("<valid_budget_id>")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	months, _ := c.Month().GetMonths("<valid_budget_id>", f)
 	fmt.Println(reflect.TypeOf(months))
 
-	// Output: []*month.Summary
+	// Output: *month.SearchResultSnapshot
 }

@@ -25,18 +25,26 @@ type Service struct {
 
 // GetCategories fetches the list of category groups for a budget
 // https://api.youneedabudget.com/v1#/Categories/getCategories
-func (s *Service) GetCategories(budgetID string) ([]*GroupWithCategories, error) {
+func (s *Service) GetCategories(budgetID string, f *api.Filter) (*SearchResultSnapshot, error) {
 	resModel := struct {
 		Data struct {
-			CategoryGroups []*GroupWithCategories `json:"category_groups"`
+			CategoryGroups  []*GroupWithCategories `json:"category_groups"`
+			ServerKnowledge uint64                 `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/categories", budgetID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
-	return resModel.Data.CategoryGroups, nil
+
+	return &SearchResultSnapshot{
+		GroupWithCategories: resModel.Data.CategoryGroups,
+		ServerKnowledge:     resModel.Data.ServerKnowledge,
+	}, nil
 }
 
 // GetCategory fetches a specific category from a budget

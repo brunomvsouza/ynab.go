@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"testing"
 
+	"go.bmvs.io/ynab/api"
+
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
@@ -34,7 +36,8 @@ func TestService_GetAccounts(t *testing.T) {
 				"uncleared_balance": 0,
 				"deleted": false
 			}
-    ]
+    ],
+    "server_knowledge": 10
   }
 }
 		`)
@@ -44,23 +47,29 @@ func TestService_GetAccounts(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	accounts, err := client.Account().GetAccounts("bbdccdb0-9007-42aa-a6fe-02a3e94476be")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	snapshot, err := client.Account().GetAccounts("bbdccdb0-9007-42aa-a6fe-02a3e94476be", f)
 	assert.NoError(t, err)
 
 	note := "omg omg omg"
-	expected := &account.Account{
-		ID:               "aa248caa-eed7-4575-a990-717386438d2c",
-		Name:             "Test Account 2",
-		Type:             account.TypeSavings,
-		OnBudget:         false,
-		Closed:           true,
-		Note:             &note,
-		Balance:          int64(-123930),
-		ClearedBalance:   int64(-123930),
-		UnclearedBalance: int64(0),
-		Deleted:          false,
+	expected := &account.SearchResultSnapshot{
+		Accounts: []*account.Account{
+			{
+				ID:               "aa248caa-eed7-4575-a990-717386438d2c",
+				Name:             "Test Account 2",
+				Type:             account.TypeSavings,
+				OnBudget:         false,
+				Closed:           true,
+				Note:             &note,
+				Balance:          int64(-123930),
+				ClearedBalance:   int64(-123930),
+				UnclearedBalance: int64(0),
+				Deleted:          false,
+			},
+		},
+		ServerKnowledge: 10,
 	}
-	assert.Equal(t, expected, accounts[0])
+	assert.Equal(t, expected, snapshot)
 }
 
 func TestService_GetAccount(t *testing.T) {

@@ -22,18 +22,26 @@ type Service struct {
 
 // GetMonths fetches the list of months from a budget
 // https://api.youneedabudget.com/v1#/Months/getBudgetMonths
-func (s *Service) GetMonths(budgetID string) ([]*Summary, error) {
+func (s *Service) GetMonths(budgetID string, f *api.Filter) (*SearchResultSnapshot, error) {
 	resModel := struct {
 		Data struct {
-			Months []*Summary `json:"months"`
+			Months          []*Summary `json:"months"`
+			ServerKnowledge uint64     `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/months", budgetID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
+
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
-	return resModel.Data.Months, nil
+	return &SearchResultSnapshot{
+		Months:          resModel.Data.Months,
+		ServerKnowledge: resModel.Data.ServerKnowledge,
+	}, nil
 }
 
 // GetMonth fetches a specific month from a budget

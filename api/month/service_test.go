@@ -34,7 +34,8 @@ func TestService_GetMonths(t *testing.T) {
         "budgeted": 3271990,
         "activity": -3128590
       }
-		]
+		],
+		"server_knowledge": 10
 	}
 }
 		`)
@@ -44,18 +45,21 @@ func TestService_GetMonths(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	months, err := client.Month().GetMonths("aa248caa-eed7-4575-a990-717386438d2c")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	snapshot, err := client.Month().GetMonths("aa248caa-eed7-4575-a990-717386438d2c", f)
 	assert.NoError(t, err)
 
-	m := months[0]
+	m := snapshot.Months[0]
 
 	var (
-		expectedAgeOfMoney   int64 = 14
-		expectedToBeBudgeted int64
-		expectedIncome       int64 = 3077330
-		expectedBudgeted     int64 = 3271990
-		expectedActivity     int64 = -3128590
+		expectedAgeOfMoney      int64 = 14
+		expectedToBeBudgeted    int64
+		expectedIncome          int64  = 3077330
+		expectedBudgeted        int64  = 3271990
+		expectedActivity        int64  = -3128590
+		expectedServerKnowledge uint64 = 10
 	)
+	assert.Equal(t, expectedServerKnowledge, snapshot.ServerKnowledge)
 	assert.Equal(t, "2017-10-01 00:00:00 +0000 UTC", m.Month.String())
 	assert.Equal(t, &expectedToBeBudgeted, m.ToBeBudgeted)
 	assert.Equal(t, &expectedAgeOfMoney, m.AgeOfMoney)

@@ -38,11 +38,11 @@ func (s *Service) GetBudgets() ([]*Summary, error) {
 // GetBudget fetches a single budget with all related entities,
 // effectively a full budget export with filtering capabilities
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetBudget(budgetID string, f *Filter) (*Snapshot, error) {
+func (s *Service) GetBudget(budgetID string, f *api.Filter) (*Snapshot, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
-			ServerKnowledge int64   `json:"server_knowledge"`
+			ServerKnowledge uint64  `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
@@ -64,7 +64,7 @@ func (s *Service) GetBudget(budgetID string, f *Filter) (*Snapshot, error) {
 // GetLastUsedBudget fetches the last used budget with all related
 // entities, effectively a full budget export with filtering capabilities
 // https://api.youneedabudget.com/v1#/Budgets/getBudgetById
-func (s *Service) GetLastUsedBudget(f *Filter) (*Snapshot, error) {
+func (s *Service) GetLastUsedBudget(f *api.Filter) (*Snapshot, error) {
 	const lastUsedBudgetID = "last-used"
 	return s.GetBudget(lastUsedBudgetID, f)
 }
@@ -84,17 +84,4 @@ func (s *Service) GetBudgetSettings(budgetID string) (*Settings, error) {
 	}
 
 	return resModel.Data.Settings, nil
-}
-
-// Filter represents the optional version filter while fetching a budget
-type Filter struct {
-	// LastKnowledgeOfServer The starting server knowledge. If provided,
-	// only entities that have changed since last_knowledge_of_server
-	// will be included
-	LastKnowledgeOfServer uint64
-}
-
-// ToQuery returns the filters as a HTTP query string
-func (f *Filter) ToQuery() string {
-	return fmt.Sprintf("last_knowledge_of_server=%d", f.LastKnowledgeOfServer)
 }
