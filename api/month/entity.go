@@ -52,3 +52,9 @@ type Summary struct {
 	// categorized to "Inflow: To be Budgeted" (milliunits format)
 	Activity *int64 `json:"activity"`
 }
+
+// SearchResultSnapshot represents a versioned snapshot for a month search
+type SearchResultSnapshot struct {
+	Months          []*Summary
+	ServerKnowledge uint64
+}
