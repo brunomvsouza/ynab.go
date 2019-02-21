@@ -130,6 +130,11 @@ func (c *client) PUT(url string, responseModel interface{}, requestBody []byte) 
 	return c.do(http.MethodPut, url, responseModel, requestBody)
 }
 
+// PATCH sends a PATCH request to the YNAB API
+func (c *client) PATCH(url string, responseModel interface{}, requestBody []byte) error {
+	return c.do(http.MethodPatch, url, responseModel, requestBody)
+}
+
 // do sends a request to the YNAB API
 func (c *client) do(method, url string, responseModel interface{}, requestBody []byte) error {
 	fullURL := fmt.Sprintf("%s%s", apiEndpoint, url)
@@ -140,7 +145,7 @@ func (c *client) do(method, url string, responseModel interface{}, requestBody [
 
 	req.Header.Set("Accept", "application/json")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.accessToken))
-	if method == http.MethodPost || method == http.MethodPut {
+	if method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch {
 		req.Header.Set("Content-Type", "application/json")
 	}
 
