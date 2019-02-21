@@ -63,7 +63,7 @@ func (s *Service) GetTransaction(budgetID, transactionID string) (*Transaction, 
 // CreateTransaction creates a new transaction for a budget
 // https://api.youneedabudget.com/v1#/Transactions/createTransaction
 func (s *Service) CreateTransaction(budgetID string,
-	p PayloadTransaction) (*CreatedTransactions, error) {
+	p PayloadTransaction) (*OperationSummary, error) {
 
 	return s.CreateTransactions(budgetID, []PayloadTransaction{p})
 }
@@ -71,7 +71,7 @@ func (s *Service) CreateTransaction(budgetID string,
 // CreateTransactions creates one or more new transactions for a budget
 // https://api.youneedabudget.com/v1#/Transactions/createTransaction
 func (s *Service) CreateTransactions(budgetID string,
-	p []PayloadTransaction) (*CreatedTransactions, error) {
+	p []PayloadTransaction) (*OperationSummary, error) {
 
 	payload := struct {
 		Transactions []PayloadTransaction `json:"transactions"`
@@ -85,7 +85,7 @@ func (s *Service) CreateTransactions(budgetID string,
 	}
 
 	resModel := struct {
-		Data *CreatedTransactions `json:"data"`
+		Data *OperationSummary `json:"data"`
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/transactions", budgetID)
@@ -153,6 +153,34 @@ func (s *Service) UpdateTransaction(budgetID, transactionID string,
 		return nil, err
 	}
 	return resModel.Data.Transaction, nil
+}
+
+// UpdateTransactions creates one or more new transactions for a budget
+// https://api.youneedabudget.com/v1#/Transactions/updateTransactions
+func (s *Service) UpdateTransactions(budgetID string,
+	p []PayloadTransaction) (*OperationSummary, error) {
+
+	payload := struct {
+		Transactions []PayloadTransaction `json:"transactions"`
+	}{
+		p,
+	}
+
+	buf, err := json.Marshal(&payload)
+	if err != nil {
+		return nil, err
+	}
+
+	resModel := struct {
+		Data *OperationSummary `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/transactions", budgetID)
+	err = s.c.PATCH(url, &resModel, buf)
+	if err != nil {
+		return nil, err
+	}
+	return resModel.Data, nil
 }
 
 // GetTransactionsByAccount fetches the list of transactions of a specific account
