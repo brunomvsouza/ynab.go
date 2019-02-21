@@ -42,7 +42,7 @@ func (s *Service) GetBudget(budgetID string, f *api.Filter) (*Snapshot, error) {
 	resModel := struct {
 		Data struct {
 			Budget          *Budget `json:"budget"`
-			ServerKnowledge int64   `json:"server_knowledge"`
+			ServerKnowledge uint64  `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
