@@ -31,3 +31,9 @@ type Location struct {
 	Latitude  *float64 `json:"latitude,string"`
 	Longitude *float64 `json:"longitude,string"`
 }
+
+// SearchResultSnapshot represents a versioned snapshot for a payee search
+type SearchResultSnapshot struct {
+	Payees          []*Payee
+	ServerKnowledge uint64
+}

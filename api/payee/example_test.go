@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"reflect"
 
+	"go.bmvs.io/ynab/api"
+
 	"go.bmvs.io/ynab"
 )
 
@@ -21,10 +23,11 @@ func ExampleService_GetPayee() {
 
 func ExampleService_GetPayees() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
-	payees, _ := c.Payee().GetPayees("<valid_budget_id>")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	payees, _ := c.Payee().GetPayees("<valid_budget_id>", f)
 	fmt.Println(reflect.TypeOf(payees))
 
-	// Output: []*payee.Payee
+	// Output: *payee.SearchResultSnapshot
 }
 
 func ExampleService_GetPayeeLocation() {

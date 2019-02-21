@@ -9,10 +9,13 @@ import (
 	"strconv"
 	"testing"
 
+	"go.bmvs.io/ynab/api"
+
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/jarcoal/httpmock.v1"
+
 	"go.bmvs.io/ynab"
 	"go.bmvs.io/ynab/api/payee"
-	"gopkg.in/jarcoal/httpmock.v1"
 )
 
 func TestService_GetPayees(t *testing.T) {
@@ -31,7 +34,8 @@ func TestService_GetPayees(t *testing.T) {
         "transfer_account_id": null,
         "deleted": false
       }
-		]
+		],
+		"server_knowledge": 10
 	}
 }
 		`)
@@ -41,18 +45,22 @@ func TestService_GetPayees(t *testing.T) {
 	)
 
 	client := ynab.NewClient("")
-	payees, err := client.Payee().GetPayees("aa248caa-eed7-4575-a990-717386438d2c")
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	snapshot, err := client.Payee().GetPayees("aa248caa-eed7-4575-a990-717386438d2c", f)
 	assert.NoError(t, err)
 
-	expected := []*payee.Payee{
-		{
-			ID:      "34e88373-ef48-4386-9ab3-7f86c2a8988f",
-			Name:    "Supermarket",
-			Deleted: false,
+	expected := &payee.SearchResultSnapshot{
+		Payees: []*payee.Payee{
+			{
+				ID:      "34e88373-ef48-4386-9ab3-7f86c2a8988f",
+				Name:    "Supermarket",
+				Deleted: false,
+			},
 		},
+		ServerKnowledge: 10,
 	}
 
-	assert.Equal(t, expected, payees)
+	assert.Equal(t, expected, snapshot)
 }
 
 func TestService_GetPayee(t *testing.T) {
