@@ -958,27 +958,3 @@ func TestService_GetBudgetSettings(t *testing.T) {
 		assert.Equal(t, expected, settings)
 	})
 }
-
-func TestFilter_ToQuery(t *testing.T) {
-	table := []struct {
-		Input  budget.Filter
-		Output string
-	}{
-		{
-			Input:  budget.Filter{LastKnowledgeOfServer: uint64(2)},
-			Output: "last_knowledge_of_server=2",
-		},
-		{
-			Input:  budget.Filter{LastKnowledgeOfServer: uint64(0)},
-			Output: "last_knowledge_of_server=0",
-		},
-		{
-			Input:  budget.Filter{},
-			Output: "last_knowledge_of_server=0",
-		},
-	}
-
-	for _, test := range table {
-		assert.Equal(t, test.Output, test.Input.ToQuery())
-	}
-}
