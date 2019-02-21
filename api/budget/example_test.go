@@ -8,8 +8,9 @@ import (
 	"fmt"
 	"reflect"
 
+	"go.bmvs.io/ynab/api"
+
 	"go.bmvs.io/ynab"
-	"go.bmvs.io/ynab/api/budget"
 )
 
 func ExampleService_GetBudget() {
@@ -31,7 +32,7 @@ func ExampleService_GetLastUsedBudget() {
 func ExampleService_GetBudget_filtered() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 
-	f := budget.Filter{LastKnowledgeOfServer: 10}
+	f := api.Filter{LastKnowledgeOfServer: 10}
 	b, _ := c.Budget().GetBudget("<valid_budget_id>", &f)
 	fmt.Println(reflect.TypeOf(b))
 
