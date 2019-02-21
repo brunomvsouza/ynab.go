@@ -9,6 +9,7 @@ import (
 	"reflect"
 
 	"go.bmvs.io/ynab"
+	"go.bmvs.io/ynab/api"
 )
 
 func ExampleService_GetAccount() {
@@ -21,8 +22,9 @@ func ExampleService_GetAccount() {
 
 func ExampleService_GetAccounts() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
-	accounts, _ := c.Account().GetAccounts("<valid_budget_id>")
-	fmt.Println(reflect.TypeOf(accounts))
+	f := &api.Filter{LastKnowledgeOfServer: 10}
+	snapshot, _ := c.Account().GetAccounts("<valid_budget_id>", f)
+	fmt.Println(reflect.TypeOf(snapshot))
 
-	// Output: []*account.Account
+	// Output: *account.SearchResultSnapshot
 }

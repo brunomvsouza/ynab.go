@@ -22,18 +22,26 @@ type Service struct {
 
 // GetAccounts fetches the list of accounts from a budget
 // https://api.youneedabudget.com/v1#/Accounts/getAccounts
-func (s *Service) GetAccounts(budgetID string) ([]*Account, error) {
+func (s *Service) GetAccounts(budgetID string, f *api.Filter) (*SearchResultSnapshot, error) {
 	resModel := struct {
 		Data struct {
-			Accounts []*Account `json:"accounts"`
+			Accounts        []*Account `json:"accounts"`
+			ServerKnowledge uint64     `json:"server_knowledge"`
 		} `json:"data"`
 	}{}
 
 	url := fmt.Sprintf("/budgets/%s/accounts", budgetID)
+	if f != nil {
+		url = fmt.Sprintf("%s?%s", url, f.ToQuery())
+	}
 	if err := s.c.GET(url, &resModel); err != nil {
 		return nil, err
 	}
-	return resModel.Data.Accounts, nil
+
+	return &SearchResultSnapshot{
+		Accounts:        resModel.Data.Accounts,
+		ServerKnowledge: resModel.Data.ServerKnowledge,
+	}, nil
 }
 
 // GetAccount fetches a specific account from a budget

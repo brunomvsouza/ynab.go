@@ -23,3 +23,9 @@ type Account struct {
 
 	Note *string `json:"note"`
 }
+
+// SearchResultSnapshot represents a versioned snapshot for an account search
+type SearchResultSnapshot struct {
+	Accounts        []*Account
+	ServerKnowledge uint64
+}
