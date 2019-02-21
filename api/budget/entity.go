@@ -72,7 +72,7 @@ type Summary struct {
 // Snapshot represents a versioned snapshot for a budget
 type Snapshot struct {
 	Budget          *Budget
-	ServerKnowledge int64
+	ServerKnowledge uint64
 }
 
 // Settings represents the settings for a budget
