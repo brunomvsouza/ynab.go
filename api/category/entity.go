@@ -4,6 +4,7 @@
 
 // Package category implements category entities and services
 package category // import "go.bmvs.io/ynab/api/category"
+
 import "go.bmvs.io/ynab/api"
 
 // Category represents a category for a budget
@@ -56,4 +57,10 @@ type GroupWithCategories struct {
 	Deleted bool `json:"deleted"`
 
 	Categories []*Category `json:"categories"`
+}
+
+// SearchResultSnapshot represents a versioned snapshot for an account search
+type SearchResultSnapshot struct {
+	GroupWithCategories []*GroupWithCategories
+	ServerKnowledge     uint64
 }
