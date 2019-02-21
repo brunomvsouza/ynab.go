@@ -195,8 +195,8 @@ type Bulk struct {
 	DuplicateImportIDs []string `json:"duplicate_import_ids"`
 }
 
-// CreatedTransactions represents the output of transactions being created
-type CreatedTransactions struct {
+// OperationSummary represents the output of transactions being created
+type OperationSummary struct {
 	// TransactionIDs The list of Transaction IDs that were created
 	TransactionIDs []string `json:"transaction_ids"`
 	// DuplicateImportIDs If any Transactions were not created because they had an

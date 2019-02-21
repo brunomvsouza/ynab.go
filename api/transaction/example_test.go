@@ -22,7 +22,7 @@ func ExampleService_CreateTransaction() {
 	tx, _ := c.Transaction().CreateTransaction("<valid_budget_id>", p)
 	fmt.Println(reflect.TypeOf(tx))
 
-	// Output: *transaction.CreatedTransactions
+	// Output: *transaction.OperationSummary
 }
 
 func ExampleService_CreateTransactions() {
@@ -36,7 +36,7 @@ func ExampleService_CreateTransactions() {
 	tx, _ := c.Transaction().CreateTransactions("<valid_budget_id>", p)
 	fmt.Println(reflect.TypeOf(tx))
 
-	// Output: *transaction.CreatedTransactions
+	// Output: *transaction.OperationSummary
 }
 
 func ExampleService_BulkCreateTransactions() {
