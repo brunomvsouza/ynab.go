@@ -366,3 +366,130 @@ func TestClient_PUT(t *testing.T) {
 		}{}, response)
 	})
 }
+
+func TestClient_PATCH(t *testing.T) {
+	t.Run("success", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				buf, err := ioutil.ReadAll(req.Body)
+				assert.NoError(t, err)
+				assert.Equal(t, `{"bar":"foo"}`, string(buf))
+				assert.Equal(t, "application/json", req.Header.Get("Accept"))
+				assert.Equal(t, "Bearer 6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA", req.Header.Get("Authorization"))
+
+				res := httpmock.NewStringResponse(http.StatusOK, string(buf))
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		response := struct {
+			Bar string `json:"bar"`
+		}{}
+
+		c := NewClient("6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA")
+		err := c.(*client).PATCH("/foo", &response, []byte(`{"bar":"foo"}`))
+		assert.NoError(t, err)
+		assert.Equal(t, "foo", response.Bar)
+	})
+
+	t.Run("failure with with expected API error", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(http.StatusBadRequest, `{
+  "error": {
+    "id": "400",
+    "name": "error_name",
+    "detail": "Error detail"
+  }
+}`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		response := struct {
+			Foo string `json:"foo"`
+		}{}
+
+		c := NewClient("")
+		err := c.(*client).PATCH("/foo", &response, []byte(`{"bar":"foo"}`))
+		expectedErrStr := "api: error id=400 name=error_name detail=Error detail"
+		assert.EqualError(t, err, expectedErrStr)
+	})
+
+	t.Run("failure with with unexpected API error", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				return httpmock.NewStringResponse(http.StatusInternalServerError, "Internal Server Error"), nil
+			},
+		)
+
+		response := struct {
+			Foo string `json:"foo"`
+		}{}
+
+		c := NewClient("")
+		err := c.(*client).PATCH("/foo", &response, []byte(`{"bar":"foo"}`))
+		expectedErrStr := "api: error id=500 name=unknown_api_error detail=Unknown API error"
+		assert.EqualError(t, err, expectedErrStr)
+	})
+
+	t.Run("silent failure due to invalid response model", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		response := struct {
+			Foo string `json:"foo"`
+		}{}
+
+		c := NewClient("")
+		err := c.(*client).PATCH("/foo", &response, []byte(`{"bar":"foo"}`))
+		assert.NoError(t, err)
+		assert.Equal(t, struct {
+			Foo string `json:"foo"`
+		}{}, response)
+	})
+
+	t.Run("regression test existence of request header content-type = application/json", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
+			func(req *http.Request) (*http.Response, error) {
+				assert.Equal(t, "application/json", req.Header.Get("Content-Type"))
+				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
+				res.Header.Add("X-Rate-Limit", "36/200")
+				return res, nil
+			},
+		)
+
+		response := struct {
+			Foo string `json:"foo"`
+		}{}
+
+		c := NewClient("")
+		err := c.(*client).PATCH("/foo", &response, []byte(`{"bar":"foo"}`))
+		assert.NoError(t, err)
+		assert.Equal(t, struct {
+			Foo string `json:"foo"`
+		}{}, response)
+	})
+}
