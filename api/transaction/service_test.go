@@ -877,6 +877,7 @@ func TestService_UpdateTransactions(t *testing.T) {
 
 	payload := []transaction.PayloadTransaction{
 		{
+			ID:         "0f5b3f73-ded2-4dd7-8b01-c23022622cd6",
 			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
 			Date:       payloadDate,
 			Amount:     int64(-9000),
@@ -889,6 +890,7 @@ func TestService_UpdateTransactions(t *testing.T) {
 			FlagColor:  &payloadFlagColor,
 		},
 		{
+			ID:         "0f5b3f73-ded2-4dd7-8b01-c23022622cd7",
 			AccountID:  "09eaca5e-312a-4bcd-89c4-828fb90638f2",
 			Date:       payloadDate,
 			Amount:     int64(-2000),
