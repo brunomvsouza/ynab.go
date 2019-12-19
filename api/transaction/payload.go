@@ -10,6 +10,7 @@ import (
 
 // PayloadTransaction is the payload contract for saving a transaction, new or existent
 type PayloadTransaction struct {
+	ID        string   `json:"id"`
 	AccountID string   `json:"account_id"`
 	Date      api.Date `json:"date"`
 	// Amount The transaction amount in milliunits format
