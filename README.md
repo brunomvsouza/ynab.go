@@ -1,6 +1,6 @@
 # YNAB API Go Library
 
-[![Pipeline status](https://lab.bmvs.io/bs/ynab.go/badges/master/pipeline.svg)](https://lab.bmvs.io/bs/ynab.go/commits/master) [![Pipeline status](https://ci.appveyor.com/api/projects/status/0m2n0q97usi79q27/branch/master?svg=true)](https://ci.appveyor.com/project/brunomvsouza/ynab-go-y5fjk/branch/master) [![Coverage report](https://lab.bmvs.io/bs/ynab.go/badges/master/coverage.svg)](https://lab.bmvs.io/bs/ynab.go/commits/master) [![Go Report Card](https://goreportcard.com/badge/lab.bmvs.io/bs/ynab.go)](https://goreportcard.com/report/lab.bmvs.io/bs/ynab.go) [![GoDoc Reference](https://godoc.org/go.bmvs.io/ynab?status.svg)](https://godoc.org/go.bmvs.io/ynab)
+[![Build Status](https://travis-ci.com/brunomvsouza/ynab.go.svg?branch=master)](https://travis-ci.com/brunomvsouza/ynab.go) [![Build Status](https://ci.appveyor.com/api/projects/status/0m2n0q97usi79q27/branch/master?svg=true)](https://ci.appveyor.com/project/brunomvsouza/ynab-go-y5fjk/branch/master) [![Coverage Status](https://coveralls.io/repos/github/brunomvsouza/ynab.go/badge.svg?branch=master)](https://coveralls.io/github/brunomvsouza/ynab.go?branch=master) [![Go Report Card](https://goreportcard.com/badge/lab.bmvs.io/bs/ynab.go)](https://goreportcard.com/report/lab.bmvs.io/bs/ynab.go) [![GoDoc Reference](https://godoc.org/go.bmvs.io/ynab?status.svg)](https://godoc.org/go.bmvs.io/ynab)
 
 This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by the [YNAB API](https://api.youneedabudget.com).
 
@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	for _, budget := range budgets {
 		fmt.Println(budget.Name)
 		// ...
