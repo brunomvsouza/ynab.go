@@ -28,6 +28,11 @@ coverage: ## Generate global code coverage report
 coverhtml: ## Generate global code coverage report in HTML
 	./coverage.sh html;
 
+goveralls:
+	@go get golang.org/x/tools/cmd/cover
+	@go get github.com/mattn/goveralls
+	@goveralls -service=travis-ci
+
 dep: ## Get the dependencies
 	@go get -v -d ./...
 
