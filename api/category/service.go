@@ -111,7 +111,7 @@ func (s *Service) updateCategoryForMonth(budgetID, categoryID, month string,
 	p PayloadMonthCategory) (*Category, error) {
 
 	payload := struct {
-		MonthCategory *PayloadMonthCategory `json:"month_category"`
+		MonthCategory *PayloadMonthCategory `json:"category"`
 	}{
 		&p,
 	}

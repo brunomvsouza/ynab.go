@@ -6,5 +6,5 @@ package category
 
 // PayloadMonthCategory is the payload contract for updating a category for a month
 type PayloadMonthCategory struct {
-	Budgeted int64
+	Budgeted int64 `json:"budgeted"`
 }
