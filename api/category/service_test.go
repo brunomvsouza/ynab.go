@@ -328,7 +328,7 @@ func TestService_UpdateCategoryForMonth(t *testing.T) {
 	httpmock.RegisterResponder(http.MethodPut, url,
 		func(req *http.Request) (*http.Response, error) {
 			resModel := struct {
-				MonthCategory *category.PayloadMonthCategory `json:"month_category"`
+				MonthCategory *category.PayloadMonthCategory `json:"category"`
 			}{}
 			err := json.NewDecoder(req.Body).Decode(&resModel)
 			assert.NoError(t, err)
@@ -409,7 +409,7 @@ func TestService_UpdateCategoryForCurrentMonth(t *testing.T) {
 	httpmock.RegisterResponder(http.MethodPut, url,
 		func(req *http.Request) (*http.Response, error) {
 			resModel := struct {
-				MonthCategory *category.PayloadMonthCategory `json:"month_category"`
+				MonthCategory *category.PayloadMonthCategory `json:"category"`
 			}{}
 			err := json.NewDecoder(req.Body).Decode(&resModel)
 			assert.NoError(t, err)
