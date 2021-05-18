@@ -30,7 +30,7 @@ type Budget struct {
 	Transactions             []*transaction.Summary                 `json:"transactions"`
 	SubTransactions          []*transaction.SubTransaction          `json:"subtransactions"`
 	ScheduledTransactions    []*transaction.ScheduledSummary        `json:"scheduled_transactions"`
-	ScheduledSubTransactions []*transaction.ScheduledSubTransaction `json:"scheduled_sub_transactions"`
+	ScheduledSubTransactions []*transaction.ScheduledSubTransaction `json:"scheduled_subtransactions"`
 
 	// DateFormat the date format setting for the budget. In some cases
 	// the format will not be available and will be specified as null.
