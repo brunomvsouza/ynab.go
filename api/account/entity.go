@@ -22,6 +22,9 @@ type Account struct {
 	Deleted bool `json:"deleted"`
 
 	Note *string `json:"note"`
+	
+	// TransferPayeeID The payee ID that can be used when creating transfer transactions
+	TransferPayeeID string `json:"transfer_payee_id"`
 }
 
 // SearchResultSnapshot represents a versioned snapshot for an account search
