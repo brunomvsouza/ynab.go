@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"go.bmvs.io/ynab"
-	"go.bmvs.io/ynab/api/user"
+	"github.com/brunomvsouza/ynab.go"
+	"github.com/brunomvsouza/ynab.go/api/user"
 )
 
 func TestService_GetUser(t *testing.T) {

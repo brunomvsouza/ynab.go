@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"go.bmvs.io/ynab"
-	"go.bmvs.io/ynab/api"
+	"github.com/brunomvsouza/ynab.go"
+	"github.com/brunomvsouza/ynab.go/api"
 )
 
 func TestService_GetMonths(t *testing.T) {

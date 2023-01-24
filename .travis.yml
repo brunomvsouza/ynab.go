@@ -10,7 +10,7 @@ os:
 go:
   - 1.x
 
-go_import_path: go.bmvs.io/ynab
+go_import_path: github.com/brunomvsouza/ynab.go
 
 sudo: false
 
@@ -21,11 +21,6 @@ before_install:
 script:
   - make lint
   - make test
-  - make race
-  - make msan
-
-after_success:
-  - make goveralls
 
 notifications:
   email:

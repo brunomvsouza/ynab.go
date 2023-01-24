@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"go.bmvs.io/ynab/api"
+	"github.com/brunomvsouza/ynab.go/api"
 )
 
 func TestFilter_ToQuery(t *testing.T) {

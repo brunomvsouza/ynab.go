@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"go.bmvs.io/ynab/api"
+	"github.com/brunomvsouza/ynab.go/api"
 
-	"go.bmvs.io/ynab"
+	"github.com/brunomvsouza/ynab.go"
 )
 
 func ExampleService_GetPayee() {
