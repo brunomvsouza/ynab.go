@@ -1,6 +1,6 @@
 # YNAB API Go Library
 
-[![Build Status](https://travis-ci.com/brunomvsouza/ynab.go.svg?branch=master)](https://travis-ci.com/brunomvsouza/ynab.go) [![Build Status](https://ci.appveyor.com/api/projects/status/0m2n0q97usi79q27/branch/master?svg=true)](https://ci.appveyor.com/project/brunomvsouza/ynab-go-y5fjk/branch/master) [![Go Report Card](https://goreportcard.com/badge/github.com/brunomvsouza/ynab.go)](https://goreportcard.com/report/github.com/brunomvsouza/ynab.go) [![GoDoc Reference](https://godoc.org/github.com/brunomvsouza/ynab.go?status.svg)](https://godoc.org/github.com/brunomvsouza/ynab.go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/brunomvsouza/ynab.go)](https://goreportcard.com/report/github.com/brunomvsouza/ynab.go) [![GoDoc Reference](https://godoc.org/github.com/brunomvsouza/ynab.go?status.svg)](https://godoc.org/github.com/brunomvsouza/ynab.go)
 
 This is an UNOFFICIAL Go client for the YNAB API. It covers 100% of the resources made available by the [YNAB API](https://api.youneedabudget.com).
 
