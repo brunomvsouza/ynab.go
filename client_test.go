@@ -6,7 +6,7 @@ package ynab
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -120,7 +120,7 @@ func TestClient_POST(t *testing.T) {
 
 		httpmock.RegisterResponder(http.MethodPost, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
-				buf, err := ioutil.ReadAll(req.Body)
+				buf, err := io.ReadAll(req.Body)
 				assert.NoError(t, err)
 				assert.Equal(t, `{"bar":"foo"}`, string(buf))
 				assert.Equal(t, "application/json", req.Header.Get("Accept"))
@@ -247,7 +247,7 @@ func TestClient_PUT(t *testing.T) {
 
 		httpmock.RegisterResponder(http.MethodPut, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
-				buf, err := ioutil.ReadAll(req.Body)
+				buf, err := io.ReadAll(req.Body)
 				assert.NoError(t, err)
 				assert.Equal(t, `{"bar":"foo"}`, string(buf))
 				assert.Equal(t, "application/json", req.Header.Get("Accept"))
@@ -374,7 +374,7 @@ func TestClient_PATCH(t *testing.T) {
 
 		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
-				buf, err := ioutil.ReadAll(req.Body)
+				buf, err := io.ReadAll(req.Body)
 				assert.NoError(t, err)
 				assert.Equal(t, `{"bar":"foo"}`, string(buf))
 				assert.Equal(t, "application/json", req.Header.Get("Accept"))
