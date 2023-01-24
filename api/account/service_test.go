@@ -4,13 +4,13 @@ import (
 	"net/http"
 	"testing"
 
-	"go.bmvs.io/ynab/api"
+	"github.com/brunomvsouza/ynab.go/api"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"go.bmvs.io/ynab"
-	"go.bmvs.io/ynab/api/account"
+	"github.com/brunomvsouza/ynab.go"
+	"github.com/brunomvsouza/ynab.go/api/account"
 )
 
 func TestService_GetAccounts(t *testing.T) {

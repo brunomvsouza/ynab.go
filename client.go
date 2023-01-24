@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 // Package ynab implements the client API
-package ynab // import "go.bmvs.io/ynab"
+package ynab // import "github.com/brunomvsouza/ynab.go"
 
 import (
 	"bytes"
@@ -14,14 +14,14 @@ import (
 	"strconv"
 	"sync"
 
-	"go.bmvs.io/ynab/api"
-	"go.bmvs.io/ynab/api/account"
-	"go.bmvs.io/ynab/api/budget"
-	"go.bmvs.io/ynab/api/category"
-	"go.bmvs.io/ynab/api/month"
-	"go.bmvs.io/ynab/api/payee"
-	"go.bmvs.io/ynab/api/transaction"
-	"go.bmvs.io/ynab/api/user"
+	"github.com/brunomvsouza/ynab.go/api"
+	"github.com/brunomvsouza/ynab.go/api/account"
+	"github.com/brunomvsouza/ynab.go/api/budget"
+	"github.com/brunomvsouza/ynab.go/api/category"
+	"github.com/brunomvsouza/ynab.go/api/month"
+	"github.com/brunomvsouza/ynab.go/api/payee"
+	"github.com/brunomvsouza/ynab.go/api/transaction"
+	"github.com/brunomvsouza/ynab.go/api/user"
 )
 
 const apiEndpoint = "https://api.youneedabudget.com/v1"

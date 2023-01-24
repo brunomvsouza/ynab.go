@@ -24,7 +24,7 @@ install:
   - g++ --version
 
 test_script:
-  - for /f "" %%G in ('go list go.bmvs.io/ynab/...') do ( go test -v -race %%G & IF ERRORLEVEL == 1 EXIT 1)
+  - for /f "" %%G in ('go list github.com/brunomvsouza/ynab.go/...') do ( go test -v -race %%G & IF ERRORLEVEL == 1 EXIT 1)
 
 #artifacts:
 #  - path: '%GOPATH%\bin\*.exe'

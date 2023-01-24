@@ -3,17 +3,17 @@
 // found in the LICENSE file.
 
 // Package budget implements budget entities and services
-package budget // import "go.bmvs.io/ynab/api/budget"
+package budget // import "github.com/brunomvsouza/ynab.go/api/budget"
 
 import (
 	"time"
 
-	"go.bmvs.io/ynab/api"
-	"go.bmvs.io/ynab/api/account"
-	"go.bmvs.io/ynab/api/category"
-	"go.bmvs.io/ynab/api/month"
-	"go.bmvs.io/ynab/api/payee"
-	"go.bmvs.io/ynab/api/transaction"
+	"github.com/brunomvsouza/ynab.go/api"
+	"github.com/brunomvsouza/ynab.go/api/account"
+	"github.com/brunomvsouza/ynab.go/api/category"
+	"github.com/brunomvsouza/ynab.go/api/month"
+	"github.com/brunomvsouza/ynab.go/api/payee"
+	"github.com/brunomvsouza/ynab.go/api/transaction"
 )
 
 // Budget represents a budget

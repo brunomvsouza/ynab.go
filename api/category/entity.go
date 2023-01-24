@@ -3,9 +3,9 @@
 // found in the LICENSE file.
 
 // Package category implements category entities and services
-package category // import "go.bmvs.io/ynab/api/category"
+package category // import "github.com/brunomvsouza/ynab.go/api/category"
 
-import "go.bmvs.io/ynab/api"
+import "github.com/brunomvsouza/ynab.go/api"
 
 // Category represents a category for a budget
 type Category struct {

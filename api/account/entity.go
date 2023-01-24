@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 // Package account implements account entities and services
-package account // import "go.bmvs.io/ynab/api/account"
+package account // import "github.com/brunomvsouza/ynab.go/api/account"
 
 // Account represents an account for a budget
 type Account struct {
