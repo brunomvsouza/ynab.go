@@ -13,7 +13,7 @@ import (
 
 func ExampleNewClient() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
-	c.User().GetUser()
+	c.User().GetUser() //nolint:errcheck
 }
 
 func ExampleClientServicer_User() {

@@ -12,6 +12,7 @@ import (
 	"github.com/brunomvsouza/ynab.go/api"
 )
 
+//nolint:govet
 func ExampleService_GetMonth() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	d, _ := api.DateFromString("2010-01-01")
@@ -21,6 +22,7 @@ func ExampleService_GetMonth() {
 	// Output: *month.Month
 }
 
+//nolint:govet
 func ExampleService_GetMonths() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	f := &api.Filter{LastKnowledgeOfServer: 10}
