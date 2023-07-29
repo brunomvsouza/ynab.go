@@ -43,8 +43,7 @@ See the [godoc](https://godoc.org/github.com/brunomvsouza/ynab.go) to see all th
 
 ## Development
 
-- Make sure you have Go 1.11 or later installed
-- Make sure you have exported `GO111MODULE=on` in your environment to be able do handle dependencies
+- Make sure you have Go 1.19 or later installed
 - Run tests with `go test -race ./...`
 
 ## License
