@@ -7,7 +7,7 @@ package payee
 import (
 	"fmt"
 
-	"github.com/brunomvsouza/ynab.go/api"
+	"github.com/seanag0234/go-ynab/api"
 )
 
 // NewService facilitates the creation of a new payee service instance

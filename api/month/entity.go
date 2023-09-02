@@ -6,8 +6,8 @@
 package month // import "github.com/brunomvsouza/ynab.go/api/month"
 
 import (
-	"github.com/brunomvsouza/ynab.go/api"
-	"github.com/brunomvsouza/ynab.go/api/category"
+	"github.com/seanag0234/go-ynab/api"
+	"github.com/seanag0234/go-ynab/api/category"
 )
 
 // Month represents a month for a budget

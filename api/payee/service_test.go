@@ -9,13 +9,13 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/brunomvsouza/ynab.go/api"
+	"github.com/seanag0234/go-ynab/api"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"github.com/brunomvsouza/ynab.go"
-	"github.com/brunomvsouza/ynab.go/api/payee"
+	"github.com/seanag0234/go-ynab"
+	"github.com/seanag0234/go-ynab/api/payee"
 )
 
 func TestService_GetPayees(t *testing.T) {

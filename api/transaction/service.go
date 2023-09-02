@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/brunomvsouza/ynab.go/api"
+	"github.com/seanag0234/go-ynab/api"
 )
 
 // NewService facilitates the creation of a new transaction service instance
@@ -257,7 +257,7 @@ func (s *Service) GetTransactionsByPayee(budgetID, payeeID string,
 
 // GetScheduledTransactions fetches the list of scheduled transactions from
 // a budget
-//https://api.youneedabudget.com/v1#/Scheduled_Transactions/getScheduledTransactions
+// https://api.youneedabudget.com/v1#/Scheduled_Transactions/getScheduledTransactions
 func (s *Service) GetScheduledTransactions(budgetID string) ([]*Scheduled, error) {
 	resModel := struct {
 		Data struct {

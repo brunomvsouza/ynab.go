@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/brunomvsouza/ynab.go"
+	"github.com/seanag0234/go-ynab"
 )
 
 func ExampleNewClient() {

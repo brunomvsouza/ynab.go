@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/brunomvsouza/ynab.go/api"
+	"github.com/seanag0234/go-ynab/api"
 )
 
 func TestDate_UnmarshalJSON(t *testing.T) {

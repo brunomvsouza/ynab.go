@@ -14,14 +14,14 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/brunomvsouza/ynab.go/api"
-	"github.com/brunomvsouza/ynab.go/api/account"
-	"github.com/brunomvsouza/ynab.go/api/budget"
-	"github.com/brunomvsouza/ynab.go/api/category"
-	"github.com/brunomvsouza/ynab.go/api/month"
-	"github.com/brunomvsouza/ynab.go/api/payee"
-	"github.com/brunomvsouza/ynab.go/api/transaction"
-	"github.com/brunomvsouza/ynab.go/api/user"
+	"github.com/seanag0234/go-ynab/api"
+	"github.com/seanag0234/go-ynab/api/account"
+	"github.com/seanag0234/go-ynab/api/budget"
+	"github.com/seanag0234/go-ynab/api/category"
+	"github.com/seanag0234/go-ynab/api/month"
+	"github.com/seanag0234/go-ynab/api/payee"
+	"github.com/seanag0234/go-ynab/api/transaction"
+	"github.com/seanag0234/go-ynab/api/user"
 )
 
 const apiEndpoint = "https://api.youneedabudget.com/v1"

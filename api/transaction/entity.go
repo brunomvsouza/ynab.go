@@ -5,7 +5,7 @@
 // Package transaction implements transaction entities and services
 package transaction // import "github.com/brunomvsouza/ynab.go/api/transaction"
 
-import "github.com/brunomvsouza/ynab.go/api"
+import "github.com/seanag0234/go-ynab/api"
 
 // Transaction represents a full transaction for a budget
 type Transaction struct {

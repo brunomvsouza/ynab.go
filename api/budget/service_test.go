@@ -12,9 +12,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"github.com/brunomvsouza/ynab.go"
-	"github.com/brunomvsouza/ynab.go/api"
-	"github.com/brunomvsouza/ynab.go/api/budget"
+	"github.com/seanag0234/go-ynab"
+	"github.com/seanag0234/go-ynab/api"
+	"github.com/seanag0234/go-ynab/api/budget"
 )
 
 func TestService_GetBudgets(t *testing.T) {
