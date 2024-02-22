@@ -1190,6 +1190,39 @@ func TestService_UpdateTransaction(t *testing.T) {
 	assert.Equal(t, expectedTransaction, tx)
 }
 
+func TestService_DeleteTransaction(t *testing.T) {
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	url := "https://api.youneedabudget.com/v1/budgets/aa248caa-eed7-4575-a990-717386438d2c/transactions/e6ad88f5-6f16-4480-9515-5377012750dd"
+	httpmock.RegisterResponder(http.MethodDelete, url,
+		func(req *http.Request) (*http.Response, error) {
+			res := httpmock.NewStringResponse(200, `{
+  "data": {
+    "transaction": {
+			"id": "e6ad88f5-6f16-4480-9515-5377012750dd"
+		}
+	}
+}
+		`)
+			res.Header.Add("X-Rate-Limit", "36/200")
+			return res, nil
+		},
+	)
+
+	client := ynab.NewClient("")
+	tx, err := client.Transaction().DeleteTransaction(
+		"aa248caa-eed7-4575-a990-717386438d2c",
+		"e6ad88f5-6f16-4480-9515-5377012750dd",
+	)
+	assert.NoError(t, err)
+
+	expected := &transaction.Transaction{
+		ID: "e6ad88f5-6f16-4480-9515-5377012750dd",
+	}
+	assert.Equal(t, expected, tx)
+}
+
 func TestFilter_ToQuery(t *testing.T) {
 	sinceDate, err := api.DateFromString("2020-02-02")
 	assert.NoError(t, err)
