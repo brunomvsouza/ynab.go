@@ -183,6 +183,23 @@ func (s *Service) UpdateTransactions(budgetID string,
 	return resModel.Data, nil
 }
 
+// DeleteTransaction deletes a transaction from a budget
+// https://api.youneedabudget.com/v1#/Transactions/deleteTransaction
+func (s *Service) DeleteTransaction(budgetID, transactionID string) (*Transaction, error) {
+	resModel := struct {
+		Data struct {
+			Transaction *Transaction `json:"transaction"`
+		} `json:"data"`
+	}{}
+
+	url := fmt.Sprintf("/budgets/%s/transactions/%s", budgetID, transactionID)
+	err := s.c.DELETE(url, &resModel)
+	if err != nil {
+		return nil, err
+	}
+	return resModel.Data.Transaction, nil
+}
+
 // GetTransactionsByAccount fetches the list of transactions of a specific account
 // from a budget with filtering capabilities
 // https://api.youneedabudget.com/v1#/Transactions/getTransactionsByAccount
@@ -257,7 +274,7 @@ func (s *Service) GetTransactionsByPayee(budgetID, payeeID string,
 
 // GetScheduledTransactions fetches the list of scheduled transactions from
 // a budget
-//https://api.youneedabudget.com/v1#/Scheduled_Transactions/getScheduledTransactions
+// https://api.youneedabudget.com/v1#/Scheduled_Transactions/getScheduledTransactions
 func (s *Service) GetScheduledTransactions(budgetID string) ([]*Scheduled, error) {
 	resModel := struct {
 		Data struct {
