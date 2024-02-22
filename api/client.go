@@ -16,6 +16,7 @@ type ClientWriter interface {
 	POST(url string, responseModel interface{}, requestBody []byte) error
 	PUT(url string, responseModel interface{}, requestBody []byte) error
 	PATCH(url string, responseModel interface{}, requestBody []byte) error
+	DELETE(url string, responseModel interface{}) error
 }
 
 // ClientReaderWriter contract for a read-write client

@@ -126,6 +126,11 @@ func (c *client) PATCH(url string, responseModel interface{}, requestBody []byte
 	return c.do(http.MethodPatch, url, responseModel, requestBody)
 }
 
+// DELETE sends a DELETE request to the YNAB API
+func (c *client) DELETE(url string, responseModel interface{}) error {
+	return c.do(http.MethodDelete, url, responseModel, nil)
+}
+
 // do sends a request to the YNAB API
 func (c *client) do(method, url string, responseModel interface{}, requestBody []byte) error {
 	fullURL := fmt.Sprintf("%s%s", apiEndpoint, url)
