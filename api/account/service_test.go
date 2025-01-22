@@ -20,6 +20,7 @@ func TestService_GetAccounts(t *testing.T) {
 
 	lastReconciledAtString := "2025-01-22T13:35:45+00:00"
 	lastReconciledAt, err := time.Parse(time.RFC3339, lastReconciledAtString)
+	assert.NoError(t, err)
 
 	url := "https://api.youneedabudget.com/v1/budgets/bbdccdb0-9007-42aa-a6fe-02a3e94476be/accounts"
 	httpmock.RegisterResponder(http.MethodGet, url,
