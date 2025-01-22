@@ -3,6 +3,7 @@ package account_test
 import (
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/brunomvsouza/ynab.go/api"
 
@@ -16,6 +17,9 @@ import (
 func TestService_GetAccounts(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
+
+	lastReconciledAtString := "2025-01-22T13:35:45+00:00"
+	lastReconciledAt, err := time.Parse(time.RFC3339, lastReconciledAtString)
 
 	url := "https://api.youneedabudget.com/v1/budgets/bbdccdb0-9007-42aa-a6fe-02a3e94476be/accounts"
 	httpmock.RegisterResponder(http.MethodGet, url,
@@ -34,7 +38,8 @@ func TestService_GetAccounts(t *testing.T) {
 				"balance": -123930,
 				"cleared_balance": -123930,
 				"uncleared_balance": 0,
-				"deleted": false
+				"deleted": false,
+				"last_reconciled_at": "` + lastReconciledAtString + `"
 			}
     ],
     "server_knowledge": 10
@@ -65,6 +70,7 @@ func TestService_GetAccounts(t *testing.T) {
 				ClearedBalance:   int64(-123930),
 				UnclearedBalance: int64(0),
 				Deleted:          false,
+				LastReconciledAt: &lastReconciledAt,
 			},
 		},
 		ServerKnowledge: 10,

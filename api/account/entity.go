@@ -5,6 +5,10 @@
 // Package account implements account entities and services
 package account // import "github.com/brunomvsouza/ynab.go/api/account"
 
+import (
+	"time"
+)
+
 // Account represents an account for a budget
 type Account struct {
 	ID       string `json:"id"`
@@ -22,6 +26,7 @@ type Account struct {
 	Deleted bool `json:"deleted"`
 
 	Note *string `json:"note"`
+	LastReconciledAt *time.Time `json:"last_reconciled_at"`
 }
 
 // SearchResultSnapshot represents a versioned snapshot for an account search

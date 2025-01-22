@@ -3,7 +3,7 @@
 .PHONY: lint test coverage help
 
 lint: ## Lint the files
-	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.62.2
 	@golangci-lint run
 
 test: ## Run unittests
