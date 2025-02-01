@@ -181,14 +181,16 @@ func (c *client) do(method, url string, responseModel interface{}, requestBody [
 		return response.Error
 	}
 
-	rl, err := api.ParseRateLimit(res.Header.Get("X-Rate-Limit"))
-	if err != nil {
-		return err
+	rlHeader := res.Header.Get("X-Rate-Limit")
+	if len(rlHeader) > 0 {
+		rl, err := api.ParseRateLimit(rlHeader)
+		if err != nil {
+			return err
+		}
+		c.Lock()
+		c.rateLimit = rl
+		c.Unlock()
 	}
-
-	c.Lock()
-	c.rateLimit = rl
-	c.Unlock()
 
 	return json.Unmarshal(body, &responseModel)
 }
