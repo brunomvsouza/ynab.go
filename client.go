@@ -35,8 +35,6 @@ type ClientServicer interface {
 	Payee() *payee.Service
 	Month() *month.Service
 	Transaction() *transaction.Service
-
-	RateLimit() *api.RateLimit
 }
 
 // NewClient facilitates the creation of a new client instance
@@ -63,7 +61,6 @@ type client struct {
 	accessToken string
 
 	client    *http.Client
-	rateLimit *api.RateLimit
 
 	user        *user.Service
 	budget      *budget.Service
@@ -107,12 +104,6 @@ func (c *client) Month() *month.Service {
 // Transaction returns transaction.Service API instance
 func (c *client) Transaction() *transaction.Service {
 	return c.transaction
-}
-
-// RateLimit returns the last rate limit information returned
-// from the YNAB API
-func (c *client) RateLimit() *api.RateLimit {
-	return c.rateLimit
 }
 
 // GET sends a GET request to the YNAB API
@@ -180,15 +171,6 @@ func (c *client) do(method, url string, responseModel interface{}, requestBody [
 
 		return response.Error
 	}
-
-	rl, err := api.ParseRateLimit(res.Header.Get("X-Rate-Limit"))
-	if err != nil {
-		return err
-	}
-
-	c.Lock()
-	c.rateLimit = rl
-	c.Unlock()
 
 	return json.Unmarshal(body, &responseModel)
 }
