@@ -79,6 +79,14 @@ func ExampleService_GetTransaction() {
 	// Output: *transaction.Transaction
 }
 
+func ExampleService_DeleteTransaction() {
+	c := ynab.NewClient("<valid_ynab_access_token>")
+	transactions, _ := c.Transaction().DeleteTransaction("<valid_budget_id>", "valid_transaction_id")
+	fmt.Println(reflect.TypeOf(transactions))
+
+	// Output: *transaction.Transaction
+}
+
 func ExampleService_GetTransactions() {
 	c := ynab.NewClient("<valid_ynab_access_token>")
 	transactions, _ := c.Transaction().GetTransactions("<valid_budget_id>", nil)
