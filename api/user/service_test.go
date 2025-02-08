@@ -29,7 +29,6 @@ func TestService_GetUser(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)

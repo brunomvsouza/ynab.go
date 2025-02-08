@@ -41,7 +41,6 @@ func TestService_GetAccounts(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -96,7 +95,6 @@ func TestService_GetAccount(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)

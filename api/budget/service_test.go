@@ -52,7 +52,6 @@ func TestService_GetBudgets(t *testing.T) {
   }
 }
 		`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -120,7 +119,6 @@ func TestService_GetBudgets(t *testing.T) {
   }
 }
 		`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -160,7 +158,6 @@ func TestService_GetBudgets(t *testing.T) {
   }
 }
 		`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -330,7 +327,6 @@ func TestService_GetBudget(t *testing.T) {
   }
 }
 		`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -491,7 +487,6 @@ func TestService_GetBudget(t *testing.T) {
   }
 }
 		`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -645,7 +640,6 @@ func TestService_GetBudget(t *testing.T) {
   }
 }
 		`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -809,7 +803,6 @@ func TestService_GetLastUsedBudget(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -846,7 +839,6 @@ func TestService_GetBudgetSettings(t *testing.T) {
     }
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -898,7 +890,6 @@ func TestService_GetBudgetSettings(t *testing.T) {
     }
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -940,7 +931,6 @@ func TestService_GetBudgetSettings(t *testing.T) {
     }
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)

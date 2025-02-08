@@ -25,7 +25,6 @@ func TestClient_GET(t *testing.T) {
 				assert.Equal(t, "Bearer 6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA", req.Header.Get("Authorization"))
 
 				res := httpmock.NewStringResponse(http.StatusOK, `{"foo":"bar"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -53,7 +52,6 @@ func TestClient_GET(t *testing.T) {
     "detail": "Error detail"
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -95,7 +93,6 @@ func TestClient_GET(t *testing.T) {
 		httpmock.RegisterResponder(http.MethodGet, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -127,7 +124,6 @@ func TestClient_POST(t *testing.T) {
 				assert.Equal(t, "Bearer 6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA", req.Header.Get("Authorization"))
 
 				res := httpmock.NewStringResponse(http.StatusOK, string(buf))
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -155,7 +151,6 @@ func TestClient_POST(t *testing.T) {
     "detail": "Error detail"
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -197,7 +192,6 @@ func TestClient_POST(t *testing.T) {
 		httpmock.RegisterResponder(http.MethodPost, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -222,7 +216,6 @@ func TestClient_POST(t *testing.T) {
 			func(req *http.Request) (*http.Response, error) {
 				assert.Equal(t, req.Header.Get("Content-Type"), "application/json")
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -254,7 +247,6 @@ func TestClient_PUT(t *testing.T) {
 				assert.Equal(t, "Bearer 6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA", req.Header.Get("Authorization"))
 
 				res := httpmock.NewStringResponse(http.StatusOK, string(buf))
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -282,7 +274,6 @@ func TestClient_PUT(t *testing.T) {
     "detail": "Error detail"
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -324,7 +315,6 @@ func TestClient_PUT(t *testing.T) {
 		httpmock.RegisterResponder(http.MethodPut, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -349,7 +339,6 @@ func TestClient_PUT(t *testing.T) {
 			func(req *http.Request) (*http.Response, error) {
 				assert.Equal(t, req.Header.Get("Content-Type"), "application/json")
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -381,7 +370,6 @@ func TestClient_PATCH(t *testing.T) {
 				assert.Equal(t, "Bearer 6zL9vh8]B9H3BEecwL%Vzh^VwKR3C2CNZ3Bv%=fFxm$z)duY[U+2=3CydZrkQFnA", req.Header.Get("Authorization"))
 
 				res := httpmock.NewStringResponse(http.StatusOK, string(buf))
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -409,7 +397,6 @@ func TestClient_PATCH(t *testing.T) {
     "detail": "Error detail"
   }
 }`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -451,7 +438,6 @@ func TestClient_PATCH(t *testing.T) {
 		httpmock.RegisterResponder(http.MethodPatch, fmt.Sprintf("%s%s", apiEndpoint, "/foo"),
 			func(req *http.Request) (*http.Response, error) {
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
@@ -476,7 +462,6 @@ func TestClient_PATCH(t *testing.T) {
 			func(req *http.Request) (*http.Response, error) {
 				assert.Equal(t, "application/json", req.Header.Get("Content-Type"))
 				res := httpmock.NewStringResponse(http.StatusOK, `{"bar":"foo"}`)
-				res.Header.Add("X-Rate-Limit", "36/200")
 				return res, nil
 			},
 		)
