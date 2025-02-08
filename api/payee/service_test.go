@@ -39,7 +39,6 @@ func TestService_GetPayees(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -81,7 +80,6 @@ func TestService_GetPayee(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -123,7 +121,6 @@ func TestService_GetPayeeLocations(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -170,7 +167,6 @@ func TestService_GetPayeeLocation(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -220,7 +216,6 @@ func TestService_GetPayeeLocationsByPayee(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)

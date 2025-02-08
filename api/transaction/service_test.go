@@ -61,7 +61,6 @@ func TestService_GetTransactions(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -156,7 +155,6 @@ func TestService_GetTransaction(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -254,7 +252,6 @@ func TestService_GetTransactionsByAccount(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -345,7 +342,6 @@ func TestService_GetTransactionsByCategory(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -422,7 +418,6 @@ func TestService_GetTransactionsByPayee(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -497,7 +492,6 @@ func TestService_GetScheduledTransactions(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -569,7 +563,6 @@ func TestService_GetScheduledTransaction(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -672,7 +665,6 @@ func TestService_CreateTransaction(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -805,7 +797,6 @@ func TestService_CreateTransactions(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -960,7 +951,6 @@ func TestService_UpdateTransactions(t *testing.T) {
   }
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -1079,7 +1069,6 @@ func TestService_BulkCreateTransactions(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -1157,7 +1146,6 @@ func TestService_UpdateTransaction(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)

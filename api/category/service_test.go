@@ -57,7 +57,6 @@ func TestService_GetCategories(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -137,7 +136,6 @@ func TestService_GetCategory(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -205,7 +203,6 @@ func TestService_GetCategoryForMonth(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -277,7 +274,6 @@ func TestService_GetCategoryForCurrentMonth(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -356,7 +352,6 @@ func TestService_UpdateCategoryForMonth(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -437,7 +432,6 @@ func TestService_UpdateCategoryForCurrentMonth(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)

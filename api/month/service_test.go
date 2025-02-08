@@ -39,7 +39,6 @@ func TestService_GetMonths(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)
@@ -90,7 +89,6 @@ func TestService_GetMonth(t *testing.T) {
 	}
 }
 		`)
-			res.Header.Add("X-Rate-Limit", "36/200")
 			return res, nil
 		},
 	)

@@ -71,11 +71,3 @@ func ExampleClientServicer_Transaction() {
 
 	// Output: *transaction.Service
 }
-
-func ExampleClientServicer_RateLimit() {
-	c := ynab.NewClient("<valid_ynab_access_token>")
-	r := c.RateLimit()
-	fmt.Println(reflect.TypeOf(r))
-
-	// Output: *api.RateLimit
-}
